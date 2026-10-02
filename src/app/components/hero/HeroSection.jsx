@@ -7,14 +7,6 @@ function HeroSection() {
     return (
         <>
             <div className="relative h-[calc(100vh-4rem)]">
-                {/* <div className="absolute top-0 left-0 -z-10 w-full h-screen">
-                    <Image
-                        fill
-                        src={heroImage}
-                        alt="hero image section main page"
-                        className="object-cover"
-                    />
-                </div> */}
                 <div className="absolute left-[10%] top-[50%] translate-y-[-50%] text-center flex flex-col justify-center items-center px-12 py-6">
                     <h1
                         className={`${almarai.className} text-[4rem] font-extrabold`}
@@ -22,9 +14,9 @@ function HeroSection() {
                         ELEVATOR
                     </h1>
                     <h2
-                        className={`${parastoo.className} text-center text-[3rem]`}
+                        className={`${parastoo.className} mb-4 text-center text-[3rem]`}
                     >
-                        شرکت آسانسوری X
+                        درخشان آبادیس آسانبر  
                     </h2>
                     <div className="flex items-center gap-4">
                         <Link

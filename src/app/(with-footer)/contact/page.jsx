@@ -1,272 +1,221 @@
-import {
-    FaPhoneAlt,
-    FaTelegramPlane,
-    FaEnvelope,
-    FaMapMarkerAlt,
-    FaMobileAlt,
-} from "react-icons/fa";
-import { almarai, estedad } from "../../layout";
-import support_team from "@/app/public/support-team.png";
 import building from "@/app/public/building.png";
+import support_team from "@/app/public/support-team.png";
+import { FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
+import { almarai, display, estedad } from "../../layout";
+import { contactInfo } from "@/app/_data/ContactVariables";
 
-function ContactPage() {
-    const contactInfo = [
-        {
-            id: "phone",
-            icon: <FaPhoneAlt className="w-10 h-10" />,
-            title: "تلفن ثابت",
-            values: ["051-3847-2210", "051-3847-2211"],
-            href: "tel:05138472210",
-        },
-        {
-            id: "mobile",
-            icon: <FaMobileAlt className="w-10 h-10" />,
-            title: "تلفن همراه",
-            values: ["0915-123-4567", "0915-765-4321"],
-            href: "tel:09151234567",
-        },
-        {
-            id: "telegram",
-            icon: <FaTelegramPlane className="w-10 h-10" />,
-            title: "تلگرام",
-            values: ["@elevator_support"],
-            href: "https://t.me/elevator_support",
-        },
-        {
-            id: "email",
-            icon: <FaEnvelope className="w-10 h-10" />,
-            title: "ایمیل",
-            values: ["info@elevator-platform.ir"],
-            href: "mailto:info@elevator-platform.ir",
-        },
-    ];
+export const metadata = {
+    title: "ارتباط با ما",
+};
 
+/* همان سیستم کارت صفحه‌ی «درباره ما» تا کل سایت یکدست باشد */
+const CARD =
+    "rounded-2xl border border-night-700/10 dark:border-cream-50/10 p-5 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50";
+const ICON_BOX =
+    "flex text-xl w-fit mx-auto";
+const MUTED = "text-night-700/70 dark:text-cream-50/60";
+const SECTION = "mt-14 sm:mt-20 md:mt-28";
+
+function SectionHeader({ title, subtitle }) {
+    return (
+        <div className="max-w-2xl">
+            <h2
+                className={`${almarai.className} text-2xl sm:text-3xl lg:text-4xl font-bold leading-snug`}
+            >
+                {title}
+            </h2>
+            {subtitle && (
+                <p
+                    className={`mt-2 sm:mt-3 text-sm sm:text-base md:text-lg leading-7 ${MUTED}`}
+                >
+                    {subtitle}
+                </p>
+            )}
+            <div className="mt-4 h-1 w-14 rounded-full bg-red-600 dark:bg-red-400" />
+        </div>
+    );
+}
+
+/* کارت تصویر + متن: دو باکس تصویری دقیقاً یک شکل هستند */
+function MediaCard({ image, alt, title, text, children }) {
+    return (
+        <article className={`${CARD} overflow-hidden flex flex-col`}>
+            <img
+                src={image.src}
+                alt={alt}
+                loading="lazy"
+                className="w-full aspect-[16/10] object-cover"
+            />
+            <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
+                <h3
+                    className={`${almarai.className} text-xl sm:text-2xl font-bold`}
+                >
+                    {title}
+                </h3>
+                <p
+                    className={`mt-3 text-sm sm:text-base md:text-lg leading-7 sm:leading-8 ${MUTED}`}
+                >
+                    {text}
+                </p>
+                <div className="mt-5 sm:mt-6">{children}</div>
+            </div>
+        </article>
+    );
+}
+
+function ContactSection() {
     return (
         <main
+            id="contact"
             dir="rtl"
-            className="w-full my-[4rem] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 max-w-7xl py-10 md:py-16 lg:py-20 text-night-700 dark:text-cream-50"
+            className="w-full mx-auto max-w-7xl px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 text-night-700 dark:text-cream-50"
         >
             {/* ===== Hero ===== */}
-            <section className="text-center max-w-3xl mx-auto">
+            <section className="max-w-4xl">
                 <h1
-                    className={`${almarai.className} text-3xl md:text-4xl lg:text-5xl font-bold`}
+                    className={`${display.className} text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.3]`}
                 >
                     با ما در تماس باشید
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-night-700/70 dark:text-cream-50/60 leading-8">
+                <p
+                    className={`mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg md:text-xl leading-8 sm:leading-9 ${MUTED}`}
+                >
                     تیم پشتیبانی ما آماده است تا در انتخاب، خرید و پشتیبانی
                     آسانسور در کنار شما باشد. از هر راهی که راحت‌ترید با ما در
                     ارتباط باشید.
                 </p>
-                <div className="mt-6 h-1 w-20 bg-night-700 dark:bg-cream-50 mx-auto rounded-full" />
             </section>
 
-            {/* ===== Z-Pattern Section ===== */}
-            <section className="mt-16 md:mt-24 space-y-16 md:space-y-24">
-                {/* --- Row 1: Text Right, Image Left (Z pattern) --- */}
-                {/* --- Row 1: Text Right, Image Left (Z pattern) --- */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    {/* متن کناری - همیشه هست */}
-                    <div className="order-2 md:order-1">
-                        <h2
-                            className={`${almarai.className} text-2xl md:text-3xl font-bold`}
-                        >
-                            همیشه در دسترس، همیشه پاسخگو
-                        </h2>
-                        <p className="mt-4 text-base md:text-lg leading-8 text-night-700/70 dark:text-cream-50/60">
-                            چه برای مشاوره‌ی خرید، چه برای پیگیری سفارش و چه
-                            برای پشتیبانی فنی، کارشناسان ما در سریع‌ترین زمان
-                            ممکن پاسخ شما را می‌دهند. هدف ما این است که تجربه‌ی
-                            خرید آسانسور برای شما ساده و بی‌دغدغه باشد.
-                        </p>
-                        <ul className="mt-6 space-y-3">
-                            <li className="flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                                <span className="text-base md:text-lg">
-                                    پاسخگویی در کمتر از ۲ ساعت کاری
-                                </span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                                <span className="text-base md:text-lg">
-                                    مشاوره‌ی تخصصی و رایگان
-                                </span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                                <span className="text-base md:text-lg">
-                                    پشتیبانی پس از فروش
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* کانتینر تصویر با گروه هاور */}
-                    <div className="relative order-1 md:order-2 group overflow-hidden rounded-2xl">
-                        <img
-                            src={support_team.src}
-                            alt="تیم پشتیبانی"
-                            className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 ease-out group-hover:scale-105"
-                        />
-
-                        {/* Overlay گرادیان مشکی از پایین به بالا */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
-
-                        {/* متن روی تصویر - پایین سمت راست */}
-                        <div className="absolute bottom-0 right-0 p-6 md:p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-100">
-                            <h3
-                                className={`${almarai.className} text-cream-50 text-xl md:text-2xl font-bold`}
+            {/* ===== راه‌های ارتباطی ===== */}
+            <section className="mt-10 sm:mt-14">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                    {contactInfo.map((item) => {
+                        const external = item.id === "telegram";
+                        return (
+                            <a
+                                key={item.id}
+                                href={item.href}
+                                target={external ? "_blank" : undefined}
+                                rel={
+                                    external ? "noopener noreferrer" : undefined
+                                }
+                                className={`${CARD} group flex flex-col p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
                             >
-                                تیم پشتیبانی ما
-                            </h3>
-                            <p className="mt-2 text-cream-50/80 text-sm md:text-base leading-7 max-w-[40ch]">
-                                همیشه آماده‌ی پاسخگویی به سوالات شما هستیم
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* --- Row 2: Image Right, Text Left --- */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    {/* Image placeholder */}
-                    <div>
-                        <div className="relative order-1 md:order-2 group overflow-hidden rounded-2xl">
-                            <img
-                                src={building.src}
-                                alt="تیم پشتیبانی"
-                                className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 ease-out group-hover:scale-105"
-                            />
-
-                            {/* Overlay گرادیان مشکی از پایین به بالا */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
-
-                            {/* متن روی تصویر - پایین سمت راست */}
-                            <div className="absolute bottom-0 right-0 p-6 md:p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-100">
-                                <h3
-                                    className={`${almarai.className} text-cream-50 text-xl md:text-2xl font-bold`}
+                                <span
+                                    className={`${ICON_BOX} transition-colors duration-300 p-2 rounded-sm group-hover:bg-red-600 group-hover:text-white`}
                                 >
-                                    ساختمان مرکزی
+                                    {item.icon}
+                                </span>
+                                <h3
+                                    className={`${almarai.className} mt-4 text-base sm:text-lg font-bold`}
+                                >
+                                    {item.title}
                                 </h3>
-                                <p className="mt-2 text-cream-50/80 text-sm md:text-base leading-7 max-w-[40ch]">
-                                    پذیرای شما هستیم
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                                <div className="mt-2 space-y-1">
+                                    {item.values.map((value) => (
+                                        <p
+                                            key={value}
+                                            dir="ltr"
+                                            className={`text-sm sm:text-base text-right break-all ${MUTED}`}
+                                        >
+                                            {value}
+                                        </p>
+                                    ))}
+                                </div>
+                            </a>
+                        );
+                    })}
+                </div>
+            </section>
 
-                    <div>
-                        <h2
-                            className={`${almarai.className} text-2xl md:text-3xl font-bold`}
-                        >
-                            ارتباط حضوری
-                        </h2>
-                        <p className="mt-4 text-base md:text-lg leading-8 text-night-700/70 dark:text-cream-50/60">
-                            اگر ترجیح می‌دهید حضوری مشاوره بگیرید و از نزدیک با
-                            محصولات ما آشنا شوید، به دفتر مرکزی ما در مشهد
-                            مراجعه کنید. کارشناسان ما در فضایی صمیمی پاسخ سوالات
-                            شما را می‌دهند.
-                        </p>
-                        <div className="mt-6 flex items-start gap-3 p-4 rounded-xl border border-amber-100 dark:border-cream-50/10 bg-cream-50/50 dark:bg-night-900/40">
-                            <FaMapMarkerAlt className="w-5 h-5 text-red-500 mt-1 shrink-0" />
+            {/* ===== پشتیبانی و ارتباط حضوری ===== */}
+            <section className={SECTION}>
+                <SectionHeader
+                    title="با پشتیبانی موثر در کنارتان هستیم."
+                    subtitle="مشاوره تلفنی و مراجعه حضوری."
+                />
+                <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <MediaCard
+                        image={support_team}
+                        alt="تیم پشتیبانی"
+                        title="همیشه در دسترس، همیشه پاسخگو"
+                        text="چه برای مشاوره‌ی خرید، چه برای پیگیری سفارش و چه برای پشتیبانی فنی، کارشناسان ما در سریع‌ترین زمان ممکن پاسخ شما را می‌دهند."
+                    >
+                        <ul className="space-y-3">
+                            {[
+                                "پاسخگویی در کمتر از ۲ ساعت کاری",
+                                "مشاوره‌ی تخصصی و رایگان",
+                                "پشتیبانی پس از فروش",
+                            ].map((t) => (
+                                <li
+                                    key={t}
+                                    className="flex items-center gap-3 text-sm sm:text-base md:text-lg"
+                                >
+                                    <FaCheckCircle
+                                        aria-hidden="true"
+                                        className="h-4 w-4 shrink-0 text-red-600 dark:text-red-400"
+                                    />
+                                    {t}
+                                </li>
+                            ))}
+                        </ul>
+                    </MediaCard>
+
+                    <MediaCard
+                        image={building}
+                        alt="ساختمان مرکزی"
+                        title="ارتباط حضوری"
+                        text="اگر ترجیح می‌دهید حضوری مشاوره بگیرید و از نزدیک با محصولات ما آشنا شوید، به دفتر مرکزی ما در مشهد مراجعه کنید. کارشناسان ما در فضایی صمیمی پاسخ سوالات شما را می‌دهند."
+                    >
+                        <div className="flex items-start gap-3 rounded-xl bg-red-500/5 border border-red-500/15 p-4">
+                            <FaMapMarkerAlt
+                                aria-hidden="true"
+                                className="mt-1 h-5 w-5 shrink-0 text-red-600 dark:text-red-400"
+                            />
                             <div>
                                 <p
                                     className={`${almarai.className} font-semibold`}
                                 >
                                     دفتر مرکزی
                                 </p>
-                                <p className="mt-1 text-base md:text-lg text-night-700/70 dark:text-cream-50/60">
+                                <p
+                                    className={`mt-1 text-sm sm:text-base md:text-lg ${MUTED}`}
+                                >
                                     مشهد، میدان صاحب‌الزمان، دفتر مرکزی
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== Contact Cards ===== */}
-            <section className="mt-16 md:mt-24">
-                <h2
-                    className={`${almarai.className} text-2xl md:text-3xl font-bold text-center`}
-                >
-                    راه‌های ارتباطی
-                </h2>
-                <p className="mt-3 text-base md:text-lg text-center text-night-700/70 dark:text-cream-50/60">
-                    از هر کدام از راه‌های زیر می‌توانید با ما در تماس باشید
-                </p>
-
-                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {contactInfo.map((item) => (
-                        <a
-                            key={item.id}
-                            href={item.href}
-                            target={
-                                item.id === "telegram" ? "_blank" : undefined
-                            }
-                            rel={
-                                item.id === "telegram"
-                                    ? "noopener noreferrer"
-                                    : undefined
-                            }
-                            className="group relative overflow-hidden rounded-2xl border border-amber-100 dark:border-cream-50/10 bg-cream-50/40 dark:bg-night-900/40 p-6 flex flex-col items-center text-center transition-all duration-500 ease-out hover:-translate-y-2 hover:border-night-700/20 dark:hover:border-cream-50/30 hover:shadow-xl hover:shadow-night-950/5 dark:hover:shadow-black/30"
-                        >
-                            {/* گرادیان ملایم پس‌زمینه موقع هاور */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-amber-100/0 via-amber-100/0 to-amber-100/60 dark:from-night-800/0 dark:via-night-800/0 dark:to-night-800/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                            {/* محتوای کارت */}
-                            <div className="relative z-10 flex flex-col items-center">
-                                <div className="w-10 h-10 rounded-full bg-cream-50 dark:bg-night-950   text-night-700 dark:text-cream-50 flex items-center justify-center transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-[12deg] group-hover:border-night-700/20 dark:group-hover:border-cream-50/30">
-                                    <span className="text-5xl">
-                                        {item.icon}
-                                    </span>
-                                </div>
-
-                                <h3
-                                    className={`${almarai.className} mt-5 text-2xl font-semibold`}
-                                >
-                                    {item.title}
-                                </h3>
-
-                                <div className="mt-3 space-y-1.5">
-                                    {item.values.map((value) => (
-                                        <p
-                                            key={value}
-                                            className="text-lg text-night-700/70 dark:text-cream-50/60 group-hover:text-night-700 dark:group-hover:text-cream-50 transition-colors duration-300"
-                                            dir="ltr"
-                                        >
-                                            {value}
-                                        </p>
-                                    ))}
-                                </div>
-
-                                {/* خط زیر متن که موقع هاور کشیده میشه */}
-                                <span className="mt-4 block h-px w-8 bg-night-700/30 dark:bg-cream-50/30 transition-all duration-500 group-hover:w-16 group-hover:bg-night-700 dark:group-hover:bg-cream-50" />
-                            </div>
-                        </a>
-                    ))}
+                    </MediaCard>
                 </div>
             </section>
 
             {/* ===== CTA ===== */}
-            <section className="mt-16 md:mt-24 rounded-lg border border-amber-100 dark:border-cream-50/10 px-6 py-10 md:px-12 md:py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div>
-                    <h2
-                        className={`${almarai.className} text-2xl md:text-3xl font-bold`}
-                    >
-                        سوالی دارید؟ همین حالا بپرسید
-                    </h2>
-                    <p className="mt-2 text-lg md:text-xl text-night-700/70 dark:text-cream-50/60">
-                        کارشناسان ما آماده‌ی پاسخگویی به شما هستند
-                    </p>
-                </div>
-                <a
-                    href="tel:09151234567"
-                    className={`${estedad.className} bg-red-600 dark:bg-red-500 text-cream-50 px-6 py-3 rounded-sm text-center hover:-translate-y-0.5 transition-all duration-300 md:shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
+            <section className={SECTION}>
+                <div
+                    className={`${CARD} p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6`}
                 >
-                    تماس فوری
-                </a>
+                    <div>
+                        <h2
+                            className={`${almarai.className} text-xl sm:text-2xl md:text-3xl font-bold`}
+                        >
+                            سوالی دارید؟ همین حالا بپرسید
+                        </h2>
+                        <p
+                            className={`mt-2 text-base sm:text-lg leading-8 ${MUTED}`}
+                        >
+                            کارشناسان ما آماده‌ی پاسخگویی به شما هستند.
+                        </p>
+                    </div>
+                    <a
+                        href="tel:09151234567"
+                        className={`${estedad.className} w-full md:w-auto md:shrink-0 rounded-xl bg-red-600 dark:bg-red-400 px-6 py-3 text-center text-sm sm:text-base text-cream-50 transition-colors duration-300 hover:bg-red-700 dark:hover:bg-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
+                    >
+                        تماس فوری
+                    </a>
+                </div>
             </section>
         </main>
     );
 }
 
-export default ContactPage;
+export default ContactSection;

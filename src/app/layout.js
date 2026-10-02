@@ -1,8 +1,15 @@
-import { Almarai, Estedad, Parastoo } from "next/font/google";
+import { Almarai, Estedad, Lalezar, Parastoo } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import { ThemeProvider } from "./components/ThemeProvider";
-import UpBtn from "./UpBtn";
+import UpBtn from "./components/UpBtn";
+
+// export const metadata = {
+//     title: {
+//         default: "درخشان آبادیس آسانبر",
+//         template: "%s | درخشان آبادیس آسانبر",
+//     },
+// };
 
 export const parastoo = Parastoo({
     variable: "--font-parastoo",
@@ -21,13 +28,14 @@ export const estedad = Estedad({
     subsets: ["latin", "arabic"],
     weight: "400",
 });
+export const display = Lalezar({ subsets: ["arabic"], weight: "400" });
 
 export default function RootLayout({ children }) {
     return (
         <html
+            suppressHydrationWarning
             lang="fa"
             dir="rtl"
-            suppressHydrationWarning
             className={`${estedad.className} h-full antialiased`}>
             <body className="relative min-h-full flex flex-col bg-cream-50 text-night-950 dark:bg-night-950 dark:text-cream-50">
                 <ThemeProvider>

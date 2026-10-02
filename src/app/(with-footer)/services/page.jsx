@@ -1,8 +1,13 @@
 import { almarai } from "@/app/layout";
 
-function page() {
+export const metadata = {
+    title: "خدمات",
+};
+
+function ServicesSection() {
     return (
         <main
+            id="services"
             dir="rtl"
             className="w-full my-[4rem] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 max-w-7xl py-10 md:py-16 lg:py-20 text-night-700 dark:text-cream-50">
             <section className="text-center max-w-3xl mx-auto">
@@ -21,4 +26,4 @@ function page() {
     );
 }
 
-export default page;
+export default ServicesSection;

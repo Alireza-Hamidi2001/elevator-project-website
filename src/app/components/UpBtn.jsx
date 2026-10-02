@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaAngleUp, FaChevronUp, FaHeadset } from "react-icons/fa";
+import { FaAngleUp, FaHeadset } from "react-icons/fa";
 import ContactModal from "./ContactModal";
 
 function UpBtn() {
@@ -23,14 +23,13 @@ function UpBtn() {
 
     return (
         <>
-            {/* دکمه ارتباط با ما - همیشه نمایش داده میشه */}
             <button
                 onClick={() => setIsModalOpen(true)}
                 aria-label="ارتباط با ما"
                 className="fixed z-30 bottom-[4.5rem] right-4 md:bottom-[5.5rem] md:right-6
                     w-12 h-12 rounded-full
                     flex items-center justify-center
-                    bg-red-500-500 dark:bg-red-400
+                    bg-red-500 dark:bg-red-400
                     text-cream-50 dark:text-night-950
                     shadow-lg shadow-red-500/30 dark:shadow-red-400/20
                     transition-all duration-500 ease-out

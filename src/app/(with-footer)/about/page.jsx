@@ -2,72 +2,149 @@ import Link from "next/link";
 import { features_about } from "../../components/Variables";
 import GalleryServer from "../../components/gallery/GalleryServer";
 import PeopleServer from "../../components/gallery/PeopleServer";
-import { almarai, estedad } from "../../layout";
-import Image from "next/image";
-import features from "@/app/public/features.png";
+import { almarai, display, estedad } from "../../layout";
 
-function AboutPage() {
+import {
+    processSteps,
+    stats,
+    testimonials,
+    features,
+    faqs,
+} from "@/app/_data/AboutVariables";
+
+export const metadata = {
+    title: "درباره ما",
+};
+
+/* ------------------------------------------------------------------ */
+/*  یک استایل واحد برای همه‌ی باکس‌ها                                    */
+/*  هر جا کارت لازم شد، فقط از همین استفاده می‌شود.                      */
+/* ------------------------------------------------------------------ */
+const CARD =
+    "rounded-2xl border border-night-700/10 dark:border-cream-50/10 bg-white dark:bg-night-800 p-5 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50";
+
+const ICON_BOX =
+    "flex text-xl w-fit mx-auto text-center";
+
+const MUTED = "text-night-700/70 dark:text-cream-50/60";
+
+const SECTION = "px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 mt-14 sm:mt-20 md:mt-28";
+
+function Card({ as: Tag = "div", className = "", children, ...rest }) {
+    return (
+        <Tag className={`${CARD} ${className}`} {...rest}>
+            {children}
+        </Tag>
+    );
+}
+
+function SectionHeader({ title, subtitle }) {
+    return (
+        <div className="max-w-2xl">
+            <h2
+                className={`${almarai.className} text-2xl sm:text-3xl lg:text-4xl font-bold leading-snug`}
+            >
+                {title}
+            </h2>
+            {subtitle && (
+                <p
+                    className={`mt-2 sm:mt-3 text-sm sm:text-base md:text-lg leading-7 ${MUTED}`}
+                >
+                    {subtitle}
+                </p>
+            )}
+            <div className="mt-4 h-1 w-14 rounded-full bg-red-600 dark:bg-red-400" />
+        </div>
+    );
+}
+
+function AboutSection() {
     return (
         <main
+            id="about"
             dir="rtl"
-            className="w-full my-[4rem] mx-auto  max-w-8xl py-10 md:py-16 lg:py-20 text-night-700 dark:text-cream-50"
+            className="w-full mx-auto max-w-7xl pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 text-night-700 dark:text-cream-50"
         >
-            <section className="px-5 sm:px-8 md:px-10 lg:px-12 text-center max-w-3xl mx-auto">
+            {/* ===== Hero ===== */}
+            <section className="px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 max-w-4xl">
                 <h1
-                    className={`${almarai.className} text-3xl md:text-4xl lg:text-5xl font-bold`}
+                    className={`${display.className} text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.3]`}
                 >
-                    درباره ما بیشتر بدانید
+                    درباره درخشان آبادیس آسانبر
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-night-700/70 dark:text-cream-50/60 leading-8">
+                <p
+                    className={`mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg md:text-xl leading-8 sm:leading-9 ${MUTED}`}
+                >
                     ما تیمی هستیم که با هدف ساده‌تر کردن انتخاب و خرید آسانسور
                     دور هم جمع شده‌ایم. اینجا می‌توانید با داستان ما، اهدافمان و
                     افرادی که این مسیر را همراهی می‌کنند آشنا شوید.
                 </p>
-                <div className="mt-6 h-1 w-20 bg-night-700 dark:bg-cream-50 mx-auto rounded-full" />
             </section>
-            <section className="px-5 sm:px-8 md:px-10 lg:px-12 grid grid-cols-1 gap-8 items-center">
+
+            {/* ===== گالری ===== */}
+            <section className="px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 mt-10 sm:mt-14">
                 <GalleryServer />
             </section>
-            <section className="mt-16 md:mt-24 p-6">
+
+            {/* ===== آمار ===== */}
+            <section className={SECTION}>
+                <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                    {stats.map((item) => (
+                        <Card
+                            key={item.label}
+                            className="flex items-center gap-4"
+                        >
+                            <span className={ICON_BOX}>{item.icon}</span>
+                            <div className="min-w-0">
+                                <div
+                                    className={`${almarai.className} text-2xl sm:text-3xl font-bold leading-tight`}
+                                >
+                                    {item.value}
+                                </div>
+                                <p
+                                    className={`mt-0.5 text-sm sm:text-base ${MUTED}`}
+                                >
+                                    {item.label}
+                                </p>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            </section>
+
+            {/* ===== تیم ===== */}
+            <section className="px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 mt-14 sm:mt-20 md:mt-28">
                 <PeopleServer />
             </section>
-            <section className="px-5 sm:px-8 md:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-8 md:gap-20 w-full py-16 md:py-24 text-night-700 dark:text-cream-50">
-                {/* ===== تاریخچه (ستون بزرگ‌تر) ===== */}
-                <div className="group">
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-                        <div>
-                            <h2
-                                className={`${almarai.className}  transition-all duration-300 text-2xl md:text-3xl lg:text-4xl font-bold`}
-                            >
-                                تاریخچه
-                            </h2>
-                            <p className="mt-3 text-base md:text-lg text-night-700/70 dark:text-cream-50/60">
-                                مسیری که از یک کارگاه کوچک تا امروز طی کردیم.
-                            </p>
-                        </div>
-                        <div className="h-1 w-20 group-hover:w-50 transition-all duration-300 bg-night-700 dark:bg-cream-50 rounded-full md:mb-3 shrink-0" />
-                    </div>
 
-                    <div className="mt-8 space-y-5 text-base md:text-lg leading-8 text-night-700/80 dark:text-cream-50/70">
+            {/* ===== تاریخچه و اهداف ===== */}
+            <section
+                className={`${SECTION} grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 sm:gap-8 items-start`}
+            >
+                <Card className="p-6 sm:p-8">
+                    <SectionHeader
+                        title="تاریخچه"
+                        subtitle="مسیری که از یک کارگاه کوچک تا امروز طی کردیم."
+                    />
+                    <div
+                        className={`mt-6 sm:mt-8 space-y-4 sm:space-y-5 text-sm sm:text-base md:text-lg leading-7 sm:leading-8 ${MUTED}`}
+                    >
                         <p>
                             شرکت آسانسور{" "}
                             <span className="font-semibold text-night-700 dark:text-cream-50">
-                                پارسارین
+                                درخشان آبادیس آسانبر
                             </span>{" "}
                             فعالیت خود را در سال ۱۳۸۸ با یک کارگاه کوچک در
                             حاشیه‌ی شهر آغاز کرد. در آن سال‌ها، هدف ساده بود:
                             ارائه‌ی آسانسورهایی که هم ایمن باشند و هم برای
-                            ساختمان‌های ایرانی مقرون‌به‌صرفه. اما خیلی زود مشخص
-                            شد که بازار به چیزی فراتر از یک محصول نیاز دارد — به
-                            اعتماد، به پشتیبانی، و به همراهی بلندمدت.
+                            ساختمان‌های ایرانی مقرون‌به‌صرفه.
                         </p>
                         <p>
                             در سال ۱۳۹۲ نخستین خط تولید اختصاصی این شرکت
                             راه‌اندازی شد و با دریافت گواهینامه‌های استاندارد
                             ملی، فعالیت خود را به‌صورت رسمی در سراسر کشور گسترش
-                            داد. تنها سه سال بعد، در سال ۱۳۹۵، تیم خدمات پس از
-                            فروش پارسارین تشکیل شد تا هیچ مشتری‌ای پس از خرید،
-                            تنها نماند.
+                            داد. تنها سه سال بعد، تیم خدمات پس از فروش تشکیل شد
+                            تا هیچ مشتری‌ای پس از خرید، تنها نماند.
                         </p>
                         <p>
                             امروز، پس از بیش از یک دهه فعالیت، با افتخار اعلام
@@ -76,201 +153,234 @@ function AboutPage() {
                                 ۲٬۵۰۰ پروژه
                             </span>{" "}
                             در شهرهای مختلف کشور به دست تیم ما نصب و راه‌اندازی
-                            شده است. اما آنچه بیش از آمار برایمان ارزشمند است،
-                            اعتماد مشتریانی است که پس از سال‌ها، همچنان همراه ما
-                            مانده‌اند.
+                            شده است.
                         </p>
                     </div>
-                </div>
+                </Card>
 
-                {/* ===== اهداف (ستون کوچک‌تر) ===== */}
-                <div className="group">
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-                        <div>
-                            <h2
-                                className={`${almarai.className} text-2xl md:text-3xl lg:text-4xl font-bold`}
-                            >
-                                اهداف
-                            </h2>
-                            <p className="mt-3 text-base md:text-lg text-night-700/70 dark:text-cream-50/60">
-                                آنچه ما را به جلو می‌راند.
-                            </p>
-                        </div>
-                        <div className="h-1 w-20 group-hover:w-35 transition-all duration-300 bg-night-700 dark:bg-cream-50 rounded-full md:mb-3 shrink-0" />
-                    </div>
-
-                    <ul className="mt-8 space-y-5">
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 w-2 h-2 rounded-full bg-night-700 dark:bg-cream-50 shrink-0" />
-                            <div>
-                                <h3
-                                    className={`${almarai.className} text-lg font-bold`}
-                                >
-                                    ایمنی بدون مصالحه
-                                </h3>
-                                <p className="mt-1 text-base leading-7 text-night-700/70 dark:text-cream-50/60">
-                                    هر آسانسوری که تحویل می‌دهیم، پیش از هر چیز
-                                    باید استانداردهای ایمنی را کامل رعایت کند.
-                                </p>
-                            </div>
-                        </li>
-
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 w-2 h-2 rounded-full bg-night-700 dark:bg-cream-50 shrink-0" />
-                            <div>
-                                <h3
-                                    className={`${almarai.className} text-lg font-bold`}
-                                >
-                                    پشتیبانی مادام‌العمر
-                                </h3>
-                                <p className="mt-1 text-base leading-7 text-night-700/70 dark:text-cream-50/60">
-                                    رابطه‌ی ما با مشتری پس از نصب تمام نمی‌شود؛
-                                    تازه شروع می‌شود.
-                                </p>
-                            </div>
-                        </li>
-
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 w-2 h-2 rounded-full bg-night-700 dark:bg-cream-50 shrink-0" />
-                            <div>
-                                <h3
-                                    className={`${almarai.className} text-lg font-bold`}
-                                >
-                                    نوآوری مستمر
-                                </h3>
-                                <p className="mt-1 text-base leading-7 text-night-700/70 dark:text-cream-50/60">
-                                    هر سال بخشی از درآمدمان را به تحقیق و توسعه
-                                    اختصاص می‌دهیم تا محصولاتمان به‌روز بمانند.
-                                </p>
-                            </div>
-                        </li>
-
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 w-2 h-2 rounded-full bg-night-700 dark:bg-cream-50 shrink-0" />
-                            <div>
-                                <h3
-                                    className={`${almarai.className} text-lg font-bold`}
-                                >
-                                    دسترسی آسان
-                                </h3>
-                                <p className="mt-1 text-base leading-7 text-night-700/70 dark:text-cream-50/60">
-                                    هدف ما این است که انتخاب و خرید آسانسور برای
-                                    همه، ساده و شفاف باشد.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-            {/* Features */}
-            <section className="mt-16 md:mt-24 relative overflow-hidden">
-                {/* ===== پس‌زمینه Parallax ===== */}
-                <div className="absolute inset-0">
-                    <Image
-                        src={features}
-                        alt="ویژگی‌های ما"
-                        fill
-                        priority={false}
-                        quality={85}
-                        sizes="100vw"
-                        className="object-cover object-center"
+                <Card className="p-6 sm:p-8">
+                    <SectionHeader
+                        title="اهداف"
+                        subtitle="آنچه ما را به جلو می‌راند."
                     />
-                </div>
-
-                {/* ===== Overlay تیره برای خوانایی ===== */}
-                <div className="absolute inset-0 bg-gradient-to-b from-cream-50/80 via-cream-50/60 to-cream-50/80 dark:from-night-950/85 dark:via-night-950/75 dark:to-night-950/85" />
-
-                {/* ===== محتوا ===== */}
-                <div className="relative z-10 px-5 sm:px-8 md:px-10 lg:px-12 py-16 md:py-24 max-w-7xl mx-auto">
-                    {/* هدر بخش */}
-
-                    <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {features_about.map((item, index) => (
+                    <ul className="mt-6 sm:mt-8 space-y-5">
+                        {features.map((item) => (
                             <li
                                 key={item.title}
-                                className="group relative overflow-hidden rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/40 backdrop-blur-[7px] bg-white/10 dark:bg-black/10 border border-white/20 hover:border-white/40 hover:bg-white/15"
+                                className="flex items-start gap-3"
                             >
-                                {/* شماره پس‌زمینه بزرگ */}
-                                <span
-                                    className={`${almarai.className} absolute top-3 left-4 text-5xl font-bold text-black/10 dark:text-white/10 group-hover:text-black/40 dark:group-hover:text-white/30 group-hover:scale-125 transition-all duration-500 select-none`}
-                                >
-                                    {String(index + 1).padStart(2, "0")}
-                                </span>
-
-                                {/* گرادیان ملایم داخل کارت */}
-                                <div className="absolute inset-0 bg-linear-to-br from-white/0 via-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                {/* محتوا */}
-                                <div className="relative z-10 flex flex-col items-center">
-                                    {/* آیکون */}
-                                    <div className="w-20 h-20 rounded-2xl bg-white/10 dark:bg-black/10 border border-white/20 text-night-700 dark:text-cream-50 flex items-center justify-center transition-all duration-500 ease-out group-hover:bg-cream-50 group-hover:text-night-950 group-hover:border-cream-50 group-hover:rotate-[10deg] group-hover:scale-110">
-                                        {item.icon}
-                                    </div>
-
+                                <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-red-600 dark:bg-red-400" />
+                                <div>
                                     <h3
-                                        className={`${almarai.className} mt-5 text-xl font-bold text-night-700 dark:text-cream-50 `}
+                                        className={`${almarai.className} text-base sm:text-lg font-bold`}
                                     >
                                         {item.title}
                                     </h3>
-
-                                    <span className="mt-3 block h-0.5 w-8 bg-night-700/70 dark:bg-cream-50/50 transition-all duration-500 group-hover:w-16 group-hover:bg-night-700 group-hover:dark:bg-cream-50" />
-
-                                    <p className="mt-4 text-base leading-7 text-night-700/80 dark:text-cream-50/50 transition-colors duration-300">
+                                    <p
+                                        className={`mt-1 text-sm sm:text-base leading-6 sm:leading-7 ${MUTED}`}
+                                    >
                                         {item.text}
                                     </p>
                                 </div>
                             </li>
                         ))}
                     </ul>
+                </Card>
+            </section>
+
+            {/* ===== فرآیند همکاری (ترتیب واقعی دارد، پس شماره‌گذاری) ===== */}
+            <section className={SECTION}>
+                <SectionHeader
+                    title="فرآیند همکاری"
+                    subtitle="از اولین تماس تا تحویل کلید، همراه شما هستیم."
+                />
+
+                <ol className="mt-8 sm:mt-12 grid grid-cols-1 lg:grid-cols-4 gap-4">
+                    {processSteps.map((item, index) => {
+                        const isLast = index === processSteps.length - 1;
+                        return (
+                            <li
+                                key={item.step}
+                                className="relative flex gap-4 sm:gap-6 pb-6 sm:pb-8 last:pb-0 lg:flex-col lg:gap-0 lg:pb-0"
+                            >
+                                {/* مسیر: دایره‌ی شماره + خط اتصال به گام بعد */}
+                                <div className="flex flex-col items-center lg:flex-row lg:items-center">
+                                    <span
+                                        className={`${almarai.className} relative z-10 flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-red-600 text-base sm:text-lg font-bold text-white shadow-lg shadow-red-600/30 ring-4 ring-red-500/15`}
+                                    >
+                                        {item.step}
+                                    </span>
+
+                                    {!isLast && (
+                                        <span
+                                            aria-hidden="true"
+                                            className="my-2 w-0.5 flex-1 rounded-full bg-gradient-to-b from-red-600 to-red-500/20 lg:my-0 lg:mx-2 lg:h-0.5 lg:w-auto lg:bg-gradient-to-l"
+                                        />
+                                    )}
+                                </div>
+
+                                {/* محتوای گام */}
+                                <div className="min-w-0 flex-1 lg:mt-5 lg:pe-5 lg:last:pe-0">
+                                    <Card className="h-full">
+                                        <span className={ICON_BOX}>
+                                            {item.icon}
+                                        </span>
+                                        <h3
+                                            className={`${almarai.className} mt-4 text-base sm:text-lg font-bold`}
+                                        >
+                                            {item.title}
+                                        </h3>
+                                        <p
+                                            className={`mt-2 text-sm sm:text-base leading-6 sm:leading-7 ${MUTED}`}
+                                        >
+                                            {item.text}
+                                        </p>
+                                    </Card>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ol>
+            </section>
+
+            {/* ===== ویژگی‌ها ===== */}
+            <section className={SECTION}>
+                <SectionHeader
+                    title="چرا درخشان آبادیس؟"
+                    subtitle="چیزهایی که ما را از بقیه متمایز می‌کند."
+                />
+                <ul className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                    {features_about.map((item) => (
+                        <Card
+                            as="li"
+                            key={item.title}
+                        >
+                            <span className={ICON_BOX}>{item.icon}</span>
+                            <h3
+                                className={`${almarai.className} mt-4 text-base sm:text-lg font-bold`}
+                            >
+                                {item.title}
+                            </h3>
+                            <p
+                                className={`mt-2 text-sm sm:text-base leading-6 sm:leading-7 ${MUTED}`}
+                            >
+                                {item.text}
+                            </p>
+                        </Card>
+                    ))}
+                </ul>
+            </section>
+
+            {/* ===== نظرات مشتریان ===== */}
+            <section className={SECTION}>
+                <SectionHeader
+                    title="مشتریان ما چه می‌گویند"
+                    subtitle="اعتماد شما، بزرگ‌ترین سرمایه ماست."
+                />
+                <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+                    {testimonials.map((item) => (
+                        <Card
+                            key={item.name}
+                            className="flex flex-col"
+                        >
+                            <span
+                                aria-hidden="true"
+                                className="h-8 text-5xl leading-none text-red-600/40 dark:text-red-400/40 select-none"
+                            >
+                                ”
+                            </span>
+                            <p
+                                className={`mt-2 flex-1 text-sm sm:text-base leading-7 text-night-700/80 dark:text-cream-50/70`}
+                            >
+                                {item.text}
+                            </p>
+                            <div className="mt-5 pt-4 border-t border-night-700/10 dark:border-cream-50/10">
+                                <h3
+                                    className={`${almarai.className} text-sm sm:text-base font-bold`}
+                                >
+                                    {item.name}
+                                </h3>
+                                <p
+                                    className={`mt-1 text-xs sm:text-sm ${MUTED}`}
+                                >
+                                    {item.role}
+                                </p>
+                            </div>
+                        </Card>
+                    ))}
                 </div>
             </section>
 
-            {/* Story */}
-            <section className="px-5 sm:px-8 md:px-10 lg:px-12 mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
-                <h2
-                    className={`${estedad.className} text-2xl md:text-3xl font-semibold md:col-span-1`}
-                >
-                    چرا این پلتفرم را ساختیم
-                </h2>
-                <div
-                    className={`md:col-span-2 space-y-4 text-base md:text-xl text-night-700/70 dark:text-cream-50/50 max-w-[65ch]`}
-                >
-                    <p>
-                        خرید و انتخاب آسانسور نباید سخت‌تر از خودِ استفاده از آن
-                        باشد. بیشتر منابع موجود یا پر از اصطلاحات فنی‌اند یا
-                        اطلاعاتشان ناقص است، و همین باعث می‌شود انتخاب درست
-                        زمان‌بر و پر از تردید شود.
-                    </p>
-                    <p>
-                        ما این پلتفرم را ساده نگه داشتیم: صفحات واضح، مشخصات
-                        دقیق و جایی برای ذخیره‌ی مدل‌هایی که به آن‌ها علاقه
-                        دارید. روی موبایل، تبلت یا لپ‌تاپ یکسان کار می‌کند تا
-                        انتخاب شما همیشه همراهتان باشد.
-                    </p>
+            {/* ===== سوالات متداول ===== */}
+            <section className={SECTION}>
+                <SectionHeader
+                    title="سوالات متداول"
+                    subtitle="پاسخ سوالاتی که بیشتر از ما پرسیده می‌شود."
+                />
+                <div className="mt-8 sm:mt-10 max-w-3xl space-y-3 sm:space-y-4">
+                    {faqs.map((item, index) => (
+                        <details
+                            key={index}
+                            className={`group ${CARD} !p-0 open:border-red-500/40`}
+                        >
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 rounded-2xl [&::-webkit-details-marker]:hidden">
+                                <h3
+                                    className={`${almarai.className} text-sm sm:text-base md:text-lg font-bold`}
+                                >
+                                    {item.q}
+                                </h3>
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-500/10 text-xl text-red-600 dark:text-red-400 transition-transform duration-300 group-open:rotate-45">
+                                    +
+                                </span>
+                            </summary>
+                            <div
+                                className={`px-4 sm:px-5 pb-4 sm:pb-5 text-sm sm:text-base leading-7 ${MUTED}`}
+                            >
+                                {item.a}
+                            </div>
+                        </details>
+                    ))}
                 </div>
             </section>
 
-            {/* CTA */}
-            <section className="px-5 sm:px-8 md:px-10 lg:px-12 mt-16 md:mt-24 rounded-lg border border-amber-100 dark:border-cream-50/10 px-6 py-10 md:px-12 md:py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div>
-                    <h2
-                        className={`${estedad.className} text-2xl md:text-3xl font-semibold`}
+            {/* ===== CTA نهایی ===== */}
+            <section className={SECTION}>
+                <Card className="p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    <div>
+                        <h2
+                            className={`${estedad.className} text-xl sm:text-2xl md:text-3xl font-semibold`}
+                        >
+                            آماده‌اید انتخاب را شروع کنید؟
+                        </h2>
+                        <p
+                            className={`mt-2 text-base sm:text-lg leading-8 ${MUTED}`}
+                        >
+                            ابتدا وارد حساب کاربری خود شوید و مدل‌های مورد
+                            علاقه‌تان را ذخیره کنید.
+                        </p>
+                        <div
+                            className={`mt-4 flex flex-col xs:flex-row xs:flex-wrap gap-2 xs:gap-6 text-sm ${MUTED}`}
+                        >
+                            <span className="flex items-center gap-2">
+                                <span aria-hidden="true">📞</span>
+                                <bdi>۰۲۱-۱۲۳۴۵۶۷۸</bdi>
+                            </span>
+                            <span className="flex items-center gap-2 break-all">
+                                <span aria-hidden="true">✉️</span>
+                                <bdi>info@derakhshan-abadis.ir</bdi>
+                            </span>
+                        </div>
+                    </div>
+                    <Link
+                        href="/login"
+                        className={`${estedad.className} w-full md:w-auto md:shrink-0 rounded-xl bg-red-600 dark:bg-red-400 px-6 py-3 text-center text-sm sm:text-base text-cream-50 transition-colors duration-300 hover:bg-red-700 dark:hover:bg-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
                     >
-                        آماده‌اید انتخاب را شروع کنید؟
-                    </h2>
-                    <p className="mt-2 text-xl text-night-700 dark:text-cream-50">
-                        ابتدا وارد حساب کاربری خود شوید
-                    </p>
-                </div>
-                <Link
-                    href="/login"
-                    className={`${estedad.className} bg-red-600 dark:bg-red-400 text-cream-50 px-4 py-2 rounded-sm text-center hover:-translate-y-0.5 transition-all duration-300 md:shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
-                >
-                    ورود به حساب کاربری
-                </Link>
+                        ورود به حساب کاربری
+                    </Link>
+                </Card>
             </section>
         </main>
     );
 }
 
-export default AboutPage;
+export default AboutSection;
