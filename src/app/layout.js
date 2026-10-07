@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import { ThemeProvider } from "./components/ThemeProvider";
 import UpBtn from "./components/UpBtn";
+import { estedad } from "./_fonts/fonts";
 
 // export const metadata = {
 //     title: {
@@ -10,25 +11,6 @@ import UpBtn from "./components/UpBtn";
 //         template: "%s | درخشان آبادیس آسانبر",
 //     },
 // };
-
-export const parastoo = Parastoo({
-    variable: "--font-parastoo",
-    subsets: ["latin", "arabic"],
-    weight: "400",
-});
-
-export const almarai = Almarai({
-    variable: "--font-almarai",
-    subsets: ["latin", "arabic"],
-    weight: "400",
-});
-
-export const estedad = Estedad({
-    variable: "--font-estedad",
-    subsets: ["latin", "arabic"],
-    weight: "400",
-});
-export const display = Lalezar({ subsets: ["arabic"], weight: "400" });
 
 export default function RootLayout({ children }) {
     return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { estedad } from "@/app/layout";
+import { estedad } from "../../_fonts/fonts";
 import { useEffect, useState, useCallback } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 

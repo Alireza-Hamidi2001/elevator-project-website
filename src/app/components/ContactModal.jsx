@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { FaHeadset, FaTimes, FaArrowLeft } from "react-icons/fa";
 import { contactItems } from "../_data/ContactModalVariable";
-import { almarai, estedad } from "../layout";
+import { almarai, estedad } from "../_fonts/fonts";
 
 /* انیمیشن‌ها داخل خود کامپوننت تعریف شده‌اند؛ نیازی به تغییر tailwind.config نیست */
 const ANIMATIONS = `
@@ -114,7 +114,7 @@ function ContactModal({ isOpen, onClose }) {
                         className={`${almarai.className} mt-4 text-xl sm:text-2xl font-bold text-night-950 dark:text-cream-50`}
                     >
                         با ما در تماس باشید
-                    </h2>   
+                    </h2>
                     <div className="mx-auto mt-4 h-1 w-14 rounded-full bg-blue-600 dark:bg-blue-400" />
                 </div>
 

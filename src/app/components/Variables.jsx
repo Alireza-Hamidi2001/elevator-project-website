@@ -2,23 +2,23 @@ import { FaCircleCheck, FaClockRotateLeft, FaUser } from "react-icons/fa6";
 import { IoMdInformationCircle } from "react-icons/io";
 export const features_about = [
     {
-        title: "انتخاب هوشمندانه",
-        text: "با بررسی مشخصات فنی، ظرفیت و کاربرد، آسانسور مناسب ساختمان خود را در چند دقیقه پیدا کنید.",
+        title: "کیفیت تضمین شده",
+        text: "با متریال درجه یک",
         icon: <FaCircleCheck className="w-12 h-12" />,
     },
     {
-        title: "سرویس دوره ای",
-        text: "مدل‌ها و پیکربندی‌هایی که به آن‌ها علاقه دارید را ذخیره کنید و هر زمان به آن‌ها برگردید.",
+        title: "کاهش هزینه تعمیرات",
+        text: "با نگهداری اصولی",
         icon: <FaClockRotateLeft className="w-12 h-12" />,
     },
     {
-        title: "اطلاعات کامل قبل از خرید",
-        text: "مشخصات فنی، گارانتی، استانداردها و نظرات مشتریان را استعلام بگیرید تا با آگاهی انتخاب کنید.",
+        title: "تیم حرفه ای",
+        text: "آموزش دیده و متعهد",
         icon: <IoMdInformationCircle className="w-12 h-12" />,
     },
     {
-        title: "پروفایل اختصاصی شما",
-        text: "پنل داشبورد اختصاصی برای هریک از مشتریان برای مدیریت بهتر و راحت تر.",
+        title: "قراردادهای منعطف",
+        text: "متناسب با نیاز شما",
         icon: <FaUser className="w-12 h-12" />,
     },
 ];

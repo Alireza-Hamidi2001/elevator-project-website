@@ -1,5 +1,5 @@
 import { LuLogIn } from "react-icons/lu";
-import { estedad } from "../layout";
+import { estedad } from "../_fonts/fonts";
 import Link from "next/link";
 
 function LoginBtn() {

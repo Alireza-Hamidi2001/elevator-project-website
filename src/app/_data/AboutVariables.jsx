@@ -11,10 +11,10 @@ import { FaMapLocation } from "react-icons/fa6";
 import { GrTrigger } from "react-icons/gr";
 
 export const stats = [
-    { value: "۲٬۵۰۰+", label: "پروژه نصب‌شده", icon: <FaRegBuilding /> },
-    { value: "۱۳۸۸", label: "سال تأسیس", icon: <FaRegCalendar /> },
-    { value: "۳۱", label: "استان تحت پوشش", icon: <FaMapLocation /> },
-    { value: "۹۸٪", label: "رضایت مشتریان", icon: <FaStar /> },
+    { value: "۲٬۵۰۰+", label: "پروژه نصب‌شده", icon: <FaRegBuilding  className="w-15 h-15" /> },
+    { value: "۱۳۸۸", label: "سال تأسیس", icon: <FaRegCalendar  className="w-15 h-15"/> },
+    { value: "۳۱", label: "استان تحت پوشش", icon: <FaMapLocation className="w-15 h-15" /> },
+    { value: "۹۸٪", label: "رضایت مشتریان", icon: <FaStar  className="w-15 h-15"/> },
 ];
 
 export const processSteps = [
@@ -22,25 +22,25 @@ export const processSteps = [
         step: "۰۱",
         title: "مشاوره و بازدید",
         text: "کارشناسان ما به‌صورت رایگان از محل بازدید می‌کنند و نیاز شما را دقیق ارزیابی می‌کنند.",
-        icon: <FaPhone />,
+        icon: <FaPhone className="w-10 h-10" />,
     },
     {
         step: "۰۲",
         title: "طراحی و پیشنهاد",
         text: "بر اساس ابعاد چاهک، کاربری ساختمان و بودجه شما، بهترین مدل پیشنهاد می‌شود.",
-        icon: <FaRulerCombined />,
+        icon: <FaRulerCombined className="w-10 h-10" />,
     },
     {
         step: "۰۳",
         title: "نصب و راه‌اندازی",
         text: "تیم فنی مجرب، آسانسور را با رعایت کامل استانداردهای ایمنی نصب و تست می‌کند.",
-        icon: <GrTrigger />,
+        icon: <GrTrigger className="w-10 h-10" />,
     },
     {
         step: "۰۴",
         title: "پشتیبانی دائمی",
         text: "پس از تحویل، سرویس‌های دوره‌ای و پشتیبانی ۲۴ ساعته همراه شماست.",
-        icon: <FaHeadphonesAlt />,
+        icon: <FaHeadphonesAlt className="w-10 h-10" />,
     },
 ];
 
@@ -83,19 +83,23 @@ export const faqs = [
 
 export const features = [
     {
-        title: "ایمنی بدون مصالحه",
-        text: "هر آسانسوری که تحویل می‌دهیم، پیش از هر چیز باید استانداردهای ایمنی را کامل رعایت کند.",
+        title: "سرویس دوره ای",
+        text: "پشتیبانی و مشاوره تخصصی رایگان.",
     },
     {
-        title: "پشتیبانی مادام‌العمر",
-        text: "رابطه‌ی ما با مشتری پس از نصب تمام نمی‌شود؛ تازه شروع می‌شود.",
+        title: "تعمیرات تخصصی",
+        text: "تعمیرات تخصصی توسط تیم زبده و مجرب",
     },
     {
-        title: "نوآوری مستمر",
-        text: "هر سال بخشی از درآمدمان را به تحقیق و توسعه اختصاص می‌دهیم.",
+        title: "تامین و ساخت قطعات",
+        text: "دارای گارانتی و پشتیبانی مداوم",
     },
     {
-        title: "دسترسی آسان",
+        title: "ارتقا و بهینه سازی",
+        text: "ارتقا و بهینه سازی قطعات در صورت لزوم",
+    },
+    {
+        title: "پشتیبانی فنی",
         text: "هدف ما این است که انتخاب و خرید آسانسور برای همه، ساده و شفاف باشد.",
     },
 ];

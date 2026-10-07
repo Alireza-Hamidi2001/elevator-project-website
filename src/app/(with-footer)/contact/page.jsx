@@ -1,7 +1,7 @@
 import building from "@/app/public/building.png";
 import support_team from "@/app/public/support-team.png";
 import { FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
-import { almarai, display, estedad } from "../../layout";
+import { almarai, parastoo, estedad } from "../../_fonts/fonts";
 import { contactInfo } from "@/app/_data/ContactVariables";
 
 export const metadata = {
@@ -11,8 +11,7 @@ export const metadata = {
 /* همان سیستم کارت صفحه‌ی «درباره ما» تا کل سایت یکدست باشد */
 const CARD =
     "rounded-2xl border border-night-700/10 dark:border-cream-50/10 p-5 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50";
-const ICON_BOX =
-    "flex text-xl w-fit mx-auto";
+const ICON_BOX = "flex text-xl w-fit mx-auto";
 const MUTED = "text-night-700/70 dark:text-cream-50/60";
 const SECTION = "mt-14 sm:mt-20 md:mt-28";
 
@@ -39,7 +38,9 @@ function SectionHeader({ title, subtitle }) {
 /* کارت تصویر + متن: دو باکس تصویری دقیقاً یک شکل هستند */
 function MediaCard({ image, alt, title, text, children }) {
     return (
-        <article className={`${CARD} overflow-hidden flex flex-col`}>
+        <article
+            className={`${CARD} flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group overflow-hidden flex flex-col`}
+        >
             <img
                 src={image.src}
                 alt={alt}
@@ -73,7 +74,7 @@ function ContactSection() {
             {/* ===== Hero ===== */}
             <section className="max-w-4xl">
                 <h1
-                    className={`${display.className} text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.3]`}
+                    className={`${parastoo.className} text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.3]`}
                 >
                     با ما در تماس باشید
                 </h1>
@@ -88,7 +89,7 @@ function ContactSection() {
 
             {/* ===== راه‌های ارتباطی ===== */}
             <section className="mt-10 sm:mt-14">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                     {contactInfo.map((item) => {
                         const external = item.id === "telegram";
                         return (
@@ -99,10 +100,10 @@ function ContactSection() {
                                 rel={
                                     external ? "noopener noreferrer" : undefined
                                 }
-                                className={`${CARD} group flex flex-col p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
+                                className={`${CARD} flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
                             >
                                 <span
-                                    className={`${ICON_BOX} transition-colors duration-300 p-2 rounded-sm group-hover:bg-red-600 group-hover:text-white`}
+                                    className={`${ICON_BOX} transition-colors duration-300 p-2 rounded-sm  group-hover:text-white`}
                                 >
                                     {item.icon}
                                 </span>
@@ -192,7 +193,7 @@ function ContactSection() {
             {/* ===== CTA ===== */}
             <section className={SECTION}>
                 <div
-                    className={`${CARD} p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6`}
+                    className={`${CARD} relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6`}
                 >
                     <div>
                         <h2

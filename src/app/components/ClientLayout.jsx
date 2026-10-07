@@ -1,15 +1,16 @@
 "use client";
 
-import { ThemeProvider } from "./ThemeProvider";
 import Header from "./Header";
 import UpBtn from "./UpBtn";
+import ContactModal from "./ContactModal";
 
-export default function ClientLayout({ children }) {
+export default function LayoutClient({ children }) {
     return (
-        <ThemeProvider>
+        <>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="min-h-screen">{children}</main>
             <UpBtn />
-        </ThemeProvider>
+            <ContactModal />
+        </>
     );
 }

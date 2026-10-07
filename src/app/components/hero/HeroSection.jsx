@@ -1,22 +1,15 @@
-import Image from "next/image";
-import { almarai, estedad, parastoo } from "../../layout";
-import heroImage from "@/app/public/hero-image.png";
 import Link from "next/link";
+import { estedad, parastoo } from "../../_fonts/fonts";
 
 function HeroSection() {
     return (
         <>
             <div className="relative h-[calc(100vh-4rem)]">
                 <div className="absolute left-[10%] top-[50%] translate-y-[-50%] text-center flex flex-col justify-center items-center px-12 py-6">
-                    <h1
-                        className={`${almarai.className} text-[4rem] font-extrabold`}
-                    >
-                        ELEVATOR
-                    </h1>
                     <h2
-                        className={`${parastoo.className} mb-4 text-center text-[3rem]`}
+                        className={`${parastoo.className} mb-4 text-center text-[5rem]`}
                     >
-                        درخشان آبادیس آسانبر  
+                        درخشان آبادیس آسانبر
                     </h2>
                     <div className="flex items-center gap-4">
                         <Link

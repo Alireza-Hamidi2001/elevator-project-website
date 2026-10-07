@@ -4,6 +4,16 @@
 :root {
     --background: #ffffff;
     --foreground: #171717;
+    --bubble-color-1: 186 200 255; /* آبی بنفش ملایم - درخشش داخلی */
+    --bubble-color-2: 120 119 198; /* بنفش آبی متوسط - لبه */
+    --bubble-opacity: 0.55;
+}
+
+/* حالت تاریک */
+.dark {
+    --bubble-color-1: 253 251 247; /* معادل #fdfbf7 */
+    --bubble-color-2: 255 255 229; /* معادل #ffffe5 */
+    --bubble-opacity: 0.35;
 }
 
 @theme inline {
@@ -118,8 +128,12 @@ body {
 }
 
 @keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalPopIn {
@@ -139,4 +153,228 @@ body {
 
 .modal-pop-in {
     animation: modalPopIn 220ms ease-out;
+}
+
+/*          */
+/* گرادیان متحرک */
+@keyframes gradientShift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+}
+
+/* حباب‌های معلق */
+.bubble {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgb(var(--bubble-color-1) / 0.8),
+        rgb(var(--bubble-color-2) / 0.15) 60%,
+        transparent 70%
+    );
+    backdrop-filter: blur(2px);
+    opacity: 0.5;
+    animation: floatBubble 18s ease-in-out infinite;
+}
+.bubble-1 {
+    width: 120px;
+    height: 120px;
+    top: 10%;
+    left: 5%;
+    animation-duration: 12s;
+}
+.bubble-2 {
+    width: 80px;
+    height: 80px;
+    top: 60%;
+    left: 15%;
+    animation-duration: 16s;
+    animation-delay: -4s;
+}
+.bubble-3 {
+    width: 160px;
+    height: 160px;
+    top: 20%;
+    right: 8%;
+    animation-duration: 14s;
+    animation-delay: -8s;
+}
+.bubble-4 {
+    width: 60px;
+    height: 60px;
+    bottom: 10%;
+    right: 20%;
+    animation-duration: 10s;
+    animation-delay: -2s;
+}
+.bubble-5 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    right: 30%;
+    animation-duration: 6s;
+    animation-delay: -2s;
+}
+.bubble-6 {
+    width: 90px;
+    height: 90px;
+    bottom: 40%;
+    right: 50%;
+    animation-duration: 7s;
+    animation-delay: -2s;
+}
+
+@keyframes floatBubble {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(30px, -40px) scale(1.05);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+}
+
+/* نقطه‌های شناور */
+.dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: currentColor;
+    color: rgb(99 102 241 / 0.6);
+    animation: floatDot 12s ease-in-out infinite;
+}
+.dot-1 {
+    top: 15%;
+    left: 30%;
+    animation-duration: 10s;
+}
+.dot-2 {
+    top: 70%;
+    left: 45%;
+    animation-duration: 14s;
+    animation-delay: -3s;
+}
+.dot-3 {
+    top: 30%;
+    right: 25%;
+    animation-duration: 11s;
+    animation-delay: -6s;
+}
+.dot-4 {
+    bottom: 20%;
+    left: 10%;
+    animation-duration: 13s;
+    animation-delay: -2s;
+}
+.dot-5 {
+    top: 50%;
+    right: 10%;
+    animation-duration: 9s;
+    animation-delay: -5s;
+}
+
+@keyframes floatDot {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-30px) scale(1.4);
+        opacity: 0.9;
+    }
+}
+
+/* موج */
+@keyframes waveMove {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+.animate-wave {
+    animation: waveMove 18s linear infinite;
+}
+
+/* کاهش انیمیشن برای کاربرانی که ترجیح می‌دن */
+@media (prefers-reduced-motion: reduce) {
+    .bubble,
+    .dot,
+    .animate-wave,
+    .animate-gradient {
+        animation: none !important;
+    }
+}
+/* ===== آیکون‌های تعمیرات و آسانسور ===== */
+.tool {
+    position: absolute;
+    color: rgb(99 102 241 / 0.25);
+    animation: floatTool 24s ease-in-out infinite;
+    will-change: transform;
+}
+
+.dark .tool {
+    color: rgba(255, 227, 156, 0.101)
+}
+
+/* اندازه و موقعیت هر آیکون */
+.tool-wrench  { width: 64px;  height: 64px;  top: 15%; left: 8%;   animation-duration: 22s; }
+.tool-gear    { width: 80px;  height: 80px;  top: 40%; right: 10%; animation-duration: 30s; animation-delay: -6s; }
+.tool-screw   { width: 48px;  height: 48px;  top: 60%; left: 15%;  animation-duration: 18s; animation-delay: -3s; }
+.tool-hammer  { width: 56px;  height: 56px;  top: 75%; right: 25%; animation-duration: 26s; animation-delay: -9s; }
+.tool-arrows  { width: 72px;  height: 72px;  top: 25%; left: 45%;  animation-duration: 28s; animation-delay: -12s; }
+.tool-bell    { width: 52px;  height: 52px;  top: 50%; right: 45%; animation-duration: 20s; animation-delay: -5s; }
+.tool-toolbox { width: 76px;  height: 76px;  top: 85%; left: 55%;  animation-duration: 24s; animation-delay: -8s; }
+.tool-door-1    { width: 60px;  height: 60px;  top: 15%; right: 35%; animation-duration: 26s; animation-delay: -14s; }
+.tool-door-2    { width: 120px;  height: 120px;  top: 20%; left: 35%; animation-duration: 23s; animation-delay: -14s; }
+.tool-door-3    { width: 45px;  height: 45px;  bottom: 10%; right: 50%; animation-duration: 20s; animation-delay: -14s; }
+.tool-ladder  { width: 68px;  height: 68px;  top: 65%; left: 70%;  animation-duration: 30s; animation-delay: -10s; }
+
+/* حرکت نرم + چرخش ملایم */
+@keyframes floatTool {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(20px, -40px) rotate(8deg);
+    }
+    50% {
+        transform: translate(-15px, -70px) rotate(-6deg);
+    }
+    75% {
+        transform: translate(-25px, -20px) rotate(4deg);
+    }
+}
+
+/* چرخش آروم برای چرخ‌دنده */
+.tool-gear svg {
+    animation: gearSpin 20s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes gearSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* دسترس‌پذیری */
+@media (prefers-reduced-motion: reduce) {
+    .tool, .tool-gear svg {
+        animation: none !important;
+    }
 }
