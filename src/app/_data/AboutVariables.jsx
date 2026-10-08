@@ -1,6 +1,5 @@
 import {
     FaHeadphonesAlt,
-    FaMap,
     FaPhone,
     FaRegBuilding,
     FaRegCalendar,
@@ -11,10 +10,26 @@ import { FaMapLocation } from "react-icons/fa6";
 import { GrTrigger } from "react-icons/gr";
 
 export const stats = [
-    { value: "۲٬۵۰۰+", label: "پروژه نصب‌شده", icon: <FaRegBuilding  className="w-15 h-15" /> },
-    { value: "۱۳۸۸", label: "سال تأسیس", icon: <FaRegCalendar  className="w-15 h-15"/> },
-    { value: "۳۱", label: "استان تحت پوشش", icon: <FaMapLocation className="w-15 h-15" /> },
-    { value: "۹۸٪", label: "رضایت مشتریان", icon: <FaStar  className="w-15 h-15"/> },
+    {
+        value: "۲٬۵۰۰+",
+        label: "پروژه نصب‌شده",
+        icon: <FaRegBuilding className="w-15 h-15" />,
+    },
+    {
+        value: "۱۳۸۸",
+        label: "سال تأسیس",
+        icon: <FaRegCalendar className="w-15 h-15" />,
+    },
+    {
+        value: "۳۱",
+        label: "استان تحت پوشش",
+        icon: <FaMapLocation className="w-15 h-15" />,
+    },
+    {
+        value: "۹۸٪",
+        label: "رضایت مشتریان",
+        icon: <FaStar className="w-15 h-15" />,
+    },
 ];
 
 export const processSteps = [
@@ -46,16 +61,31 @@ export const processSteps = [
 
 export const testimonials = [
     {
+        id: 1,
         name: "مهندس رضایی",
         role: "مدیر پروژه، برج آسمان",
         text: "از مرحله مشاوره تا نصب، همه چیز منظم و حرفه‌ای پیش رفت. کیفیت قطعات و دقت تیم نصب واقعاً قابل تحسین بود.",
     },
     {
+        id: 2,
+        name: "مهندس رضایی",
+        role: "مدیر پروژه، برج آسمان",
+        text: "از مرحله مشاوره تا نصب، همه چیز منظم و حرفه‌ای پیش رفت. کیفیت قطعات و دقت تیم نصب واقعاً قابل تحسین بود.",
+    },
+    {
+        id: 3,
         name: "خانم موسوی",
         role: "مالک ساختمان مسکونی",
         text: "پشتیبانی بعد از فروششون فوق‌العاده است. هر وقت تماس گرفتیم، در کمترین زمان پیگیری کردند.",
     },
     {
+        id: 4,
+        name: "مهندس کریمی",
+        role: "سازنده، شهرک نگین",
+        text: "چندین پروژه با درخشان آبادیس کار کردم. قیمت منصفانه و تحویل به‌موقع از مزایای اصلیشونه.",
+    },
+    {
+        id: 5,
         name: "مهندس کریمی",
         role: "سازنده، شهرک نگین",
         text: "چندین پروژه با درخشان آبادیس کار کردم. قیمت منصفانه و تحویل به‌موقع از مزایای اصلیشونه.",

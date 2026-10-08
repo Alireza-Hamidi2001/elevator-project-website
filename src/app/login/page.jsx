@@ -5,19 +5,7 @@ import PasswordInput from "../components/PasswordInput";
 function page() {
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-4xl md:w-[80vw] md:h-[60vh] rounded-lg overflow-hidden shadow-lg">
-                {/* بخش تصویر - در موبایل پایین، در دسکتاپ چپ */}
-                <div className="relative w-full h-48 md:h-full bg-gray-300 order-2 md:order-1">
-                    <Image
-                        alt="login image page"
-                        src={heroImage}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
-
-                {/* بخش فرم - در موبایل بالا، در دسکتاپ راست */}
+            <div className="grid grid-cols-1 w-full max-w-[80vw] md:max-w-[50vw] lg:max-w-[30vw] md:h-[60vh] rounded-lg overflow-hidden shadow-lg">
                 <form className="flex flex-col justify-center gap-2 p-6 md:p-8 bg-white dark:bg-night-800 text-night-700 dark:text-cream-50 order-1 md:order-2">
                     <div className="flex flex-col  justify-center gap-2">
                         <label

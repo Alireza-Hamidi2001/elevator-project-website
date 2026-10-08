@@ -15,6 +15,7 @@ import PeopleServer from "../../components/gallery/PeopleServer";
 import { almarai, parastoo, estedad } from "../../_fonts/fonts";
 import image_1 from "./../../../app/public/image-1.png";
 import BackgroundFX from "./BackgroundFX";
+import Testimonials from "../../components/Testimonials";
 
 export const metadata = {
     title: "درباره ما",
@@ -69,7 +70,6 @@ function AboutSection() {
             className="relative w-full mx-auto max-w-8xl pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 text-night-700 dark:text-cream-50"
         >
             {/* ===== پس‌زمینه سراسری کل صفحه ===== */}
-            <BackgroundFX />
 
             {/* ===== Hero ===== */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-2 px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12">
@@ -295,43 +295,11 @@ function AboutSection() {
                     ))}
                 </ul>
 
-                {/* ===== نظرات مشتریان ===== */}
                 <SectionHeader
                     title="مشتریان ما چه می‌گویند"
                     subtitle="اعتماد شما، بزرگ‌ترین سرمایه ماست."
                 />
-                <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-                    {testimonials.map((item) => (
-                        <Card
-                            key={item.name}
-                            className="flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-lg shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group"
-                        >
-                            <span
-                                aria-hidden="true"
-                                className="h-8 text-5xl leading-none text-red-600/40 dark:text-red-400/40 select-none"
-                            >
-                                ”
-                            </span>
-                            <p
-                                className={`mt-2 flex-1 text-sm sm:text-base leading-7 text-night-700/80 dark:text-cream-50/70`}
-                            >
-                                {item.text}
-                            </p>
-                            <div className="mt-5 pt-4 border-t border-night-700/10 dark:border-cream-50/10">
-                                <h3
-                                    className={`${almarai.className} text-sm sm:text-base font-bold`}
-                                >
-                                    {item.name}
-                                </h3>
-                                <p
-                                    className={`mt-1 text-xs sm:text-sm ${MUTED}`}
-                                >
-                                    {item.role}
-                                </p>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
+                <Testimonials testimonials={testimonials} />
 
                 {/* ===== سوالات متداول ===== */}
                 <SectionHeader

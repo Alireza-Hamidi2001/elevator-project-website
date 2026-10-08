@@ -10,7 +10,7 @@ export const metadata = {
 
 /* همان سیستم کارت صفحه‌ی «درباره ما» تا کل سایت یکدست باشد */
 const CARD =
-    "rounded-2xl border border-night-700/10 dark:border-cream-50/10 p-5 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50";
+    "rounded-2xl border border-night-700/10 dark:border-cream-50/10 p-5 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-gray-500/30";
 const ICON_BOX = "flex text-xl w-fit mx-auto";
 const MUTED = "text-night-700/70 dark:text-cream-50/60";
 const SECTION = "mt-14 sm:mt-20 md:mt-28";
@@ -100,19 +100,19 @@ function ContactSection() {
                                 rel={
                                     external ? "noopener noreferrer" : undefined
                                 }
-                                className={`${CARD} flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
+                                className={`${CARD} flex items-center justify-center gap-4 relative overflow-hidden rounded-lg border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
                             >
                                 <span
-                                    className={`${ICON_BOX} transition-colors duration-300 p-2 rounded-sm  group-hover:text-white`}
+                                    className={` transition-colors duration-300 rounded-sm  group-hover:text-white`}
                                 >
                                     {item.icon}
                                 </span>
                                 <h3
-                                    className={`${almarai.className} mt-4 text-base sm:text-lg font-bold`}
+                                    className={`${almarai.className} text-base sm:text-lg font-bold`}
                                 >
                                     {item.title}
                                 </h3>
-                                <div className="mt-2 space-y-1">
+                                {/* <div className="mt-2 space-y-1">
                                     {item.values.map((value) => (
                                         <p
                                             key={value}
@@ -122,7 +122,7 @@ function ContactSection() {
                                             {value}
                                         </p>
                                     ))}
-                                </div>
+                                </div> */}
                             </a>
                         );
                     })}

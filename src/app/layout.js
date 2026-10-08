@@ -1,9 +1,9 @@
-import { Almarai, Estedad, Lalezar, Parastoo } from "next/font/google";
-import "./globals.css";
+import BackgroundFX from "./(with-footer)/_about/BackgroundFX";
+import { estedad } from "./_fonts/fonts";
 import Header from "./components/Header";
 import { ThemeProvider } from "./components/ThemeProvider";
 import UpBtn from "./components/UpBtn";
-import { estedad } from "./_fonts/fonts";
+import "./globals.css";
 
 // export const metadata = {
 //     title: {
@@ -22,6 +22,7 @@ export default function RootLayout({ children }) {
             <body className="relative min-h-full flex flex-col bg-cream-50 text-night-950 dark:bg-night-950 dark:text-cream-50">
                 <ThemeProvider>
                     <Header />
+                    <BackgroundFX />
                     <main className="flex-1">{children}</main>
                     <UpBtn />
                 </ThemeProvider>
