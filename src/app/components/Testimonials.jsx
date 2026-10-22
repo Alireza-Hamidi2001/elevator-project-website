@@ -6,7 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { almarai } from "@/app/_fonts/fonts";
 
 const CARD =
-    "flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-lg shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 w-full";
+    "relative overflow-hidden rounded-2xl border border-night-900/15 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-lg shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5";
 
 const MUTED = "text-night-700/70 dark:text-cream-50/60";
 
@@ -14,8 +14,25 @@ export default function Testimonials({ testimonials }) {
     const trackRef = useRef(null);
     const [canPrev, setCanPrev] = useState(false);
     const [canNext, setCanNext] = useState(true);
-    const [activeDot, setActiveDot] = useState(0);
+    const [columns, setColumns] = useState(1); // پیش‌فرض موبایل: تک‌ستونه
+    const [activePage, setActivePage] = useState(0);
 
+    // تعداد ستون‌ها بر اساس عرض صفحه
+    useEffect(() => {
+        const updateColumns = () => {
+            const w = window.innerWidth;
+            if (w >= 768) setColumns(3); // md و بالاتر
+            else setColumns(1); // موبایل
+        };
+        updateColumns();
+        window.addEventListener("resize", updateColumns);
+        return () => window.removeEventListener("resize", updateColumns);
+    }, []);
+
+    // تعداد کل صفحات
+    const totalPages = Math.ceil(testimonials.length / columns);
+
+    // آپدیت وضعیت اسکرول
     const updateState = useCallback(() => {
         const el = trackRef.current;
         if (!el) return;
@@ -25,14 +42,10 @@ export default function Testimonials({ testimonials }) {
         setCanPrev(!atStart);
         setCanNext(!atEnd);
 
-        // نقطه فعال بر اساس اولین کارت دیده شده
-        const card = el.querySelector("[data-card]");
-        if (card) {
-            const step = card.offsetWidth + 20; // + gap
-            const idx = Math.round(Math.abs(scrollLeft) / step);
-            setActiveDot(Math.min(idx, testimonials.length - 1));
-        }
-    }, [testimonials.length]);
+        const pageWidth = clientWidth;
+        const page = Math.round(Math.abs(scrollLeft) / pageWidth);
+        setActivePage(Math.min(page, totalPages - 1));
+    }, [totalPages]);
 
     useEffect(() => {
         const el = trackRef.current;
@@ -44,48 +57,39 @@ export default function Testimonials({ testimonials }) {
             el.removeEventListener("scroll", updateState);
             window.removeEventListener("resize", updateState);
         };
-    }, [updateState]);
+    }, [updateState, columns]);
 
-    const scrollByCard = (dir) => {
+    const scrollByPage = (dir) => {
         const el = trackRef.current;
         if (!el) return;
-        const card = el.querySelector("[data-card]");
-        if (!card) return;
-        const gap = 20;
-        const amount = (card.offsetWidth + gap) * dir;
-        el.scrollBy({ left: amount, behavior: "smooth" });
+        el.scrollBy({ left: el.clientWidth * dir, behavior: "smooth" });
+    };
+
+    const goToPage = (pageIndex) => {
+        const el = trackRef.current;
+        if (!el) return;
+        el.scrollTo({ left: -el.clientWidth * pageIndex, behavior: "smooth" });
     };
 
     return (
         <>
-            {/* دکمه‌ها فقط در دسکتاپ */}
             <div className="relative mt-8 sm:mt-10">
+                {/* دکمه قبلی */}
                 <button
-                    onClick={() => scrollByCard(1)}
+                    onClick={() => scrollByPage(1)}
                     disabled={!canPrev}
                     aria-label="Previous"
-                    className="hidden lg:flex absolute right-[-22px] top-1/2 -translate-y-1/2 z-20
-                               w-11 h-11 rounded-full
-                               bg-white/70 dark:bg-night-900/70 backdrop-blur
-                               border border-white/40 dark:border-white/10 shadow-lg
-                               items-center justify-center text-night-800 dark:text-cream-50
-                               transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black
-                               disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/70 dark:bg-night-900/70 backdrop-blur border border-white/40 dark:border-white/10 shadow-lg items-center justify-center text-night-800 dark:text-cream-50 transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                     <FaChevronRight size={18} />
                 </button>
 
+                {/* دکمه بعدی */}
                 <button
-                    onClick={() => scrollByCard(-1)}
+                    onClick={() => scrollByPage(-1)}
                     disabled={!canNext}
                     aria-label="Next"
-                    className="hidden lg:flex absolute left-[-22px] top-1/2 -translate-y-1/2 z-20
-                               w-11 h-11 rounded-full
-                               bg-white/70 dark:bg-night-900/70 backdrop-blur
-                               border border-white/40 dark:border-white/10 shadow-lg
-                               items-center justify-center text-night-800 dark:text-cream-50
-                               transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black
-                               disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/70 dark:bg-night-900/70 backdrop-blur border border-white/40 dark:border-white/10 shadow-lg items-center justify-center text-night-800 dark:text-cream-50 transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                     <FaChevronLeft size={18} />
                 </button>
@@ -94,16 +98,13 @@ export default function Testimonials({ testimonials }) {
                 <div
                     ref={trackRef}
                     dir="rtl"
-                    className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory
-                               pb-4 px-2
-                               [scrollbar-width:none] [-ms-overflow-style:none]
-                               [&::-webkit-scrollbar]:hidden"
+                    className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 px-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 >
                     {testimonials.map((item) => (
                         <div
                             key={item.id}
                             data-card
-                            className="snap-start shrink-0 w-full lg:w-[calc((100%-2.5rem)/3)] flex"
+                            className="snap-start shrink-0 basis-full md:basis-[calc((100%-2.5rem)/3)]"
                         >
                             <article className={CARD}>
                                 <span
@@ -112,9 +113,7 @@ export default function Testimonials({ testimonials }) {
                                 >
                                     ”
                                 </span>
-                                <p
-                                    className={`mt-2 flex-1 text-sm sm:text-base leading-7 text-night-700/80 dark:text-cream-50/70`}
-                                >
+                                <p className="mt-2 flex-1 text-sm sm:text-base leading-7 text-night-700/80 dark:text-cream-50/70">
                                     {item.text}
                                 </p>
                                 <div className="mt-5 pt-4 border-t border-night-700/10 dark:border-cream-50/10">
@@ -135,19 +134,23 @@ export default function Testimonials({ testimonials }) {
                 </div>
             </div>
 
-            {/* نقطه‌ها فقط در موبایل */}
-            <div className="lg:hidden flex justify-center items-center gap-2 mt-4">
-                {testimonials.map((item, i) => (
-                    <span
-                        key={item.id}
-                        className={`rounded-full transition-all duration-300 ${
-                            i === activeDot
-                                ? "w-6 h-2 bg-red-600 dark:bg-red-400"
-                                : "w-2 h-2 bg-night-700/30 dark:bg-cream-50/30"
-                        }`}
-                    />
-                ))}
-            </div>
+            {/* نقطه‌ها = به تعداد صفحات */}
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-4">
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => goToPage(i)}
+                            aria-label={`Go to page ${i + 1}`}
+                            className={`rounded-full transition-all duration-300 ${
+                                i === activePage
+                                    ? "w-6 h-2 bg-red-600 dark:bg-red-400"
+                                    : "w-2 h-2 bg-night-700/30 dark:bg-cream-50/30 hover:bg-night-700/50 dark:hover:bg-cream-50/50"
+                            }`}
+                        />
+                    ))}
+                </div>
+            )}
         </>
     );
 }

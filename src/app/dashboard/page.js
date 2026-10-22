@@ -3,7 +3,7 @@ import { FaUser } from "react-icons/fa";
 function page() {
     return (
         <div className="">
-            <div className="flex justify-between gap-4 px-8 py-4 shadow-sm bg-white dark:bg-night-900">
+            <div className="flex justify-between px-8 py-4 shadow-sm bg-white dark:bg-night-900">
                 <div className="flex items-center gap-4">
                     <div className="bg-cream-200 dark:bg-night-700 w-12 h-12 rounded-full flex items-center justify-center">
                         <FaUser className="text-night-700 dark:text-cream-50 w-5 h-5" />

@@ -1,12 +1,60 @@
-import SideNavigation from "../components/SideNavigation";
+// app/dashboard/layout.jsx
+import { createClient } from "@/lib/supabase/server";
+import SideNavigation from "@/app/components/SideNavigation";
+import WelcomeToast from "@/app/components/WelcomeToast";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-function layout({ children }) {
+export default async function DashboardLayout({ children }) {
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) redirect("/login");
+
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, first_name, last_name, is_active")
+        .eq("id", user.id)
+        .single();
+
+    if (!profile || !profile.is_active) {
+        await supabase.auth.signOut();
+        redirect("/login?error=inactive");
+    }
+
+    // ← فقط بخون، پاک نکن
+    const cookieStore = await cookies();
+    const showWelcome = cookieStore.get("welcome_toast")?.value === "1";
+
+    let badges = {};
+    if (profile.role === "admin") {
+        const countQuery = (table, status) =>
+            supabase
+                .from(table)
+                .select("*", { count: "exact", head: true })
+                .eq("status", status);
+
+        const [reviews, tickets] = await Promise.all([
+            countQuery("reviews", "pending"),
+            countQuery("tickets", "open"),
+        ]);
+
+        badges = {
+            pendingReviews: reviews.count ?? 0,
+            openTickets: tickets.count ?? 0,
+        };
+    }
+
     return (
-        <div className="grid grid-cols-[15rem_1fr] gap-4 my-[4rem] px-4 pt-2">
-            <SideNavigation />
-            {children}
+        <div className="flex">
+            <WelcomeToast show={showWelcome} />
+            <SideNavigation
+                role={profile.role}
+                badges={badges}
+            />
+            <main className="flex-1">{children}</main>
         </div>
     );
 }
-
-export default layout;

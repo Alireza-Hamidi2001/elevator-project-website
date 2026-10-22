@@ -2,7 +2,7 @@ import HeroImage from "./hero/HeroSection";
 
 function Hero() {
     return (
-        <section className="relative h-screen bg-red-20">
+        <section className="relative h-screen">
             <HeroImage />
         </section>
     );

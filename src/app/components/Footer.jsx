@@ -1,203 +1,126 @@
-import Link from "next/link";
-import { almarai, estedad } from "../layout";
+// components/Footer.jsx
+import Image from "next/image";
 import {
     FaTelegramPlane,
-    FaEnvelope,
     FaPhoneAlt,
+    FaEnvelope,
     FaInstagram,
-    FaMapMarkerAlt,
+    FaWhatsapp,
 } from "react-icons/fa";
-import { FaCircleCheck } from "react-icons/fa6";
+import { almarai, estedad } from "@/app/_fonts/fonts";
+import Logo from "./Logo";
 
-function Footer() {
-    const currentYear = new Date().getFullYear();
-
-    const contactLinks = [
+export default function Footer() {
+    const socials = [
+        { id: "telegram", icon: FaTelegramPlane, href: "#", label: "تلگرام" },
+        { id: "instagram", icon: FaInstagram, href: "#", label: "اینستاگرام" },
+        { id: "whatsapp", icon: FaWhatsapp, href: "#", label: "واتس‌اپ" },
         {
-            id: 1,
-            label: "تلگرام",
-            href: "https://t.me/",
-            icon: <FaTelegramPlane />,
+            id: "phone",
+            icon: FaPhoneAlt,
+            href: "tel:09151234567",
+            label: "تماس تلفنی",
         },
         {
-            id: 2,
+            id: "email",
+            icon: FaEnvelope,
+            href: "mailto:info@abadis.com",
             label: "ایمیل",
-            href: "mailto:info@example.com",
-            icon: <FaEnvelope />,
         },
-        { id: 3, label: "تلفن", href: "tel:09151234567", icon: <FaPhoneAlt /> },
-        {
-            id: 4,
-            label: "اینستاگرام",
-            href: "https://instagram.com/",
-            icon: <FaInstagram />,
-        },
-    ];
-
-    const usefulLinks = [
-        { id: 1, label: "ارتباط با ما", href: "/contact" },
-        { id: 2, label: "درباره ما", href: "/about" },
-        { id: 3, label: "خدمات", href: "/services" },
-        { id: 4, label: "صفحه اصلی", href: "/" },
-    ];
-
-    const otherLinks = [
-        { id: 1, label: "قوانین و مقررات", href: "/terms" },
-        { id: 2, label: "حریم خصوصی", href: "/privacy" },
-        { id: 3, label: "سوالات متداول", href: "/faq" },
-        { id: 4, label: "فرصت‌های شغلی", href: "/careers" },
     ];
 
     return (
-        <footer className="relative mt-16 md:mt-24 bg-cream-100 dark:bg-night-900 border-t border-amber-100 dark:border-cream-50/10 text-night-700 dark:text-cream-50">
-            {/* خط تزئینی بالای فوتر */}
-            <div className="h-1 w-full bg-gradient-to-r from-transparent via-night-700/20 dark:via-cream-50/20 to-transparent" />
+        <footer className="mt-16 mx-2 rounded-2xl overflow-hidden">
+            <div className="relative backdrop-blur-sm bg-cream-100/20 dark:bg-night-900/20">
+                {/* الگوی تزئینی */}
+                <div
+                    className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                    style={{
+                        backgroundImage: `radial-gradient(circle at 20% 30%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 70%, #fff 1px, transparent 1px)`,
+                        backgroundSize: "40px 40px, 40px 40px",
+                    }}
+                />
 
-            <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-8 md:px-10 lg:px-12 py-10 sm:py-12 md:py-16">
-                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
-                    {/* ===== ستون ۱: لوگو و توضیح ===== */}
-                    <div className="xs:col-span-2 sm:col-span-2 lg:col-span-1">
-                        <Link
-                            href="/"
-                            className="inline-flex items-center gap-2 group"
+                <div className="relative max-w-8xl mx-auto px-6 sm:px-8 md:px-12 py-10 sm:py-14">
+                    {/* بخش بالا: لوگو + اسم + توضیح */}
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="relative w-24 h-24 rounded-full bg-night-900/5 dark:bg-cream-50/5 border border-night-900/10 dark:border-cream-50/10 flex items-center justify-center p-3 backdrop-blur-sm">
+                            <Logo />
+                        </div>
+
+                        <h2
+                            className={`${almarai.className} text-xl sm:text-2xl md:text-3xl font-bold text-center text-night-900 dark:text-cream-50`}
                         >
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-night-700 dark:bg-cream-50 flex items-center justify-center text-cream-50 dark:text-night-950 font-bold text-base sm:text-lg transition-transform duration-500 group-hover:rotate-[10deg] group-hover:scale-110">
-                                E
-                            </div>
-                            <span
-                                className={`${almarai.className} text-lg sm:text-xl font-bold`}
-                            >
-                                ELEVATOR
-                            </span>
-                        </Link>
+                            درخشان آبادیس آسانبر
+                        </h2>
 
-                        <p className="mt-4 sm:mt-5 text-sm md:text-base leading-6 sm:leading-7 text-night-700/70 dark:text-cream-50/60 max-w-[45ch]">
-                            ما با هدف ساده‌تر کردن انتخاب و خرید آسانسور،
-                            پلتفرمی ساخته‌ایم که اطلاعات دقیق، مقایسه‌ی آسان و
-                            پشتیبانی مطمئن را در اختیار شما می‌گذارد.
+                        <p
+                            className={`${estedad.className} text-sm sm:text-base text-night-700/70 dark:text-cream-50/60 text-center max-w-md leading-7`}
+                        >
+                            همراه شما در مسیری مطمئن به سمت بالا
+                        </p>
+                    </div>
+
+                    {/* خط جداکننده */}
+                    <div className="mt-8 mb-8 h-px w-full bg-gradient-to-l from-transparent via-night-900/20 dark:via-cream-50/20 to-transparent" />
+
+                    {/* بخش پایین: شبکه‌های اجتماعی */}
+                    <div className="flex flex-col items-center gap-4">
+                        <p
+                            className={`${estedad.className} text-xs sm:text-sm text-night-700/60 dark:text-cream-50/50`}
+                        >
+                            ما را در شبکه‌های اجتماعی دنبال کنید
                         </p>
 
-                        {/* آیکون‌های شبکه‌های اجتماعی */}
-                        <div className="mt-5 sm:mt-6 flex items-center gap-3 sm:gap-4 flex-wrap">
-                            {contactLinks.map((item) => (
-                                <Link
-                                    key={item.id}
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={item.label}
-                                    className="text-night-700 dark:text-cream-50 transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:-translate-y-0.5"
-                                >
-                                    <span className="text-xl sm:text-2xl">
-                                        {item.icon}
-                                    </span>
-                                </Link>
-                            ))}
+                        <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
+                            {socials.map((s) => {
+                                const Icon = s.icon;
+                                return (
+                                    <a
+                                        key={s.id}
+                                        href={s.href}
+                                        aria-label={s.label}
+                                        target={
+                                            s.href.startsWith("http")
+                                                ? "_blank"
+                                                : undefined
+                                        }
+                                        rel={
+                                            s.href.startsWith("http")
+                                                ? "noopener noreferrer"
+                                                : undefined
+                                        }
+                                        className="w-11 h-11 rounded-full flex items-center justify-center bg-night-900/5 dark:bg-cream-50/5 border border-night-900/10 dark:border-cream-50/10 text-night-700 dark:text-cream-50/70 hover:bg-red-500 hover:text-cream-50 hover:border-red-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300"
+                                    >
+                                        <Icon size={18} />
+                                    </a>
+                                );
+                            })}
                         </div>
                     </div>
 
-                    {/* ===== ستون ۲: راه‌های ارتباطی ===== */}
-                    <div>
-                        <h3
-                            className={`${almarai.className} text-base sm:text-lg md:text-xl font-bold mb-4 sm:mb-5 relative inline-block`}
+                    {/* خط جداکننده */}
+                    <div className="mt-8 mb-6 h-px w-full bg-gradient-to-l from-transparent via-night-900/20 dark:via-cream-50/20 to-transparent" />
+
+                    {/* کپی‌رایت */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+                        <p
+                            className={`${estedad.className} text-xs sm:text-sm text-night-700/60 dark:text-cream-50/50`}
                         >
-                            راه‌های ارتباطی
-                            <span className="absolute -bottom-2 right-0 w-8 h-0.5 bg-night-700 dark:bg-cream-50 rounded-full" />
-                        </h3>
-
-                        <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
-                            {contactLinks.map((item) => (
-                                <li key={item.id}>
-                                    <a
-                                        href={item.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={`${estedad.className} group flex items-center gap-2.5 sm:gap-3 text-sm md:text-base text-night-700/70 dark:text-cream-50/60 hover:text-night-700 dark:hover:text-cream-50 transition-colors duration-300`}
-                                    >
-                                        <span className="text-night-700/50 dark:text-cream-50/40 group-hover:text-night-700 dark:group-hover:text-cream-50 group-hover:scale-110 transition-all duration-300 shrink-0">
-                                            {item.icon}
-                                        </span>
-                                        <span className="relative">
-                                            {item.label}
-                                            <span className="absolute -bottom-0.5 right-0 w-0 h-px bg-night-700 dark:bg-cream-50 transition-all duration-300 group-hover:w-full" />
-                                        </span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* ===== ستون ۳: لینک‌های مفید ===== */}
-                    <div>
-                        <h3
-                            className={`${almarai.className} text-base sm:text-lg md:text-xl font-bold mb-4 sm:mb-5 relative inline-block`}
+                            © {new Date().getFullYear()} تمامی حقوق برای{" "}
+                            <span className="text-night-900 dark:text-cream-50/80 font-medium">
+                                درخشان آبادیس آسانبر
+                            </span>{" "}
+                            محفوظ است.
+                        </p>
+                        <p
+                            className={`${estedad.className} text-xs sm:text-sm text-night-700/50 dark:text-cream-50/40`}
                         >
-                            لینک‌های مفید
-                            <span className="absolute -bottom-2 right-0 w-8 h-0.5 bg-night-700 dark:bg-cream-50 rounded-full" />
-                        </h3>
-
-                        <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
-                            {usefulLinks.map((item) => (
-                                <li key={item.id}>
-                                    <Link
-                                        href={item.href}
-                                        className={`${estedad.className} group flex items-center gap-2 text-sm md:text-base text-night-700/70 dark:text-cream-50/60 hover:text-night-700 dark:hover:text-cream-50 transition-colors duration-300`}
-                                    >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-night-700/30 dark:bg-cream-50/30 group-hover:bg-night-700 dark:group-hover:bg-cream-50 group-hover:scale-150 transition-all duration-300 shrink-0" />
-                                        <span className="relative">
-                                            {item.label}
-                                            <span className="absolute -bottom-0.5 right-0 w-0 h-px bg-night-700 dark:bg-cream-50 transition-all duration-300 group-hover:w-full" />
-                                        </span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* ===== ستون ۴: لینک‌های دیگر ===== */}
-                    <div>
-                        <h3
-                            className={`${almarai.className} text-base sm:text-lg md:text-xl font-bold mb-4 sm:mb-5 relative inline-block`}
-                        >
-                            لینک‌های دیگر
-                            <span className="absolute -bottom-2 right-0 w-8 h-0.5 bg-night-700 dark:bg-cream-50 rounded-full" />
-                        </h3>
-
-                        <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
-                            {otherLinks.map((item) => (
-                                <li key={item.id}>
-                                    <Link
-                                        href={item.href}
-                                        className={`${estedad.className} group flex items-center gap-2 text-sm md:text-base text-night-700/70 dark:text-cream-50/60 hover:text-night-700 dark:hover:text-cream-50 transition-colors duration-300`}
-                                    >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-night-700/30 dark:bg-cream-50/30 group-hover:bg-night-700 dark:group-hover:bg-cream-50 group-hover:scale-150 transition-all duration-300 shrink-0" />
-                                        <span className="relative">
-                                            {item.label}
-                                            <span className="absolute -bottom-0.5 right-0 w-0 h-px bg-night-700 dark:bg-cream-50 transition-all duration-300 group-hover:w-full" />
-                                        </span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                {/* ===== آدرس و کپی‌رایت ===== */}
-                <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-amber-100 dark:border-cream-50/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-start gap-2.5 sm:gap-3">
-                        <FaMapMarkerAlt className="w-4 h-4 text-night-700/50 dark:text-cream-50/40 mt-1 shrink-0" />
-                        <p className="text-xs sm:text-sm md:text-base text-night-700/70 dark:text-cream-50/60">
-                            مشهد، میدان صاحب‌الزمان، دفتر مرکزی
+                            طراحی و توسعه با ❤️
                         </p>
                     </div>
-
-                    <p className="text-xs sm:text-sm text-night-700/50 dark:text-cream-50/40">
-                        © {currentYear} تمام حقوق محفوظ است.
-                    </p>
                 </div>
             </div>
         </footer>
     );
 }
-
-export default Footer;

@@ -1,3 +1,6 @@
+import Image from "next/image";
+import logo from "./../public/Abadis-raw-white.png";
+
 export default function BackgroundFX() {
     return (
         <div
@@ -7,12 +10,21 @@ export default function BackgroundFX() {
             {/* گرادیان متحرک */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-200/40 via-transparent to-amber-200/40 dark:from-indigo-900/30 dark:to-amber-900/20 animate-gradient" />
 
+            <div className="logo w-56 h-56 lg:w-80 lg:h-80 2xl:w-96 2xl:h-96">
+                <Image
+                    fill
+                    alt="logo background huge fix"
+                    src={logo}
+                    className="object-cover"
+                />
+            </div>
+
             {/* حباب‌های معلق */}
             <span className="bubble bubble-1" />
-            <span className="bubble bubble-2" />
-            <span className="bubble bubble-3" />
+            <span className="bubble bubble-2 hidden md:block" />
+            <span className="bubble bubble-3 hidden md:block" />
             <span className="bubble bubble-4" />
-            <span className="bubble bubble-5" />
+            <span className="bubble bubble-5 hidden md:block" />
             <span className="bubble bubble-6" />
             <span className="bubble bubble-7" />
             <span className="bubble bubble-8" />
@@ -33,29 +45,19 @@ export default function BackgroundFX() {
             <span className="dot dot-11" />
             <span className="dot dot-12" />
 
-            {/* آیکون‌های تعمیرات و آسانسور */}
-            {/* <span className="tool tool-wrench">
-                <WrenchIcon />
-            </span> */}
-            {/* <span className="tool tool-screw">
-                <ScrewIcon />
-            </span> */}
-            {/* <span className="tool tool-arrows">
-                <ArrowsIcon />
-            </span> */}
             <span className="tool tool-gear">
                 <GearIcon />
             </span>
             <span className="tool tool-hammer">
                 <HammerIcon />
             </span>
-            <span className="tool tool-bell">
+            <span className="tool tool-bell hidden md:block">
                 <BellIcon />
             </span>
             <span className="tool tool-toolbox">
                 <ToolboxIcon />
             </span>
-            <span className="tool tool-door-1">
+            <span className="tool tool-door-1 hidden md:block">
                 <DoorIcon />
             </span>
             <span className="tool tool-door-2">
@@ -64,7 +66,7 @@ export default function BackgroundFX() {
             <span className="tool tool-door-3">
                 <DoorIcon />
             </span>
-            <span className="tool tool-ladder">
+            <span className="tool tool-ladder hidden md:block">
                 <LadderIcon />
             </span>
 

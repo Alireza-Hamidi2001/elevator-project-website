@@ -39,17 +39,19 @@ export default function Gallery({ slides }) {
                     alt={current.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 768px"
-                    className="object-cover hover:scale-105 animate-fade transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover animate-fade transition-transform duration-700 group-hover:scale-105"
                     priority={index === 0}
                 />
 
-                {/* لایه تاریک + بلور موقع هاور */}
-                <div className="absolute inset-0 bg-black/0 backdrop-blur-0 transition-all duration-500 group-hover:bg-black/60 group-hover:backdrop-blur-sm z-[1]" />
-
-                {/* متن پایین عکس، فقط موقع هاور */}
+                {/* ناحیه متن + پس‌زمینه تار فقط همون‌جا */}
                 <div
                     key={`caption-${animKey}`}
-                    className="absolute inset-x-0 bottom-0 p-6 text-white z-[2] translate-y-6 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100"
+                    className="absolute inset-x-0 bottom-0 z-[2] p-6 text-white
+                               translate-y-6 opacity-0
+                               transition-all duration-500 ease-out
+                               group-hover:translate-y-0 group-hover:opacity-100
+                               bg-black/40 backdrop-blur-md
+                               [mask-image:linear-gradient(to_top,black_70%,transparent_100%)]"
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold drop-shadow-lg">
                         {current.title}

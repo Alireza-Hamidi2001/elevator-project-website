@@ -84,7 +84,7 @@ function ContactModal({ isOpen, onClose }) {
             />
 
             {/* Modal */}
-            <div className="cm-panel relative w-full max-w-md max-h-[92dvh] overflow-y-auto rounded-3xl border border-night-700/10 dark:border-cream-50/10 bg-white dark:bg-night-800 shadow-2xl shadow-night-950/25 dark:shadow-black/60">
+            <div className="cm-panel relative w-full max-w-md max-h-[92dvh] overflow-y-auto  border border-night-700/10 dark:border-cream-50/10 bg-white dark:bg-night-800 shadow-2xl shadow-night-950/25 dark:shadow-black/60">
                 {/* دکمه بستن */}
                 <button
                     onClick={onClose}

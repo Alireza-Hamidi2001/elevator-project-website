@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import { estedad, parastoo } from "../_fonts/fonts";
+import Link from "next/link";
 
 const navigations = [
-    { id: 1, label: "صفحه اصلی", target: "home" },
+    // { id: 1, label: "صفحه اصلی", target: "home" },
     { id: 2, label: "درباره ما", target: "about" },
     { id: 3, label: "ارتباط با ما", target: "contact" },
     { id: 4, label: "خدمات", target: "services" },
@@ -16,13 +17,13 @@ function Navigation() {
         e.preventDefault();
         setActive(id);
         const elem = document.getElementById(id);
-        if (elem) {
-            elem.scrollIntoView({ behavior: "smooth" });
-        }
+        if (elem) elem.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
-        <ul className={`${parastoo.className} flex gap-2 text-[1rem]`}>
+        <ul
+            className={`${parastoo.className} hidden lg:flex gap-2 text-[1rem]`}
+        >
             {navigations.map((nav) => (
                 <li key={nav.id}>
                     <a

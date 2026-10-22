@@ -1,5 +1,5 @@
 "use client";
-import { estedad, parastoo } from "../../_fonts/fonts";
+import { almarai, estedad } from "../../_fonts/fonts";
 
 function HeroSection() {
     const handleScroll = (e, id) => {
@@ -12,9 +12,9 @@ function HeroSection() {
 
     return (
         <div className="relative h-[calc(100vh-4rem)]">
-            <div className="absolute left-[10%] top-[50%] translate-y-[-50%] text-center flex flex-col justify-center items-center px-12 py-6">
+            <div className="absolute w-full left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] text-center flex flex-col justify-center items-center px-3 py-6">
                 <h2
-                    className={`${parastoo.className} mb-4 text-center text-[5rem]`}
+                    className={`${almarai.className} mb-10 text-center text-5xl md:text-7xl`}
                 >
                     درخشان آبادیس آسانبر
                 </h2>

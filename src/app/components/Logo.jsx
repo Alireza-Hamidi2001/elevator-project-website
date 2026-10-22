@@ -1,17 +1,26 @@
+// app/components/Logo.jsx
 import Image from "next/image";
-import logo from "./../public/Abadis-raw-black.png";
+import logo_white from "./../public/Abadis-raw-white.png";
+import logo_black from "./../public/Abadis-raw-black.png";
 import Link from "next/link";
 
 function Logo() {
     return (
         <Link
             href="/"
-            className="relaative bg-white w-[4rem]"
+            className="relative w-[4rem] block"
         >
             <Image
-                alt="logo image"
-                src={logo}
-                className="p-2"
+                alt="لوگو"
+                src={logo_black}
+                className="p-2 dark:hidden"
+                priority
+            />
+            <Image
+                alt="لوگو"
+                src={logo_white}
+                className="p-2 hidden dark:block"
+                priority
             />
         </Link>
     );

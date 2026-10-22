@@ -1,4 +1,4 @@
-import { almarai } from "@/app/layout";
+import { almarai } from "@/app/_fonts/fonts";
 import UserCard from "./UserCard";
 
 export const metadata = {

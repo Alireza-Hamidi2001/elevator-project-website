@@ -1,4 +1,4 @@
-import { almarai } from "@/app/layout";
+import { almarai } from "@/app/_fonts/fonts";
 import UserActions from "./UserActions";
 import { FaVenusMars, FaIdCard, FaPhone, FaEnvelope } from "react-icons/fa";
 

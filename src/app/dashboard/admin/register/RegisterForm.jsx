@@ -3,8 +3,8 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
-import PasswordInputWithConfirm from "../../components/PasswordInputWithConfirm";
-import GenderSelect from "../../components/GenderSelect";
+import PasswordInputWithConfirm from "../../../components/PasswordInputWithConfirm";
+import GenderSelect from "../../../components/GenderSelect";
 import { registerAction } from "./actions";
 
 // دکمه جداگانه چون useFormStatus فقط داخل فرم کار می‌کنه

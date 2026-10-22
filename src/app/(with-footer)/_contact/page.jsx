@@ -39,7 +39,7 @@ function SectionHeader({ title, subtitle }) {
 function MediaCard({ image, alt, title, text, children }) {
     return (
         <article
-            className={`${CARD} flex flex-col relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group overflow-hidden flex flex-col`}
+            className={`${CARD} flex flex-col relative overflow-hidden rounded-2xl border border-night-900/15 dark:border-white/10  bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group`}
         >
             <img
                 src={image.src}
@@ -100,10 +100,10 @@ function ContactSection() {
                                 rel={
                                     external ? "noopener noreferrer" : undefined
                                 }
-                                className={`${CARD} flex items-center justify-center gap-4 relative overflow-hidden rounded-lg border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
+                                className={`${CARD} flex items-center justify-center gap-4 relative overflow-hidden rounded-lg border border-night-900/15 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500`}
                             >
                                 <span
-                                    className={` transition-colors duration-300 rounded-sm  group-hover:text-white`}
+                                    className={` transition-colors duration-300 rounded-sm dark:group-hover:text-white group-hover:text-black`}
                                 >
                                     {item.icon}
                                 </span>
@@ -112,17 +112,6 @@ function ContactSection() {
                                 >
                                     {item.title}
                                 </h3>
-                                {/* <div className="mt-2 space-y-1">
-                                    {item.values.map((value) => (
-                                        <p
-                                            key={value}
-                                            dir="ltr"
-                                            className={`text-sm sm:text-base text-right break-all ${MUTED}`}
-                                        >
-                                            {value}
-                                        </p>
-                                    ))}
-                                </div> */}
                             </a>
                         );
                     })}
@@ -168,7 +157,7 @@ function ContactSection() {
                         title="ارتباط حضوری"
                         text="اگر ترجیح می‌دهید حضوری مشاوره بگیرید و از نزدیک با محصولات ما آشنا شوید، به دفتر مرکزی ما در مشهد مراجعه کنید. کارشناسان ما در فضایی صمیمی پاسخ سوالات شما را می‌دهند."
                     >
-                        <div className="flex items-start gap-3 rounded-xl bg-red-500/5 border border-red-500/15 p-4">
+                        <div className="flex items-start gap-3 rounded-xl bg-cream-100 dark:bg-night-900/50 border border-night-900/15 dark:border-white/10 p-4">
                             <FaMapMarkerAlt
                                 aria-hidden="true"
                                 className="mt-1 h-5 w-5 shrink-0 text-red-600 dark:text-red-400"
@@ -182,7 +171,7 @@ function ContactSection() {
                                 <p
                                     className={`mt-1 text-sm sm:text-base md:text-lg ${MUTED}`}
                                 >
-                                    مشهد، میدان صاحب‌الزمان، دفتر مرکزی
+                                    مشهد، میدان صاحب‌الزمان15 ، پاساژ سرمد
                                 </p>
                             </div>
                         </div>

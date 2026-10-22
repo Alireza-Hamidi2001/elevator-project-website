@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { FaTrash, FaExclamationTriangle } from "react-icons/fa";
 import Modal from "./Modal";
-import { almarai } from "@/app/layout";
+import { almarai } from "@/app/_fonts/fonts";
 
 export default function DeleteUserModal({ isOpen, onClose, user, onDeleted }) {
     const [isPending, startTransition] = useTransition();

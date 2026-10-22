@@ -1,6 +1,6 @@
 "use client";
 
-import { almarai } from "@/app/layout";
+import { almarai } from "@/app/_fonts/fonts";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaTimes } from "react-icons/fa";

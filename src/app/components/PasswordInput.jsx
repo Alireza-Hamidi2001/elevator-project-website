@@ -18,6 +18,7 @@ function PasswordInput() {
                 رمز عبور
             </label>
             <input
+                name="password"
                 type={isShowPassword ? "text" : "password"}
                 id="password"
                 placeholder="رمز عبور خود را وارد کنید"
