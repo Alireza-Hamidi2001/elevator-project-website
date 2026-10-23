@@ -31,7 +31,7 @@ export default async function RootLayout({ children }) {
                             toastOptions={{
                                 duration: 4000,
                                 classNames: {
-                                    toast: `!rounded-sm !shadow-lg !border ${estedad.className}`,
+                                    toast: `!rounded-sm !shadow-md !border !w-auto !min-w-[300px] !max-w-[90vw] ${estedad.className}`,
                                     title: "!font-medium !text-sm",
                                     description: "!text-sm !opacity-80",
                                     success:

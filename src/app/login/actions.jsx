@@ -80,7 +80,7 @@ export async function loginAction(prevState, formData) {
         await supabase.auth.signOut();
         return {
             ok: false,
-            message: "حساب شما غیرفعال شده است.",
+            message: "حساب شما غیرفعال شده است. با پشتیبانی تماس بگیرید.",
             ts: Date.now(),
         };
     }

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import SubjectCombobox from "./SubjectCombobox";
+import SubjectCombobox from "../../../components/SubjectCombobox";
 
 export default function TicketForm() {
     const [subject, setSubject] = useState("");
@@ -31,7 +31,7 @@ export default function TicketForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 bg-white dark:bg-night-800 p-6 rounded-xl shadow-sm"
+            className="flex flex-col gap-4 bg-white dark:bg-night-800 p-6 rounded-xl border border-cream-200 dark:border-night-700"
         >
             <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-night-700 dark:text-cream-50">
@@ -43,7 +43,7 @@ export default function TicketForm() {
                 />
             </div>
 
-            <div className="flex flex-col gap-1">
+            {/* <div className="flex flex-col gap-1">
                 <label
                     htmlFor="priority"
                     className="text-sm font-medium text-night-700 dark:text-cream-50"
@@ -54,14 +54,14 @@ export default function TicketForm() {
                     id="priority"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="border border-night-700/10 dark:border-cream-50/10 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="rounded-md px-3 py-2 border border-red-400 focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="low">کم</option>
                     <option value="medium">متوسط</option>
                     <option value="high">زیاد</option>
                     <option value="urgent">فوری</option>
                 </select>
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-1">
                 <label
@@ -76,7 +76,7 @@ export default function TicketForm() {
                     onChange={(e) => setMessage(e.target.value)}
                     rows={5}
                     placeholder="مشکل یا درخواست خود را توضیح دهید..."
-                    className="border border-night-700/10 dark:border-cream-50/10 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="border border-night-700/10 dark:border-cream-50/10 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500/50 resize-none"
                 />
             </div>
 

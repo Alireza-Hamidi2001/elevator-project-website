@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "@/app/components/toast";
 import PasswordInput from "../components/PasswordInput";
 import { loginAction, debugLogin } from "./actions";
+import SpinnerMini from "../components/SpinnerMini";
 
 export default function LoginForm() {
     const [state, formAction, pending] = useActionState(loginAction, {
@@ -16,7 +17,7 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (params.get("error") === "inactive") {
-            toast.error("حساب شما غیرفعال شده است.");
+            toast.error("حساب شما غیرفعال شده است. با پشتیبانی تماس بگیرید.");
         }
     }, [params]);
 
@@ -44,7 +45,7 @@ export default function LoginForm() {
                     maxLength={11}
                     dir="ltr"
                     placeholder="09123456789"
-                    className="text-right border border-night-700/10 dark:border-cream-50/10 mb-3 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="text-right border border-night-700/10 dark:border-cream-50/10 mb-3 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
                 />
             </div>
 
@@ -55,7 +56,14 @@ export default function LoginForm() {
                 disabled={pending}
                 className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white rounded-md py-2 transition"
             >
-                {pending ? "در حال ورود..." : "ورود"}
+                {pending ? (
+                    <p className="flex items-center justify-center gap-2">
+                        <SpinnerMini />
+                        درحال ورود
+                    </p>
+                ) : (
+                    <p>ورود</p>
+                )}
             </button>
         </form>
     );

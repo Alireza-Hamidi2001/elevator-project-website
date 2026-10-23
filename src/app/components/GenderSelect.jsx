@@ -10,7 +10,7 @@ const options = [
 export default function GenderSelect({ value, onChange, error }) {
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium">جنسیت</span>
+            <span className="text-sm font-medium">&bull; جنسیت</span>
             <div className="grid grid-cols-2 gap-3">
                 {options.map((opt) => {
                     const isSelected = value === opt.value;

@@ -5,6 +5,7 @@ import Logo from "./Logo";
 import Navigation from "./Navigation";
 import MobileMenu from "./MobileMenu";
 import Theme from "./Theme";
+import { Spinner } from "./Spinner";
 
 function Header({ profile }) {
     const authSlot = profile ? <UserMenu profile={profile} /> : <LoginBtn />;
@@ -17,9 +18,7 @@ function Header({ profile }) {
                 {authSlot}
                 <Theme />
             </div>
-
             <Navigation />
-
             <Logo />
         </header>
     );

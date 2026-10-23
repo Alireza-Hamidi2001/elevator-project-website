@@ -22,7 +22,7 @@ function PasswordInput() {
                 type={isShowPassword ? "text" : "password"}
                 id="password"
                 placeholder="رمز عبور خود را وارد کنید"
-                className="border border-night-700/10 dark:border-cream-50/10 mb-4 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="border border-night-700/10 dark:border-cream-50/10 mb-4 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
             />
             {isShowPassword ? (
                 <LuEyeClosed

@@ -66,7 +66,7 @@ function AboutSection() {
         <main
             id="about"
             dir="rtl"
-            className="relative w-full mx-auto max-w-8xl pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 text-night-700 dark:text-cream-50"
+            className="relative w-full mx-auto max-w-8xl px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 text-night-700 dark:text-cream-50"
         >
             {/* ===== پس‌زمینه سراسری کل صفحه ===== */}
 
@@ -92,7 +92,7 @@ function AboutSection() {
                         src={image_1}
                         fill
                         alt=""
-                        className="object-cover rounded-2xl hover:scale-105 transition-all duration-300 -translate-x-3 -translate-y-5"
+                        className="object-cover rounded-2xl hover:scale-105 transition-all duration-300 md:-translate-x-3 md:-translate-y-5"
                     />
                 </div>
             </section>

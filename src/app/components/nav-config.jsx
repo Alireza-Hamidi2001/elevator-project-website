@@ -7,7 +7,7 @@ import { FaUserPlus } from "react-icons/fa";
 import { HiMiniUsers } from "react-icons/hi2";
 
 export const navItems = [
-    // فقط کاربر عادی
+    // فقط کاربر عادی-----------------
     {
         name: "داشبورد",
         href: "/dashboard/user",
@@ -15,42 +15,35 @@ export const navItems = [
         roles: ["user"],
         exact: true,
     },
-    // مشترک
-    {
-        name: "قوانین و مقررات",
-        href: "/dashboard/rules",
-        icon: IoDocumentTextOutline,
-        roles: ["admin", "user"],
-    },
 
     {
         name: "ثبت نظر",
-        href: "/dashboard/reviews/new",
+        href: "/dashboard/user/review/new",
         icon: LuStar,
         roles: ["user"],
         exact: true,
     },
     {
         name: "نظرات من",
-        href: "/dashboard/reviews",
+        href: "/dashboard/user/review",
         icon: LuClipboardCheck,
         roles: ["user"],
         exact: true,
     },
     {
-        name: "تیکت‌های من",
-        href: "/dashboard/tickets",
+        name: "درخواست پشتیبانی",
+        href: "/dashboard/user/tickets",
         icon: LuMessageSquare,
         roles: ["user"],
     },
     {
         name: "گزارشات من",
-        href: "/dashboard/reports",
+        href: "/dashboard/user/reports",
         icon: TbReportSearch,
         roles: ["user"],
     },
 
-    // فقط ادمین
+    //----------------- فقط ادمین -----------------
     {
         name: "داشبورد",
         href: "/dashboard/admin",
@@ -78,7 +71,7 @@ export const navItems = [
         badgeKey: "pendingReviews",
     },
     {
-        name: "تیکت‌ها",
+        name: "بررسی تیکت ها",
         href: "/dashboard/admin/tickets",
         icon: LuMessageSquare,
         roles: ["admin"],
@@ -89,5 +82,12 @@ export const navItems = [
         href: "/dashboard/admin/reports",
         icon: TbReportSearch,
         roles: ["admin"],
+    },
+    //----------------- مشترک -----------------
+    {
+        name: "قوانین و مقررات",
+        href: "/dashboard/rules",
+        icon: IoDocumentTextOutline,
+        roles: ["admin", "user"],
     },
 ];

@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function page() {
     return (
-        <div className="min-h-screen flex items-center justify-center p-4  shadow-lg bg-white dark:bg-night-800">
-            <div className="w-full max-w-lg rounded-lg overflow-hidden  text-night-700 dark:text-cream-50">
+        <div className="overflow-auto py-6 px-6 text-night-700 dark:text-cream-50 h-[calc(100vh-4rem)] bg-white dark:bg-night-900 shadow-sm">
+            <div className="w-full mx-auto max-w-lg rounded-lg overflow-hidden  text-night-700 dark:text-cream-50">
                 <RegisterForm />
             </div>
         </div>

@@ -20,7 +20,7 @@ function SubmitButton() {
             {pending ? (
                 <>
                     <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    در حال ثبت...
+                    در حال ثبت
                 </>
             ) : (
                 "ایجاد حساب کاربری"
@@ -58,10 +58,10 @@ export default function RegisterForm() {
     const errors = state.errors || {};
 
     const baseInput =
-        "border rounded-md px-3 py-2 outline-none focus:ring-2 transition-all duration-300";
+        "border rounded-md px-3 py-2 outline-none focus:ring-1 transition-all duration-300";
     const normalBorder =
-        "border-night-700/10 dark:border-cream-50/10 focus:ring-blue-500";
-    const errorBorder = "border-red-500 focus:ring-red-500";
+        "border-night-700/10 dark:border-cream-50/10 focus:ring-blue-500/50";
+    const errorBorder = "border-red-500 focus:ring-red-500/50";
 
     return (
         <form
@@ -74,7 +74,6 @@ export default function RegisterForm() {
                     برای ساخت حساب کاربری، اطلاعات زیر را کامل کنید
                 </p>
             </div>
-
             {/* نام و نام خانوادگی */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
@@ -82,7 +81,7 @@ export default function RegisterForm() {
                         htmlFor="firstName"
                         className="text-sm font-medium"
                     >
-                        نام
+                        &bull; نام
                     </label>
                     <input
                         id="firstName"
@@ -91,7 +90,7 @@ export default function RegisterForm() {
                         value={form.firstName}
                         onChange={(e) => update("firstName", e.target.value)}
                         placeholder="نام خود را وارد کنید"
-                        className={`${baseInput} ${
+                        className={`placeholder:text-[0.8rem] ${baseInput} ${
                             errors.firstName ? errorBorder : normalBorder
                         }`}
                     />
@@ -107,7 +106,7 @@ export default function RegisterForm() {
                         htmlFor="lastName"
                         className="text-sm font-medium"
                     >
-                        نام خانوادگی
+                        &bull; نام خانوادگی
                     </label>
                     <input
                         id="lastName"
@@ -116,7 +115,7 @@ export default function RegisterForm() {
                         value={form.lastName}
                         onChange={(e) => update("lastName", e.target.value)}
                         placeholder="نام خانوادگی خود را وارد کنید"
-                        className={`${baseInput} ${
+                        className={`placeholder:text-[0.8rem] ${baseInput} ${
                             errors.lastName ? errorBorder : normalBorder
                         }`}
                     />
@@ -127,7 +126,6 @@ export default function RegisterForm() {
                     )}
                 </div>
             </div>
-
             {/* جنسیت */}
             <GenderSelect
                 value={form.gender}
@@ -140,14 +138,13 @@ export default function RegisterForm() {
                 name="gender"
                 value={form.gender}
             />
-
             {/* کد ملی */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="nationalId"
                     className="text-sm font-medium"
                 >
-                    کد ملی
+                    &bull; کد ملی
                 </label>
                 <input
                     id="nationalId"
@@ -160,7 +157,7 @@ export default function RegisterForm() {
                         update("nationalId", e.target.value.replace(/\D/g, ""))
                     }
                     placeholder="۱۰ رقم بدون خط تیره"
-                    className={`${baseInput} ${
+                    className={`placeholder:text-[0.8rem] ${baseInput} ${
                         errors.nationalId ? errorBorder : normalBorder
                     }`}
                 />
@@ -170,14 +167,13 @@ export default function RegisterForm() {
                     </span>
                 )}
             </div>
-
             {/* شماره تلفن */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="phone"
                     className="text-sm font-medium"
                 >
-                    شماره تلفن
+                    &bull; شماره تلفن
                 </label>
                 <input
                     id="phone"
@@ -191,7 +187,7 @@ export default function RegisterForm() {
                     }
                     placeholder="09123456789"
                     dir="ltr"
-                    className={`text-right ${baseInput} ${
+                    className={`placeholder:text-[0.8rem] text-right ${baseInput} ${
                         errors.phone ? errorBorder : normalBorder
                     }`}
                 />
@@ -206,14 +202,14 @@ export default function RegisterForm() {
                     htmlFor="role"
                     className="text-sm font-medium"
                 >
-                    نقش
+                    &bull; نقش
                 </label>
                 <select
                     id="role"
                     name="role"
                     value={form.role}
                     onChange={(e) => update("role", e.target.value)}
-                    className={`${baseInput} ${
+                    className={`placeholder:text-[0.8rem] ${baseInput} ${
                         errors.role ? errorBorder : normalBorder
                     }`}
                 >
@@ -224,14 +220,13 @@ export default function RegisterForm() {
                     <span className="text-xs text-red-500">{errors.role}</span>
                 )}
             </div>
-
             {/* شغل / سمت */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="jobTitle"
                     className="text-sm font-medium"
                 >
-                    شغل یا سمت{" "}
+                    &bull; شغل یا سمت{" "}
                     <span className="text-xs text-night-700/50 dark:text-cream-50/50">
                         (اختیاری)
                     </span>
@@ -243,7 +238,7 @@ export default function RegisterForm() {
                     value={form.jobTitle}
                     onChange={(e) => update("jobTitle", e.target.value)}
                     placeholder="مثلاً: مدیر پروژه، تکنسین نصب"
-                    className={`${baseInput} ${
+                    className={`placeholder:text-[0.8rem] ${baseInput} ${
                         errors.jobTitle ? errorBorder : normalBorder
                     }`}
                 />
@@ -253,14 +248,13 @@ export default function RegisterForm() {
                     </span>
                 )}
             </div>
-
             {/* ایمیل (اختیاری) */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="email"
                     className="text-sm font-medium"
                 >
-                    ایمیل{" "}
+                    &bull; ایمیل{" "}
                     <span className="text-xs text-night-700/50 dark:text-cream-50/50">
                         (اختیاری)
                     </span>
@@ -273,7 +267,7 @@ export default function RegisterForm() {
                     onChange={(e) => update("email", e.target.value)}
                     placeholder="example@mail.com"
                     dir="ltr"
-                    className={`text-right ${baseInput} ${
+                    className={`placeholder:text-[0.8rem] text-right ${baseInput} ${
                         errors.email ? errorBorder : normalBorder
                     }`}
                 />
@@ -281,7 +275,6 @@ export default function RegisterForm() {
                     <span className="text-xs text-red-500">{errors.email}</span>
                 )}
             </div>
-
             {/* رمز عبور + تکرار */}
             <PasswordInputWithConfirm
                 password={form.password}
@@ -290,9 +283,7 @@ export default function RegisterForm() {
                 onConfirmChange={(v) => update("confirmPassword", v)}
                 errors={errors}
             />
-
             <SubmitButton />
-
             {/* پیام نتیجه از سرور */}
             {state.message && (
                 <p

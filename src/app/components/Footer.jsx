@@ -31,7 +31,7 @@ export default function Footer() {
 
     return (
         <footer className="mt-16 mx-2 rounded-2xl overflow-hidden">
-            <div className="relative backdrop-blur-sm bg-cream-100/20 dark:bg-night-900/20">
+            <div className="relative bg-cream-100 dark:bg-night-900 border border-night-700/10 dark:border-cream-50/10">
                 {/* الگوی تزئینی */}
                 <div
                     className="absolute inset-0 opacity-[0.03] pointer-events-none"

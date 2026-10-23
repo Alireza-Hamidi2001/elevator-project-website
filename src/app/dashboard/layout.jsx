@@ -4,6 +4,7 @@ import SideNavigation from "@/app/components/SideNavigation";
 import WelcomeToast from "@/app/components/WelcomeToast";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import HeaderDashboard from "../components/HeaderDashboard";
 
 export default async function DashboardLayout({ children }) {
     const supabase = await createClient();
@@ -54,7 +55,10 @@ export default async function DashboardLayout({ children }) {
                 role={profile.role}
                 badges={badges}
             />
-            <main className="flex-1">{children}</main>
+            <div className="flex flex-col flex-1 min-w-0">
+                <HeaderDashboard />
+                <main className="flex-1 pb-20 md:pb-0">{children}</main>
+            </div>
         </div>
     );
 }

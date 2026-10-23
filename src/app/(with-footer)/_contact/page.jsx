@@ -182,7 +182,7 @@ function ContactSection() {
             {/* ===== CTA ===== */}
             <section className={SECTION}>
                 <div
-                    className={`${CARD} relative overflow-hidden rounded-2xl border border-white/30 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6`}
+                    className={`${CARD} relative overflow-hidden rounded-2xl border border-night-700/10 dark:border-cream-50/10 bg-white/40 dark:bg-white/5 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/60 dark:hover:bg-white/10 group p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6`}
                 >
                     <div>
                         <h2

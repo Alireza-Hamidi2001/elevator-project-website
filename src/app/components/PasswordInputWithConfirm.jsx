@@ -17,10 +17,10 @@ export default function PasswordInputWithConfirm({
     const mismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
     const baseInput =
-        "w-full border rounded-md px-3 py-2 pl-10 outline-none focus:ring-2 transition-all duration-300";
+        "w-full border rounded-md px-3 py-2 pl-10 outline-none focus:ring-1 transition-all duration-300";
     const normalBorder =
-        "border-night-700/10 dark:border-cream-50/10 focus:ring-blue-500";
-    const errorBorder = "border-red-500 focus:ring-red-500";
+        "border-night-700/10 dark:border-cream-50/10 focus:ring-blue-500/50";
+    const errorBorder = "border-red-500 focus:ring-red-500/50";
 
     return (
         <div className="flex flex-col gap-4">
@@ -30,7 +30,7 @@ export default function PasswordInputWithConfirm({
                     htmlFor="password"
                     className="text-sm font-medium"
                 >
-                    رمز عبور
+                    &bull; رمز عبور
                 </label>
                 <div className="relative">
                     <input
@@ -39,7 +39,7 @@ export default function PasswordInputWithConfirm({
                         value={password}
                         onChange={(e) => onPasswordChange(e.target.value)}
                         placeholder="حداقل ۸ کاراکتر"
-                        className={`${baseInput} ${
+                        className={`placeholder:text-[0.8rem] ${baseInput} ${
                             errors.password ? errorBorder : normalBorder
                         }`}
                     />
@@ -65,7 +65,7 @@ export default function PasswordInputWithConfirm({
                     htmlFor="confirmPassword"
                     className="text-sm font-medium"
                 >
-                    تکرار رمز عبور
+                    &bull; تکرار رمز عبور
                 </label>
                 <div className="relative">
                     <input
@@ -74,7 +74,7 @@ export default function PasswordInputWithConfirm({
                         value={confirmPassword}
                         onChange={(e) => onConfirmChange(e.target.value)}
                         placeholder="رمز عبور را دوباره وارد کنید"
-                        className={`${baseInput} ${
+                        className={`placeholder:text-[0.8rem] ${baseInput} ${
                             errors.confirmPassword || mismatch
                                 ? errorBorder
                                 : normalBorder
