@@ -1,6 +1,7 @@
 // app/dashboard/admin/users/UserList.jsx
 import { createClient } from "@/lib/supabase/server";
 import UserStatusToggle from "./UserStatusToggle";
+import ViewUserButton from "./ViewUserButton";
 import Pagination from "./Pagination";
 import PersianNumber from "@/app/components/PersianNumber";
 
@@ -10,13 +11,11 @@ export default async function UserList({ searchParams }) {
         data: { user: currentUser },
     } = await supabase.auth.getUser();
 
-    // تنظیمات Pagination
     const page = Number(searchParams?.page) || 1;
     const limit = 10;
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
-    // دریافت دیتا با شمارش کل
     const {
         data: users,
         count,
@@ -70,8 +69,23 @@ export default async function UserList({ searchParams }) {
                                 className="hover:bg-cream-50 dark:hover:bg-night-800/50 transition-colors"
                             >
                                 <td className="px-4 py-3">
-                                    <div className="font-medium text-night-900 dark:text-cream-50">
-                                        {user.first_name} {user.last_name}
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 overflow-hidden shrink-0">
+                                            {user.avatar_url ? (
+                                                <img
+                                                    src={user.avatar_url}
+                                                    alt={user.first_name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <span className="font-bold text-xs">
+                                                    {user.first_name?.charAt(0)}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="font-medium text-night-900 dark:text-cream-50">
+                                            {user.first_name} {user.last_name}
+                                        </span>
                                     </div>
                                 </td>
                                 <td
@@ -115,13 +129,16 @@ export default async function UserList({ searchParams }) {
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 text-center">
-                                    <UserStatusToggle
-                                        userId={user.id}
-                                        isActive={user.is_active}
-                                        isCurrentUser={
-                                            user.id === currentUser?.id
-                                        }
-                                    />
+                                    <div className="flex flex-col gap-2 items-center justify-center">
+                                        <ViewUserButton userId={user.id} />
+                                        <UserStatusToggle
+                                            userId={user.id}
+                                            isActive={user.is_active}
+                                            isCurrentUser={
+                                                user.id === currentUser?.id
+                                            }
+                                        />
+                                    </div>
                                 </td>
                             </tr>
                         ))}
