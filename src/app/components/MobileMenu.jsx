@@ -6,7 +6,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { estedad } from "../_fonts/fonts";
 
 const navigations = [
-    // { id: 1, label: "صفحه اصلی", target: "home" },
     { id: 2, label: "درباره ما", target: "about" },
     { id: 3, label: "ارتباط با ما", target: "contact" },
     { id: 4, label: "خدمات", target: "services" },

@@ -10,7 +10,6 @@ export default function TicketFilter() {
     const statuses = [
         { value: "all", label: "همه تیکت‌ها" },
         { value: "open", label: "باز" },
-        { value: "in_progress", label: "در حال بررسی" },
         { value: "closed", label: "بسته‌شده" },
     ];
 

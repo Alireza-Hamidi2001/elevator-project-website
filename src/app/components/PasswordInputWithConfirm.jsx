@@ -28,7 +28,7 @@ export default function PasswordInputWithConfirm({
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="password"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; رمز عبور
                 </label>
@@ -64,7 +64,7 @@ export default function PasswordInputWithConfirm({
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="confirmPassword"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; تکرار رمز عبور
                 </label>

@@ -89,7 +89,7 @@ export default function EditProfileForm({ initialData }) {
             className="flex flex-col gap-6"
         >
             {/* آواتار */}
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center my-4 gap-3">
                 <div
                     className={`${estedad.className} relative w-24 h-24 rounded-full border border-night-700/10 dark:border-cream-50/10 bg-cream-50 dark:bg-night-800 flex items-center justify-center overflow-hidden group cursor-pointer`}
                     onClick={() => fileInputRef.current?.click()}
@@ -144,7 +144,7 @@ export default function EditProfileForm({ initialData }) {
                         value={form.firstName}
                         onChange={(e) => update("firstName", e.target.value)}
                         placeholder="نام خود را وارد کنید"
-                        className={`placeholder:text-[0.8rem] ${baseInput} ${
+                        className={`text-[0.9rem] placeholder:text-[0.8rem] ${baseInput} ${
                             errors.firstName ? errorBorder : normalBorder
                         }`}
                     />
@@ -164,7 +164,7 @@ export default function EditProfileForm({ initialData }) {
                         value={form.lastName}
                         onChange={(e) => update("lastName", e.target.value)}
                         placeholder="نام خانوادگی خود را وارد کنید"
-                        className={`placeholder:text-[0.8rem] ${baseInput} ${
+                        className={`text-[0.9rem] placeholder:text-[0.8rem] ${baseInput} ${
                             errors.lastName ? errorBorder : normalBorder
                         }`}
                     />
@@ -201,7 +201,7 @@ export default function EditProfileForm({ initialData }) {
                         update("nationalId", e.target.value.replace(/\D/g, ""))
                     }
                     placeholder="۱۰ رقم بدون خط تیره"
-                    className={`placeholder:text-[0.8rem] ${baseInput} ${
+                    className={`text-[0.9rem] placeholder:text-[0.8rem] ${baseInput} ${
                         errors.nationalId ? errorBorder : normalBorder
                     }`}
                 />
@@ -223,7 +223,7 @@ export default function EditProfileForm({ initialData }) {
                     value={form.phone}
                     disabled
                     dir="ltr"
-                    className={`placeholder:text-[0.8rem] text-right opacity-40 cursor-not-allowed ${baseInput} ${normalBorder}`}
+                    className={`text-[0.9rem] placeholder:text-[0.8rem] text-right opacity-40 cursor-not-allowed ${baseInput} ${normalBorder}`}
                 />
                 <input
                     type="hidden"
@@ -244,7 +244,7 @@ export default function EditProfileForm({ initialData }) {
                     value={form.jobTitle}
                     onChange={(e) => update("jobTitle", e.target.value)}
                     placeholder="مثلاً: تکنسین نصب"
-                    className={`placeholder:text-[0.8rem] ${baseInput} ${
+                    className={`text-[0.9rem] placeholder:text-[0.8rem] ${baseInput} ${
                         errors.jobTitle ? errorBorder : normalBorder
                     }`}
                 />
@@ -263,7 +263,7 @@ export default function EditProfileForm({ initialData }) {
                     onChange={(e) => update("email", e.target.value)}
                     placeholder="example@mail.com"
                     dir="ltr"
-                    className={`placeholder:text-[0.8rem] text-right ${baseInput} ${
+                    className={`text-[0.9rem] placeholder:text-[0.8rem] text-right ${baseInput} ${
                         errors.email ? errorBorder : normalBorder
                     }`}
                 />
@@ -281,7 +281,7 @@ export default function EditProfileForm({ initialData }) {
                     onChange={(e) => update("address", e.target.value)}
                     placeholder="آدرس خود را وارد کنید"
                     rows={3}
-                    className={`resize-none placeholder:text-[0.8rem] ${baseInput} ${
+                    className={`text-[0.9rem] resize-none placeholder:text-[0.8rem] ${baseInput} ${
                         errors.address ? errorBorder : normalBorder
                     }`}
                 />

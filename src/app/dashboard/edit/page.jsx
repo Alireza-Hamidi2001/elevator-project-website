@@ -2,6 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import EditProfileForm from "./EditProfileForm";
+import { almarai } from "@/app/_fonts/fonts";
 
 export const metadata = { title: "ویرایش پروفایل" };
 
@@ -32,10 +33,14 @@ export default async function EditProfilePage() {
         <div className="overflow-auto py-6 px-4 sm:px-6 text-night-700 dark:text-cream-50 min-h-[calc(100vh-4rem)] bg-white dark:bg-night-900 shadow-sm">
             <div className="w-full mx-auto max-w-2xl rounded-lg overflow-hidden text-night-700 dark:text-cream-50">
                 <div className="p-6 md:p-8">
-                    <div className="text-center mb-6">
-                        <h1 className="text-2xl font-bold">ویرایش اطلاعات</h1>
-                        <p className="mt-2 text-sm text-night-700/60 dark:text-cream-50/60">
-                            اطلاعات حساب کاربری خود را به‌روزرسانی کنید.
+                    <div>
+                        <h1
+                            className={`${almarai.className} text-xl sm:text-2xl font-bold text-night-900 dark:text-cream-50`}
+                        >
+                           ویرایش
+                        </h1>
+                        <p className="mt-1 text-sm text-night-700/60 dark:text-cream-50/60">
+                           اطلاعات کاربری خود را بروز کنید 
                         </p>
                     </div>
 

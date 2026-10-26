@@ -7,6 +7,7 @@ import GenderSelect from "../../../components/GenderSelect";
 import { registerAction } from "./actions";
 import CustomSelect from "@/app/components/CustomSelect";
 import { toast } from "@/app/components/toast"; // toast اضافه شد
+import { almarai } from "@/app/_fonts/fonts";
 
 // دکمه جداگانه چون useFormStatus فقط داخل فرم کار می‌کنه
 function SubmitButton() {
@@ -16,7 +17,7 @@ function SubmitButton() {
         <button
             type="submit"
             disabled={pending}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/60 disabled:cursor-not-allowed text-white rounded-md py-2.5 mt-2 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/60 disabled:cursor-not-allowed text-white rounded-md py-2.5 mt-2 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 text-[1.2rem] sm:text-[1.4rem]"
         >
             {pending ? (
                 <>
@@ -83,10 +84,14 @@ export default function RegisterForm() {
             action={formAction}
             className="flex flex-col gap-4 p-6 md:p-8"
         >
-            <div className="text-center mb-2">
-                <h1 className="text-2xl font-bold">ثبت‌نام</h1>
-                <p className="mt-2 text-sm text-night-700/60 dark:text-cream-50/60">
-                    برای ساخت حساب کاربری، اطلاعات زیر را کامل کنید
+            <div>
+                <h1
+                    className={`${almarai.className} text-xl sm:text-2xl font-bold text-night-900 dark:text-cream-50`}
+                >
+                    ثبت نام
+                </h1>
+                <p className="mt-1 text-sm text-night-700/60 dark:text-cream-50/60">
+                    برای ساخت حساب کاربری جدید اطلاعات فرم زیر را تکمیل نمایید.
                 </p>
             </div>
 
@@ -95,7 +100,7 @@ export default function RegisterForm() {
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="firstName"
-                        className="text-sm font-medium"
+                        className="text-[1rem] font-medium"
                     >
                         &bull; نام
                     </label>
@@ -120,7 +125,7 @@ export default function RegisterForm() {
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="lastName"
-                        className="text-sm font-medium"
+                        className="text-[1rem] font-medium"
                     >
                         &bull; نام خانوادگی
                     </label>
@@ -159,7 +164,7 @@ export default function RegisterForm() {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="nationalId"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; کد ملی
                 </label>
@@ -189,7 +194,7 @@ export default function RegisterForm() {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="phone"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; شماره تلفن
                 </label>
@@ -216,7 +221,7 @@ export default function RegisterForm() {
 
             {/* نقش */}
             <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">&bull; نقش</label>
+                <label className="text-[1rem] font-medium">&bull; نقش</label>
                 <CustomSelect
                     name="role"
                     value={form.role}
@@ -237,7 +242,7 @@ export default function RegisterForm() {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="jobTitle"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; شغل یا سمت{" "}
                     <span className="text-xs text-night-700/50 dark:text-cream-50/50">
@@ -266,7 +271,7 @@ export default function RegisterForm() {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="email"
-                    className="text-sm font-medium"
+                    className="text-[1rem] font-medium"
                 >
                     &bull; ایمیل{" "}
                     <span className="text-xs text-night-700/50 dark:text-cream-50/50">

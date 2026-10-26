@@ -26,8 +26,8 @@ function UpBtn() {
             <button
                 onClick={() => setIsModalOpen(true)}
                 aria-label="ارتباط با ما"
-                className="fixed z-30 bottom-[4.5rem] right-4 md:bottom-[5.5rem] md:right-6
-                    w-12 h-12 rounded-full
+                className="fixed z-30 bottom-[7.5rem] md:bottom-[4.5rem] right-4 md:right-6
+                    sm:w-12 w-15 sm:h-12 h-15 rounded-full
                     flex items-center justify-center
                     bg-red-500 dark:bg-red-400
                     text-cream-50 dark:text-night-950
@@ -37,7 +37,7 @@ function UpBtn() {
                     hover:bg-red-600 dark:hover:bg-red-300 cursor-pointer
                     focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
             >
-                <FaHeadset className="text-xl" />
+                <FaHeadset className="text-3xl sm:text-xl" />
             </button>
 
             {/* دکمه بازگشت به بالا */}

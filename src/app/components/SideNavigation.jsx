@@ -60,21 +60,31 @@ function SideNavigation({ role, badges = {} }) {
 
                 <ul className="flex flex-col gap-1 text-[1rem]">
                     {links.map((item) => {
-                        const Icon = item.icon;
+                        const active = isActive(item);
+                        const Icon = active
+                            ? item.iconActive || item.icon
+                            : item.icon;
                         const count = item.badgeKey
                             ? badges[item.badgeKey] ?? 0
                             : 0;
+
                         return (
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className={`px-4 py-2 rounded-sm hover:text-night-700 dark:hover:text-cream-50 hover:bg-night-700/5 dark:hover:bg-cream-50/5 transition-colors flex items-center gap-2 ${
-                                        isActive(item)
-                                            ? "text-cream-50 dark:text-night-700 bg-night-700 dark:bg-cream-50 hover:bg-night-800 hover:dark:bg-cream-100 hover:text-white dark:hover:text-night-700"
-                                            : "text-night-700/70 dark:text-cream-50/50"
+                                    className={`px-4 py-2 rounded-sm transition-colors flex items-center gap-2 ${
+                                        active
+                                            ? "text-cream-50 dark:text-night-700 bg-night-700 dark:bg-cream-50 hover:bg-night-800 hover:dark:bg-cream-100"
+                                            : "text-night-700/70 dark:text-cream-50/50 hover:text-night-700 dark:hover:text-cream-50 hover:bg-night-700/5 dark:hover:bg-cream-50/5"
                                     }`}
                                 >
-                                    <Icon className="h-5 w-5 text-primary-600" />
+                                    <Icon
+                                        className={`h-5 w-5 ${
+                                            active
+                                                ? "text-current"
+                                                : "text-primary-600"
+                                        }`}
+                                    />
                                     <span>{item.name}</span>
                                     {count > 0 && (
                                         <span className="mr-auto min-w-5 h-5 px-1.5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
@@ -95,7 +105,7 @@ function SideNavigation({ role, badges = {} }) {
 
             {/* ── نوار پایین موبایل/تبلت ───────────────── */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-0 pointer-events-none">
-                <div className="relative bg-blue-500 dark:bg-blue-600 rounded-[2rem] shadow-[0_8px_30px_rgba(59,130,246,0.3)] pointer-events-auto">
+                <div className="relative bg-blue-300 dark:bg-blue-500 rounded-sm shadow-[0_8px_30px_rgba(59,130,246,0.3)] pointer-events-auto">
                     <div
                         ref={navContainerRef}
                         className="relative flex items-center justify-around px-2 h-16"
@@ -109,13 +119,15 @@ function SideNavigation({ role, badges = {} }) {
                                 opacity: bubbleStyle.opacity,
                             }}
                         >
-                            <div className="w-12 h-12 bg-blue-500 dark:bg-blue-600 rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-blue-500 dark:bg-blue-700 rounded-full flex items-center justify-center">
                                 {activeIndex !== -1 &&
                                     (() => {
+                                        // استفاده از iconActive در حباب
                                         const ActiveIcon =
+                                            links[activeIndex].iconActive ||
                                             links[activeIndex].icon;
                                         return (
-                                            <ActiveIcon className="w-6 h-6 text-white" />
+                                            <ActiveIcon className="w-7 h-7 text-white" />
                                         );
                                     })()}
                             </div>
@@ -123,8 +135,9 @@ function SideNavigation({ role, badges = {} }) {
 
                         {/* ── آیتم‌های منو ── */}
                         {links.map((item, index) => {
-                            const Icon = item.icon;
                             const active = isActive(item);
+                            // در موبایل آیکون فعال توی حباب نشون داده میشه، پس برای بقیه از icon استفاده میکنیم
+                            const Icon = item.icon;
                             const count = item.badgeKey
                                 ? badges[item.badgeKey] ?? 0
                                 : 0;
@@ -137,10 +150,10 @@ function SideNavigation({ role, badges = {} }) {
                                 >
                                     <Link
                                         href={item.href}
-                                        className="relative z-10 w-full h-full flex items-center justify-center text-blue-100/80 hover:text-white transition-colors duration-300"
+                                        className="relative z-10 w-full h-full flex items-center justify-center text-white hover:text-white transition-colors duration-300"
                                         aria-label={item.name}
                                     >
-                                        {/* آیکون‌های غیرفعال (وقتی فعاله، آیکونش توی حباب نمایش داده میشه) */}
+                                        {/* آیکون‌های غیرفعال */}
                                         {!active && (
                                             <div className="relative">
                                                 <Icon className="w-6 h-6 transition-transform duration-300 hover:scale-110" />
@@ -160,7 +173,7 @@ function SideNavigation({ role, badges = {} }) {
 
                                         {/* نشانگر ریز (نقطه) زیر آیتم فعال */}
                                         <span
-                                            className={`absolute bottom-1.5 w-1.5 h-1.5 rounded-full bg-white transition-all duration-300 ${
+                                            className={`absolute bottom-1.5 w-2 h-2 rounded-full bg-white transition-all duration-300 ${
                                                 active
                                                     ? "opacity-100 scale-100"
                                                     : "opacity-0 scale-0"

@@ -7,9 +7,11 @@ import { LuX, LuSend } from "react-icons/lu";
 import { replyToTicketAction } from "./actions";
 import { toast } from "@/app/components/toast";
 import SpinnerMini from "@/app/components/SpinnerMini";
+import { useRouter } from "next/navigation";
 
 export default function ReplyModal({ ticket, open, onClose }) {
     const [message, setMessage] = useState("");
+    const router = useRouter();
 
     const [state, formAction, pending] = useActionState(replyToTicketAction, {
         ok: null,
@@ -21,13 +23,13 @@ export default function ReplyModal({ ticket, open, onClose }) {
         if (state.message && state.ts) {
             if (state.ok) {
                 toast.success(state.message);
-                // setMessage("");  👈 این خط حذف شد
                 onClose();
+                router.refresh(); // آپدیت فوری لیست تیکت‌ها
             } else {
                 toast.error(state.message);
             }
         }
-    }, [state.ts, state.ok, state.message, onClose]);
+    }, [state.ts, state.ok, state.message, onClose, router]);
 
     if (!open) return null;
 

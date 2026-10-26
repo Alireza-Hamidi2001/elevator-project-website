@@ -21,6 +21,7 @@
     --color-cream-50: #fdfbf7;
     --color-cream-100: #ffffe5;
     --color-cream-200: #fff0cc;
+    --color-cream-300: #fcebc2;
 
     /* ------------------------------- Dark Mode ------------------------------- */
     --color-night-950: #000;
@@ -175,10 +176,10 @@ body {
 .logo {
     position: absolute;
     top: 50%;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     backdrop-filter: blur(2px);
-    opacity: 0.06   ;
+    opacity: 0.06;
     /* animation: floatBubble 30s ease-in-out infinite; */
 }
 
@@ -241,6 +242,7 @@ body {
     right: 50%;
     animation-duration: 7s;
     animation-delay: -2s;
+    color: #c6b180;
 }
 
 @keyframes floatBubble {
@@ -468,5 +470,35 @@ body {
     .tool,
     .tool-gear svg {
         animation: none !important;
+    }
+}
+
+.shakingHand {
+    animation: wave;
+}
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(14deg);
+    }
+    20% {
+        transform: rotate(-8deg);
+    }
+    30% {
+        transform: rotate(14deg);
+    }
+    40% {
+        transform: rotate(-4deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
     }
 }

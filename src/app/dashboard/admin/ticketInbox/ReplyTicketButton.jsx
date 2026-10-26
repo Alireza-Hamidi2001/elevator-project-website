@@ -1,8 +1,9 @@
+// app/dashboard/admin/ticketInbox/ReplyTicketButton.jsx
 "use client";
 
 import { useState } from "react";
+import { IoArrowUndo } from "react-icons/io5";
 import ReplyModal from "./ReplyModal";
-import { LuReply } from "react-icons/lu";
 
 export default function ReplyTicketButton({ ticket }) {
     const [open, setOpen] = useState(false);
@@ -11,9 +12,9 @@ export default function ReplyTicketButton({ ticket }) {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition"
+                className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 dark:bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-700 cursor-pointer text-white rounded-sm text-xs font-medium transition"
             >
-                <LuReply className="w-3 h-3" /> پاسخ
+                <IoArrowUndo className="w-3 h-3" /> پاسخ
             </button>
             <ReplyModal
                 ticket={ticket}

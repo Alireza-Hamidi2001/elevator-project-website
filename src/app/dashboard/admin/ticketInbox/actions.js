@@ -21,7 +21,9 @@ export async function replyToTicketAction(prevState, formData) {
         data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) return { ok: false, message: "دسترسی غیرمجاز.", ts: Date.now() };
+    if (!user) {
+        return { ok: false, message: "دسترسی غیرمجاز.", ts: Date.now() };
+    }
 
     // ۱. ثبت پیام در جدول ticket_messages
     const { error: msgError } = await supabase.from("ticket_messages").insert({
