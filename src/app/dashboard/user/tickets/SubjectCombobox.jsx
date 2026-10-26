@@ -5,20 +5,21 @@ import { useState, useRef, useEffect } from "react";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
 import { estedad } from "@/app/_fonts/fonts";
 
+// دیکشنری موضوعات: value برای دیتابیس، label برای نمایش
 const SUBJECTS = [
-    "مشکل فنی",
-    "سوال درباره سفارش",
-    "درخواست مرجوعی",
-    "پیگیری ارسال",
-    "مشکل پرداخت",
-    "انتقاد و پیشنهاد",
+    { value: "technical", label: "فنی و خرابی" },
+    { value: "financial", label: "مالی و صورتحساب" },
+    { value: "periodic", label: "سرویس دوره ای" },
+    { value: "other", label: "سایر" },
 ];
 
 export default function SubjectCombobox({ name, value, onChange, error }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // بستن دراپ‌داون وقتی بیرون کلیک شد
+    // پیدا کردن لیبل انتخاب شده برای نمایش
+    const selectedOption = SUBJECTS.find((opt) => opt.value === value);
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -38,7 +39,7 @@ export default function SubjectCombobox({ name, value, onChange, error }) {
             ref={dropdownRef}
             className={`relative ${estedad.className}`}
         >
-            {/* اینپوت مخفی برای ارسال به سرور (اگر name پاس داده شود) */}
+            {/* اینپوت مخفی برای ارسال به سرور (مقدار انگلیسی) */}
             {name && (
                 <input
                     type="hidden"
@@ -67,10 +68,14 @@ export default function SubjectCombobox({ name, value, onChange, error }) {
             >
                 <span
                     className={
-                        value ? "" : "text-night-700/40 dark:text-cream-50/40"
+                        selectedOption
+                            ? ""
+                            : "text-night-700/40 dark:text-cream-50/40"
                     }
                 >
-                    {value || "موضوع را انتخاب کنید..."}
+                    {selectedOption
+                        ? selectedOption.label
+                        : "موضوع را انتخاب کنید..."}
                 </span>
                 <FaChevronDown
                     className={`w-3 h-3 transition-transform duration-300 ${
@@ -93,23 +98,23 @@ export default function SubjectCombobox({ name, value, onChange, error }) {
             >
                 <ul className="max-h-60 overflow-y-auto py-1">
                     {SUBJECTS.map((subject) => (
-                        <li key={subject}>
+                        <li key={subject.value}>
                             <button
                                 type="button"
                                 onClick={() => {
-                                    onChange(subject);
+                                    onChange(subject.value); // مقدار انگلیسی رو می‌فرستیم
                                     setIsOpen(false);
                                 }}
                                 className={`w-full flex items-center justify-between px-3 py-2.5 text-sm text-right transition-colors duration-150
                                     ${
-                                        value === subject
+                                        value === subject.value
                                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium"
                                             : "text-night-700 dark:text-cream-50 hover:bg-cream-100 dark:hover:bg-night-700"
                                     }
                                 `}
                             >
-                                {subject}
-                                {value === subject && (
+                                {subject.label}
+                                {value === subject.value && (
                                     <FaCheck className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                                 )}
                             </button>

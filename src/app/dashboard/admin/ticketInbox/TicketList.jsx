@@ -7,12 +7,9 @@ import {
     FaCheckCircle,
     FaRegCircle,
     FaUserShield,
-    FaEnvelopeOpenText,
 } from "react-icons/fa";
 import ReplyTicketButton from "./ReplyTicketButton";
 import Pagination from "../reviews/Pagination";
-import { BiSolidMessageRounded } from "react-icons/bi";
-import { HiMiniCalendarDateRange } from "react-icons/hi2";
 
 // تاریخ
 function formatDate(dateString) {
@@ -49,6 +46,7 @@ export default async function TicketList({ searchParams }) {
     } = await supabase.auth.getUser();
 
     const statusFilter = searchParams?.status || "all";
+    const categoryFilter = searchParams?.category || "all"; // 👈 اضافه شد
     const page = Number(searchParams?.page) || 1;
     const limit = 5;
     const from = (page - 1) * limit;
@@ -72,7 +70,11 @@ export default async function TicketList({ searchParams }) {
         .order("created_at", { ascending: false })
         .range(from, to);
 
+    // اعمال فیلتر وضعیت
     if (statusFilter !== "all") query = query.eq("status", statusFilter);
+
+    // اعمال فیلتر دسته‌بندی (موضوع)
+    if (categoryFilter !== "all") query = query.eq("category", categoryFilter);
 
     const { data: tickets, count, error } = await query;
 
@@ -111,18 +113,15 @@ export default async function TicketList({ searchParams }) {
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
-                                        <span className="text-sm">
+                                        <span className="font-bold text-sm">
                                             {initial}
                                         </span>
                                     )}
                                 </div>
                                 <div>
-                                    <p className="text-[1.2rem] text-night-900 dark:text-cream-50">
+                                    <p className="text-[1.1rem] text-night-900 dark:text-cream-50">
                                         {senderName}
                                     </p>
-                                    {/* <p className="text-xs text-night-700/60 dark:text-cream-50/60">
-                                        {formatDate(ticket.created_at)}
-                                    </p> */}
                                 </div>
                             </div>
                             <span
@@ -132,8 +131,14 @@ export default async function TicketList({ searchParams }) {
                             </span>
                         </div>
 
-                        {/* موضوع */}
+                        {/* موضوع و مکالمه */}
                         <div>
+                            <h3
+                                className={`${almarai.className} text-base font-bold text-night-900 dark:text-cream-50 mb-3`}
+                            >
+                                {ticket.subject}
+                            </h3>
+
                             {/* مکالمه (Thread) */}
                             <div className="flex flex-col gap-3">
                                 {messages.map((msg) => {
@@ -152,8 +157,8 @@ export default async function TicketList({ searchParams }) {
                                             <span className="text-[0.8rem] text-night-700/50 dark:text-cream-50/50 flex items-center gap-1">
                                                 {isAdminMessage ? (
                                                     <>
-                                                        <FaUserShield /> شما
-                                                        (مدیر)
+                                                        <FaUserShield className="text-blue-500" />{" "}
+                                                        شما (مدیر)
                                                     </>
                                                 ) : (
                                                     <>
@@ -166,35 +171,15 @@ export default async function TicketList({ searchParams }) {
                                             <div
                                                 className={`p-3 rounded-2xl text-sm leading-7 whitespace-pre-wrap ${
                                                     isAdminMessage
-                                                        ? "bg-cream-300 text-white rounded-tl-sm"
+                                                        ? "bg-blue-600 text-white rounded-tl-sm"
                                                         : "bg-white dark:bg-night-700 border border-night-700/10 dark:border-cream-50/10 rounded-tr-sm text-night-800 dark:text-cream-100"
                                                 }`}
                                             >
-                                                <h3
-                                                    className={`flex items-center gap-2 text-[0.8rem] text-night-700/70 dark:text-cream-50/50 ${
-                                                        isAdminMessage
-                                                            ? "text-gray-300 dark:text-gray-500"
-                                                            : "text-night-700/70 dark:text-cream-50/50"
-                                                    }`}
-                                                >
-                                                    <FaEnvelopeOpenText />
-                                                    {ticket.subject}
-                                                </h3>
-                                                <p
-                                                    className={`flex items-center gap-2 text-[0.9rem] ${
-                                                        isAdminMessage
-                                                            ? "text-gray-600 dark:text-gray-700"
-                                                            : "text-gray-400 dark:text-gray-100"
-                                                    }`}
-                                                >
-                                                    <BiSolidMessageRounded />
-                                                    {msg.body}
-                                                </p>
+                                                {msg.body}
                                             </div>
 
                                             {/* زمان ارسال */}
-                                            <span className="flex items-center gap-2 text-[0.8rem] text-night-700/50 dark:text-cream-50/50">
-                                                <HiMiniCalendarDateRange />
+                                            <span className="text-[0.8rem] text-night-700/40 dark:text-cream-50/40">
                                                 {formatDate(msg.created_at)}
                                             </span>
                                         </div>
@@ -226,7 +211,7 @@ export default async function TicketList({ searchParams }) {
 
             {(!tickets || tickets.length === 0) && (
                 <div className="p-12 text-center text-night-700/70 dark:text-cream-50/50 bg-cream-50 dark:bg-night-800 rounded-sm border border-cream-200 dark:border-night-700">
-                    هیچ تیکتی با این وضعیت یافت نشد.
+                    هیچ تیکتی با این فیلتر یافت نشد.
                 </div>
             )}
 

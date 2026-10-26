@@ -1,13 +1,24 @@
 // components/nav-config.jsx
 import { BiMessage, BiSolidMessage } from "react-icons/bi";
-import { FaClipboardCheck, FaRegStar, FaStar, FaUserPlus } from "react-icons/fa";
+import { BsSearch } from "react-icons/bs";
+import {
+    FaClipboardCheck,
+    FaRegStar,
+    FaStar,
+    FaUserPlus,
+} from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { HiOutlineUsers, HiUsers } from "react-icons/hi2";
 import { IoDocument, IoDocumentOutline } from "react-icons/io5";
 import { LuClipboardCheck } from "react-icons/lu";
 import { RiHeadphoneFill, RiHeadphoneLine } from "react-icons/ri";
-import { TbEdit, TbEditFilled, TbReportAnalytics, TbReportAnalyticsFilled } from "react-icons/tb";
+import {
+    TbEdit,
+    TbEditFilled,
+    TbReportAnalytics,
+    TbReportAnalyticsFilled,
+} from "react-icons/tb";
 
 export const navItems = [
     // فقط کاربر عادی-----------------
@@ -41,6 +52,13 @@ export const navItems = [
         href: "/dashboard/user/tickets",
         icon: RiHeadphoneLine,
         iconActive: RiHeadphoneFill,
+        roles: ["user"],
+    },
+    {
+        name: "پیگیری پشتیبانی",
+        href: "/dashboard/user/myTickets",
+        icon: BsSearch,
+        iconActive: BsSearch,
         roles: ["user"],
     },
     {

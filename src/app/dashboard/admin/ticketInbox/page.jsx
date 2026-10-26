@@ -1,3 +1,4 @@
+// app/dashboard/admin/ticketInbox/page.jsx
 import { Suspense } from "react";
 import TicketList from "./TicketList";
 import TicketFilter from "./TicketFilter";
@@ -8,9 +9,11 @@ export const metadata = { title: "صندوق دریافت" };
 
 export default async function AdminTicketInboxPage({ searchParams }) {
     const resolvedParams = await searchParams;
+
+    // 👇 اضافه شدن category به کلید Suspense
     const pageKey = `${resolvedParams?.status || "all"}-${
-        resolvedParams?.page || "1"
-    }`;
+        resolvedParams?.category || "all"
+    }-${resolvedParams?.page || "1"}`;
 
     return (
         <div className="py-6 px-4 sm:px-6 bg-white dark:bg-night-900 shadow-sm overflow-auto h-[calc(100vh-4rem)]">

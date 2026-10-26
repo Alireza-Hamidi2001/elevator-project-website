@@ -1,11 +1,15 @@
+// app/dashboard/edit/EditProfileForm.jsx
 "use client";
 
 import { useState, useRef, useActionState, useEffect } from "react";
 import GenderSelect from "@/app/components/GenderSelect";
-import CustomSelect from "@/app/components/CustomSelect";
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaTrash } from "react-icons/fa";
 import { estedad } from "@/app/_fonts/fonts";
-import { updateProfileAction, uploadAvatarAction } from "./actions";
+import {
+    updateProfileAction,
+    uploadAvatarAction,
+    deleteAvatarAction,
+} from "./actions";
 import { toast } from "@/app/components/toast";
 import SpinnerMini from "@/app/components/SpinnerMini";
 
@@ -17,12 +21,11 @@ export default function EditProfileForm({ initialData }) {
         ts: null,
     });
 
-    // استیت برای نمایش عکس (تغییر آنی پیش‌نمایش)
     const [preview, setPreview] = useState(initialData?.avatar_url || null);
     const [uploading, setUploading] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const fileInputRef = useRef(null);
 
-    // استیت برای فیلدهای فرم
     const [form, setForm] = useState({
         firstName: initialData?.first_name || "",
         lastName: initialData?.last_name || "",
@@ -39,17 +42,14 @@ export default function EditProfileForm({ initialData }) {
         setForm((prev) => ({ ...prev, [field]: value }));
     }
 
-    // هندل کردن آپلود عکس
     async function handleAvatarChange(e) {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // ۱. نمایش پیش‌نمایش فوری
         const objectUrl = URL.createObjectURL(file);
         setPreview(objectUrl);
         setUploading(true);
 
-        // ۲. ارسال به سرور
         const formData = new FormData();
         formData.append("avatar", file);
 
@@ -58,13 +58,27 @@ export default function EditProfileForm({ initialData }) {
 
         if (res?.error) {
             toast.error(res.error);
-            setPreview(initialData?.avatar_url || null); // برگرداندن عکس قبلی در صورت خطا
+            setPreview(initialData?.avatar_url || null);
         } else {
             toast.success("عکس پروفایل با موفقیت تغییر کرد.");
         }
     }
 
-    // مدیریت Toast برای آپدیت موفق
+    async function handleDeleteAvatar() {
+        if (!preview) return;
+
+        setDeleting(true);
+        const res = await deleteAvatarAction(preview);
+        setDeleting(false);
+
+        if (res?.error) {
+            toast.error(res.error);
+        } else {
+            setPreview(null);
+            toast.success("عکس پروفایل حذف شد.");
+        }
+    }
+
     useEffect(() => {
         if (state.message && state.ts) {
             if (state.ok) {
@@ -76,6 +90,7 @@ export default function EditProfileForm({ initialData }) {
     }, [state.ts, state.ok, state.message]);
 
     const errors = state.errors || {};
+    const isBusy = uploading || deleting;
 
     const baseInput =
         "border rounded-md px-3 py-2 outline-none focus:ring-1 transition-all duration-300";
@@ -90,47 +105,69 @@ export default function EditProfileForm({ initialData }) {
         >
             {/* آواتار */}
             <div className="flex flex-col items-center my-4 gap-3">
-                <div
-                    className={`${estedad.className} relative w-24 h-24 rounded-full border border-night-700/10 dark:border-cream-50/10 bg-cream-50 dark:bg-night-800 flex items-center justify-center overflow-hidden group cursor-pointer`}
-                    onClick={() => fileInputRef.current?.click()}
-                >
-                    {preview ? (
-                        <img
-                            src={preview}
-                            alt="آواتار"
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <span className="text-3xl font-bold text-night-700/30 dark:text-cream-50/30">
-                            {form.firstName?.[0] || "؟"}
-                        </span>
-                    )}
-
-                    {/* لایه رویی برای موقعیت آپلود */}
+                <div className="relative group">
                     <div
-                        className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity ${
-                            uploading
-                                ? "opacity-100"
-                                : "opacity-0 group-hover:opacity-100"
-                        }`}
+                        className={`${estedad.className} w-24 h-24 rounded-full border border-night-700/10 dark:border-cream-50/10 bg-cream-50 dark:bg-night-800 flex items-center justify-center overflow-hidden cursor-pointer`}
+                        onClick={() => !isBusy && fileInputRef.current?.click()}
                     >
-                        {uploading ? (
-                            <span className="w-6 h-6 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                        {preview ? (
+                            <img
+                                src={preview}
+                                alt="آواتار"
+                                className="w-full h-full object-cover"
+                            />
                         ) : (
-                            <FaCamera className="text-white w-6 h-6" />
+                            <span className="text-3xl font-bold text-night-700/30 dark:text-cream-50/30">
+                                {form.firstName?.[0] || "؟"}
+                            </span>
                         )}
+
+                        {/* لایه رویی برای آپلود */}
+                        <div
+                            className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity ${
+                                uploading
+                                    ? "opacity-100"
+                                    : "opacity-0 group-hover:opacity-100 rounded-full"
+                            }`}
+                        >
+                            {uploading ? (
+                                <span className="w-6 h-6 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                            ) : (
+                                <FaCamera className="text-white w-6 h-6" />
+                            )}
+                        </div>
                     </div>
+
+                    {/* دکمه حذف عکس */}
+                    {preview && !uploading && (
+                        <button
+                            type="button"
+                            onClick={handleDeleteAvatar}
+                            disabled={isBusy}
+                            className="absolute -bottom-1 -right-1 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+                            title="حذف عکس"
+                        >
+                            {deleting ? (
+                                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                            ) : (
+                                <FaTrash className="w-3.5 h-3.5" />
+                            )}
+                        </button>
+                    )}
                 </div>
+
                 <input
                     type="file"
                     ref={fileInputRef}
                     onChange={handleAvatarChange}
                     accept="image/*"
                     className="hidden"
-                    disabled={uploading}
+                    disabled={isBusy}
                 />
                 <p className="text-xs text-night-700/60 dark:text-cream-50/60">
-                    برای تغییر عکس کلیک کنید
+                    {preview
+                        ? "برای تغییر عکس کلیک کنید"
+                        : "برای آپلود عکس کلیک کنید"}
                 </p>
             </div>
 
@@ -289,7 +326,7 @@ export default function EditProfileForm({ initialData }) {
 
             <button
                 type="submit"
-                disabled={pending || uploading}
+                disabled={pending || isBusy}
                 className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/60 disabled:cursor-not-allowed text-white rounded-md py-2.5 mt-2 flex items-center justify-center gap-2"
             >
                 {pending ? (

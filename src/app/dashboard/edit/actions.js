@@ -48,7 +48,6 @@ export async function uploadAvatarAction(formData) {
         .eq("id", user.id);
 
     if (updateError) {
-        // لاگ کامل خطا برای دیباگ
         console.error("AVATAR URL UPDATE ERROR >>>", {
             code: updateError.code,
             message: updateError.message,
@@ -59,8 +58,73 @@ export async function uploadAvatarAction(formData) {
     }
 
     revalidatePath("/dashboard/edit");
-    revalidatePath("/dashboard"); // برای آپدیت عکس در هدر
+    revalidatePath("/dashboard");
     return { success: true, url: publicUrl };
+}
+
+// ────────────────────────────────────────────────────────
+// اکشن حذف عکس
+// ────────────────────────────────────────────────────────
+export async function deleteAvatarAction(avatarUrl) {
+    if (!avatarUrl) return { error: "عکسی برای حذف وجود ندارد." };
+
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { error: "دسترسی غیرمجاز." };
+
+    let filePath = null;
+
+    // راه اول: اگر باکت avatars در URL وجود داشت
+    const bucketName = "avatars";
+    const bucketUrl = `/storage/v1/object/public/${bucketName}/`;
+
+    if (avatarUrl.includes(bucketUrl)) {
+        filePath = avatarUrl.split(bucketUrl)[1];
+    } else {
+        // راه دوم: اگر فرمت URL متفاوت بود، مسیر رو از انتهای URL حدس می‌زنیم
+        // مثلا: .../avatars/USER_ID/FILE_NAME
+        const parts = avatarUrl.split("/");
+        const fileName = parts[parts.length - 1]; // FILE_NAME
+        const userId = parts[parts.length - 2]; // USER_ID
+        filePath = `${userId}/${fileName}`;
+    }
+
+    // اگر هنوز filePath نداریم یا با user.id شروع نمی‌شه
+    if (!filePath || !filePath.startsWith(user.id)) {
+        console.error("INVALID FILE PATH:", {
+            avatarUrl,
+            filePath,
+            userId: user.id,
+        });
+        return { error: "لینک عکس معتبر نیست." };
+    }
+
+    // ۲. حذف فایل از Storage
+    const { error: deleteStorageError } = await supabase.storage
+        .from(bucketName)
+        .remove([filePath]);
+
+    if (deleteStorageError) {
+        console.error("DELETE STORAGE ERROR >>>", deleteStorageError);
+    }
+
+    // ۳. حذف لینک عکس از دیتابیس
+    const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ avatar_url: null })
+        .eq("id", user.id);
+
+    if (updateError) {
+        console.error("AVATAR URL NULL ERROR >>>", updateError);
+        return { error: "خطا در حذف لینک عکس." };
+    }
+
+    revalidatePath("/dashboard/edit");
+    revalidatePath("/dashboard");
+
+    return { success: true };
 }
 
 // ────────────────────────────────────────────────────────
@@ -105,7 +169,6 @@ export async function updateProfileAction(prevState, formData) {
         };
     }
 
-    // آپدیت دیتابیس (RLS اجازه آپدیت پروفایل خود کاربر را می‌دهد)
     const { error } = await supabase
         .from("profiles")
         .update({

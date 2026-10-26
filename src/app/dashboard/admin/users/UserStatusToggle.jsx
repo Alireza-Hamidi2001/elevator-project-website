@@ -41,7 +41,7 @@ export default function UserStatusToggle({ userId, isActive, isCurrentUser }) {
             disabled={pending}
             className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium transition-all duration-300 w-[9rem] ${
                 isActive
-                    ? "bg-red-200 cursor-pointer mx-auto  hover:bg-red-100 dark:bg-red-800 dark:text-cream-50 dark:hover:bg-red-900/40"
+                    ? "bg-amber-300/40 cursor-pointer mx-auto  hover:bg-amber-100 dark:bg-amber-600/40 text-amber-600 dark:text-amber-200 dark:hover:bg-amber-900/40"
                     : "bg-emerald-100 cursor-pointer  mx-auto hover:bg-emerald-100 dark:bg-emerald-800 dark:text-cream-50 dark:hover:bg-emerald-900/40"
             } disabled:opacity-50 disabled:cursor-not-allowed`}
         >

@@ -5,11 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function submitTicketAction(prevState, formData) {
-    const subject = formData.get("subject")?.toString().trim();
+    const category = formData.get("category")?.toString().trim() || "technical";
     const message = formData.get("message")?.toString().trim();
 
     const errors = {};
-    if (!subject) errors.subject = "موضوع الزامی است.";
+    if (!category) errors.category = "انتخاب موضوع الزامی است.";
     if (!message || message.length < 10)
         errors.message = "متن پیام باید حداقل ۱۰ کاراکتر باشد.";
 
@@ -34,12 +34,13 @@ export async function submitTicketAction(prevState, formData) {
             ts: Date.now(),
         };
 
-    // ۱. ساخت تیکت
+    // ۱. ساخت تیکت (subject و category هر دو با هم)
     const { data: ticket, error: ticketError } = await supabase
         .from("tickets")
         .insert({
             user_id: user.id,
-            subject: subject,
+            subject: category, // اینجا هم subject رو با همون مقدار پر می‌کنیم (یا می‌تونی متن فارسی بذاری)
+            category: category, // برای فیلتر
         })
         .select()
         .single();
@@ -65,7 +66,7 @@ export async function submitTicketAction(prevState, formData) {
 
     if (messageError) {
         console.error("MESSAGE INSERT ERROR >>>", messageError);
-        await supabase.from("tickets").delete().eq("id", ticket.id); // Rollback
+        await supabase.from("tickets").delete().eq("id", ticket.id);
         return {
             ok: false,
             errors: {},
@@ -74,9 +75,8 @@ export async function submitTicketAction(prevState, formData) {
         };
     }
 
-    // ۳. آپدیت کش برای ادمین (برای آپدیت Badge در سایدبار)
     revalidatePath("/dashboard/admin/ticketInbox");
-    revalidatePath("/dashboard", "layout"); // برای آپدیت Badge
+    revalidatePath("/dashboard", "layout");
 
     return {
         ok: true,

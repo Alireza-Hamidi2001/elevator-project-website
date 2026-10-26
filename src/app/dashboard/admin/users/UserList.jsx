@@ -2,6 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import UserStatusToggle from "./UserStatusToggle";
 import ViewUserButton from "./ViewUserButton";
+import DeleteUserButton from "./DeleteUserButton";
 import Pagination from "./Pagination";
 import PersianNumber from "@/app/components/PersianNumber";
 
@@ -62,11 +63,11 @@ export default async function UserList({ searchParams }) {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-night-900 divide-y divide-night-700/5 dark:divide-cream-50/5">
+                    <tbody className="bg-white dark:bg-night-900 divide-y divide-night-700/20 dark:divide-cream-50/20">
                         {users?.map((user) => (
                             <tr
                                 key={user.id}
-                                className="hover:bg-cream-50 dark:hover:bg-night-800/50 transition-colors"
+                                className="even:bg-cream-50 odd:bg-white dark:even:bg-night-800 dark:odd:bg-night-900 hover:!bg-cream-100 dark:hover:!bg-night-700 transition-colors"
                             >
                                 {/* ستون نام و نام خانوادگی */}
                                 <td className="px-4 py-3 min-w-max">
@@ -84,7 +85,6 @@ export default async function UserList({ searchParams }) {
                                                 </span>
                                             )}
                                         </div>
-                                        {/* whitespace-nowrap باعث میشه متن به خط بعد نره */}
                                         <span className="text-sm text-night-800 dark:text-cream-50 whitespace-nowrap">
                                             {user.first_name} {user.last_name}
                                         </span>
@@ -134,6 +134,13 @@ export default async function UserList({ searchParams }) {
                                 <td className="px-4 py-3 text-center">
                                     <div className="flex flex-col gap-2 items-center justify-center">
                                         <ViewUserButton userId={user.id} />
+
+                                        {/* دکمه حذف فقط برای کاربران عادی و نه برای ادمین‌ها */}
+                                        {user.role !== "admin" &&
+                                            user.id !== currentUser?.id && (
+                                                <DeleteUserButton user={user} />
+                                            )}
+
                                         <UserStatusToggle
                                             userId={user.id}
                                             isActive={user.is_active}

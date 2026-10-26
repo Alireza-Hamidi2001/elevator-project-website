@@ -4,12 +4,10 @@
 import { useState, useRef, useEffect } from "react";
 
 const SUBJECTS = [
-    "مشکل فنی",
-    "سوال درباره سفارش",
-    "درخواست مرجوعی",
-    "پیگیری ارسال",
-    "مشکل پرداخت",
-    "انتقاد و پیشنهاد",
+    "مشکل فنی و خرابی",
+    "امور مالی و صورتحساب",
+    "پیشنهادات و انتقادات",
+    "پشتیبانی و سرویس دوره ای",
 ];
 
 export default function SubjectCombobox({ value, onChange }) {
