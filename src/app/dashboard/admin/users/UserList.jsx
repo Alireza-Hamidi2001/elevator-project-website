@@ -87,7 +87,7 @@ export default async function UserList({ searchParams }) {
                                     <span
                                         className={`px-2 py-1 rounded-md text-xs font-medium ${
                                             user.role === "admin"
-                                                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                                                ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400"
                                                 : "bg-night-700/5 text-night-700 dark:bg-cream-50/10 dark:text-cream-50"
                                         }`}
                                     >
@@ -107,7 +107,7 @@ export default async function UserList({ searchParams }) {
                                         <span
                                             className={`w-2 h-2 rounded-full ${
                                                 user.is_active
-                                                    ? "bg-emerald-500"
+                                                    ? "bg-emerald-500 animate-pulse"
                                                     : "bg-red-500"
                                             }`}
                                         />

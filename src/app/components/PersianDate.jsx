@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { estedad } from "../_fonts/fonts";
+import SpinnerMini from "./SpinnerMini";
 
 export default function PersianDate({ className = "" }) {
     const [date, setDate] = useState(null);
@@ -15,9 +16,10 @@ export default function PersianDate({ className = "" }) {
     if (!date) {
         return (
             <div
-                className={`${estedad.className} text-xs text-night-700/60 dark:text-cream-50/60 ${className}`}
+                className={`${estedad.className} flex items-center gap-2 text-xs text-night-700/60 dark:text-cream-50/60 ${className}`}
                 aria-hidden="true"
             >
+                <SpinnerMini />
                 <span>در حال بارگذاری...</span>
             </div>
         );

@@ -52,10 +52,18 @@ export default function ProfileCard({ profile }) {
                 {/* بخش بالا: آواتار + نام + نقش */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                     <div className="relative">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-blue-500/30">
-                            {profile?.first_name?.[0] ?? <FaUser />}
+                        <div className="w-20 h-20 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-sm shadow-blue-500/30 overflow-hidden">
+                            {profile?.avatar_url ? (
+                                <img
+                                    src={profile.avatar_url}
+                                    alt={fullName}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                profile?.first_name?.[0] ?? <FaUser />
+                            )}
                         </div>
-                        <span className="absolute bottom-0.5 left-0.5 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white dark:border-night-800" />
+                        <span className="absolute bottom-0.5 left-0.5 w-5 h-5 rounded-full bg-emerald-400 border-2 border-white dark:border-night-800" />
                     </div>
 
                     <div className="flex flex-col items-center sm:items-start text-center sm:text-right flex-1">

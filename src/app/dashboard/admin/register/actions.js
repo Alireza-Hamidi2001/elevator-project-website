@@ -1,95 +1,146 @@
 // app/dashboard/admin/register/actions.js
 "use server";
-import { z } from "zod";
-import { revalidatePath } from "next/cache";
-import { supabaseAdmin } from "@/lib/supabase/admin";
-import { requireAdmin, toAuthEmail } from "@/lib/auth";
 
-const schema = z
-    .object({
-        firstName: z.string().trim().min(2, "نام را وارد کنید"),
-        lastName: z.string().trim().min(2, "نام خانوادگی را وارد کنید"),
-        gender: z.string().min(1, "جنسیت را انتخاب کنید"),
-        nationalId: z.string().regex(/^\d{10}$/, "کد ملی باید ۱۰ رقم باشد"),
-        phone: z.string().regex(/^09\d{9}$/, "شماره موبایل معتبر نیست"),
-        role: z.enum(["user", "admin"], { message: "نقش نامعتبر است" }),
-        jobTitle: z.string().trim().optional(),
-        email: z
-            .union([z.literal(""), z.string().email("ایمیل معتبر نیست")])
-            .optional(),
-        password: z.string().min(8, "رمز عبور حداقل ۸ کاراکتر باشد"),
-        confirmPassword: z.string(),
-    })
-    .refine((d) => d.password === d.confirmPassword, {
-        path: ["confirmPassword"],
-        message: "تکرار رمز عبور مطابقت ندارد",
-    });
+import { createClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { toAuthEmail } from "@/lib/auth";
 
 export async function registerAction(prevState, formData) {
-    // ۱) فقط ادمین
-    if (!(await requireAdmin())) {
-        return { ok: false, errors: {}, message: "شما دسترسی لازم را ندارید." };
-    }
+    // ۱. استخراج داده‌ها از فرم
+    const firstName = formData.get("firstName")?.toString().trim();
+    const lastName = formData.get("lastName")?.toString().trim();
+    const gender = formData.get("gender")?.toString().trim();
+    const nationalId = formData.get("nationalId")?.toString().trim();
+    const phone = formData.get("phone")?.toString().trim();
+    const email = formData.get("email")?.toString().trim() || null;
+    const role = formData.get("role")?.toString() || "user";
+    const jobTitle = formData.get("jobTitle")?.toString().trim() || null;
+    const password = formData.get("password")?.toString();
+    const confirmPassword = formData.get("confirmPassword")?.toString();
 
-    // ۲) اعتبارسنجی سمت سرور (اعتبارسنجی کلاینت قابل دور زدنه)
-    const parsed = schema.safeParse(Object.fromEntries(formData));
-    if (!parsed.success) {
-        const errors = {};
-        parsed.error.issues.forEach((i) => (errors[i.path[0]] ??= i.message));
+    // ۲. اعتبارسنجی ساده سمت سرور
+    const errors = {};
+    if (!firstName) errors.firstName = "نام الزامی است.";
+    if (!lastName) errors.lastName = "نام خانوادگی الزامی است.";
+    if (!gender) errors.gender = "انتخاب جنسیت الزامی است.";
+    if (!nationalId || nationalId.length !== 10)
+        errors.nationalId = "کد ملی باید ۱۰ رقم باشد.";
+    if (!phone || !/^09\d{9}$/.test(phone))
+        errors.phone = "شماره موبایل معتبر نیست.";
+    if (!password || password.length < 8)
+        errors.password = "رمز عبور باید حداقل ۸ کاراکتر باشد.";
+    if (password !== confirmPassword)
+        errors.confirmPassword = "رمز عبور و تکرار آن یکسان نیستند.";
+
+    if (Object.keys(errors).length > 0) {
         return {
             ok: false,
             errors,
             message: "لطفاً خطاهای فرم را برطرف کنید.",
         };
     }
-    const d = parsed.data;
 
-    // ۳) ساخت کاربر در Auth (رمز اینجا هش می‌شه)
-    const { data: created, error: authError } =
-        await supabaseAdmin.auth.admin.createUser({
-            email: toAuthEmail(d.phone),
-            password: d.password,
-            email_confirm: true,
-        });
-    if (authError) {
-        const dup = /already|registered|exists/i.test(authError.message);
+    // ۳. چک کردن ادمین بودن کاربر فعلی (Security Check)
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
         return {
             ok: false,
-            errors: dup ? { phone: "این شماره قبلاً ثبت شده است" } : {},
-            message: dup
-                ? "کاربری با این شماره وجود دارد."
-                : "ساخت کاربر ناموفق بود.",
+            errors: {},
+            message: "دسترسی غیرمجاز. لطفاً وارد شوید.",
         };
     }
 
-    // ۴) ساخت پروفایل؛ اگه شکست خورد، کاربر Auth رو برمی‌گردونیم عقب
+    const { data: adminProfile } = await supabase
+        .from("profiles")
+        .select("role, is_active")
+        .eq("id", user.id)
+        .single();
+
+    if (adminProfile?.role !== "admin" || !adminProfile.is_active) {
+        return {
+            ok: false,
+            errors: {},
+            message: "شما دسترسی به این عملیات را ندارید.",
+        };
+    }
+
+    // ۴. چک کردن اینکه شماره موبایل تکراری نباشد
+    const { data: existingPhone } = await supabaseAdmin
+        .from("profiles")
+        .select("id")
+        .eq("phone", phone)
+        .maybeSingle();
+
+    if (existingPhone) {
+        return {
+            ok: false,
+            errors: { phone: "این شماره موبایل قبلاً ثبت شده است." },
+            message: "کاربری با این شماره وجود دارد.",
+        };
+    }
+
+    // ۵. ساخت کاربر در auth.users با کلید ادمین
+    const authEmail = toAuthEmail(phone); // تبدیل شماره به ایمیل جعلی
+    const { data: authData, error: authError } =
+        await supabaseAdmin.auth.admin.createUser({
+            email: authEmail,
+            password: password,
+            email_confirm: true, // تایید خودکار ایمیل
+            user_metadata: {
+                first_name: firstName,
+                last_name: lastName,
+            },
+        });
+
+    if (authError) {
+        console.error("Auth Create Error:", authError);
+        let msg = "خطا در ساخت حساب کاربری.";
+        if (authError.message.includes("already been registered")) {
+            msg = "کاربری با این شماره موبایل از قبل وجود دارد.";
+        }
+        return { ok: false, errors: {}, message: msg };
+    }
+
+    const newUserId = authData.user.id;
+
+    // ۶. درج اطلاعات در جدول profiles
     const { error: profileError } = await supabaseAdmin
         .from("profiles")
         .insert({
-            id: created.user.id,
-            first_name: d.firstName,
-            last_name: d.lastName,
-            gender: d.gender,
-            national_id: d.nationalId,
-            phone: d.phone,
-            email: d.email || null,
-            job_title: d.jobTitle || null,
-            role: d.role,
+            id: newUserId,
+            first_name: firstName,
+            last_name: lastName,
+            gender: gender,
+            national_id: nationalId,
+            phone: phone,
+            email: email,
+            role: role,
+            job_title: jobTitle,
+            is_active: true,
         });
+
+    // ۷. اگر درج در profiles خطا داد، کاربر Auth رو پاک می‌کنیم (Rollback)
     if (profileError) {
-        await supabaseAdmin.auth.admin.deleteUser(created.user.id);
-        const dupNid = profileError.message.includes("national_id");
-        return {
-            ok: false,
-            errors: dupNid
-                ? { nationalId: "این کد ملی قبلاً ثبت شده است" }
-                : {},
-            message: dupNid
-                ? "کد ملی تکراری است."
-                : "ثبت اطلاعات کاربر ناموفق بود.",
-        };
+        console.error("Profile Insert Error:", profileError);
+        await supabaseAdmin.auth.admin.deleteUser(newUserId);
+
+        let msg = "خطا در ذخیره اطلاعات کاربر.";
+        if (profileError.code === "23505") {
+            // unique violation
+            msg = "کد ملی یا شماره موبایل تکراری است.";
+        }
+        return { ok: false, errors: {}, message: msg };
     }
 
-    revalidatePath("/dashboard/admin/users");
-    return { ok: true, errors: {}, message: "کاربر با موفقیت ایجاد شد." };
+    // ۸. موفقیت
+    return {
+        ok: true,
+        errors: {},
+        message: "حساب کاربری با موفقیت ایجاد شد.",
+        ts: Date.now(), // 👈 این خط اضافه شود
+    };
 }

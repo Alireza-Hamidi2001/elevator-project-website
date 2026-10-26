@@ -72,7 +72,7 @@ export const navItems = [
     },
     {
         name: "بررسی تیکت ها",
-        href: "/dashboard/admin/tickets",
+        href: "/dashboard/admin/ticketInbox",
         icon: LuMessageSquare,
         roles: ["admin"],
         badgeKey: "openTickets",
@@ -84,6 +84,12 @@ export const navItems = [
         roles: ["admin"],
     },
     //----------------- مشترک -----------------
+    {
+        name: "ویرایش اطلاعات",
+        href: "/dashboard/edit",
+        icon: IoDocumentTextOutline,
+        roles: ["admin", "user"],
+    },
     {
         name: "قوانین و مقررات",
         href: "/dashboard/rules",

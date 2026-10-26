@@ -15,9 +15,7 @@ export default function UserMenu({ profile }) {
 
     useEffect(() => {
         function onClickOutside(e) {
-            // اگر کلیک روی backdrop مودال یا داخل مودال بود، منو رو نبند
             if (e.target.closest("[data-logout-modal]")) return;
-
             if (ref.current && !ref.current.contains(e.target)) {
                 setOpen(false);
             }
@@ -38,13 +36,21 @@ export default function UserMenu({ profile }) {
         >
             <button
                 onClick={() => setOpen((o) => !o)}
-                className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold cursor-pointer hover:ring-2 hover:ring-blue-400 transition"
+                className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold cursor-pointer hover:ring-2 hover:ring-blue-400 transition overflow-hidden"
                 aria-label="منوی کاربر"
             >
-                {initial}
+                {profile?.avatar_url ? (
+                    <img
+                        src={profile.avatar_url}
+                        alt={fullName || "کاربر"}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    initial
+                )}
             </button>
 
-            {/* منو همیشه رندر میشه، فقط با CSS مخفی/نمایان میشه */}
+            {/* منو */}
             <div
                 className={`${
                     estedad.className

@@ -35,7 +35,7 @@ export default function ReviewFilter() {
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentStatus === s.value
                             ? "bg-blue-600 text-white shadow-sm"
-                            : "bg-cream-50 dark:bg-night-800 text-night-700 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-night-700"
+                            : "border border-amber-100 dark:border-night-700 bg-cream-50 dark:bg-night-800 text-night-700 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-night-700"
                     }`}
                 >
                     {s.label}

@@ -35,6 +35,7 @@ export default function PasswordInputWithConfirm({
                 <div className="relative">
                     <input
                         id="password"
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => onPasswordChange(e.target.value)}
@@ -70,6 +71,7 @@ export default function PasswordInputWithConfirm({
                 <div className="relative">
                     <input
                         id="confirmPassword"
+                        name="confirmPassword"
                         type={showConfirm ? "text" : "password"}
                         value={confirmPassword}
                         onChange={(e) => onConfirmChange(e.target.value)}

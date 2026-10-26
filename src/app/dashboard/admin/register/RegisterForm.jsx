@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import Link from "next/link";
+import { useActionState, useState, useEffect } from "react"; // useEffect اضافه شد
 import { useFormStatus } from "react-dom";
 import PasswordInputWithConfirm from "../../../components/PasswordInputWithConfirm";
 import GenderSelect from "../../../components/GenderSelect";
 import { registerAction } from "./actions";
+import CustomSelect from "@/app/components/CustomSelect";
+import { toast } from "@/app/components/toast"; // toast اضافه شد
 
 // دکمه جداگانه چون useFormStatus فقط داخل فرم کار می‌کنه
 function SubmitButton() {
@@ -29,31 +30,45 @@ function SubmitButton() {
     );
 }
 
+const initialFormState = {
+    firstName: "",
+    lastName: "",
+    gender: "",
+    nationalId: "",
+    phone: "",
+    email: "",
+    role: "user",
+    jobTitle: "",
+    password: "",
+    confirmPassword: "",
+};
+
 export default function RegisterForm() {
-    // state سرور: نتیجه اکشن
     const [state, formAction] = useActionState(registerAction, {
         ok: null,
         errors: {},
         message: "",
+        ts: null, // 👈 برای تشخیص ثبت‌های تکراری
     });
 
-    // state کلاینت برای کنترل فیلدها
-    const [form, setForm] = useState({
-        firstName: "",
-        lastName: "",
-        gender: "",
-        nationalId: "",
-        phone: "",
-        email: "",
-        role: "user",
-        jobTitle: "",
-        password: "",
-        confirmPassword: "",
-    });
+    const [form, setForm] = useState(initialFormState);
 
     function update(field, value) {
         setForm((prev) => ({ ...prev, [field]: value }));
     }
+
+    // مدیریت Toast و ریست فرم
+    useEffect(() => {
+        if (state.message && state.ts) {
+            // مطمئن میشیم ts وجود داره
+            if (state.ok) {
+                toast.success(state.message);
+                setForm(initialFormState); // 👈 خالی کردن فرم
+            } else {
+                toast.error(state.message);
+            }
+        }
+    }, [state.ts]); // 👈 وابسته به ts
 
     const errors = state.errors || {};
 
@@ -74,6 +89,7 @@ export default function RegisterForm() {
                     برای ساخت حساب کاربری، اطلاعات زیر را کامل کنید
                 </p>
             </div>
+
             {/* نام و نام خانوادگی */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
@@ -126,18 +142,19 @@ export default function RegisterForm() {
                     )}
                 </div>
             </div>
+
             {/* جنسیت */}
             <GenderSelect
                 value={form.gender}
                 onChange={(v) => update("gender", v)}
                 error={errors.gender}
             />
-            {/* فیلد مخفی برای ارسال مقدار به Server Action */}
             <input
                 type="hidden"
                 name="gender"
                 value={form.gender}
             />
+
             {/* کد ملی */}
             <div className="flex flex-col gap-2">
                 <label
@@ -167,6 +184,7 @@ export default function RegisterForm() {
                     </span>
                 )}
             </div>
+
             {/* شماره تلفن */}
             <div className="flex flex-col gap-2">
                 <label
@@ -195,31 +213,26 @@ export default function RegisterForm() {
                     <span className="text-xs text-red-500">{errors.phone}</span>
                 )}
             </div>
-            {/* نقش */}
+
             {/* نقش */}
             <div className="flex flex-col gap-2">
-                <label
-                    htmlFor="role"
-                    className="text-sm font-medium"
-                >
-                    &bull; نقش
-                </label>
-                <select
-                    id="role"
+                <label className="text-sm font-medium">&bull; نقش</label>
+                <CustomSelect
                     name="role"
                     value={form.role}
-                    onChange={(e) => update("role", e.target.value)}
-                    className={`placeholder:text-[0.8rem] ${baseInput} ${
-                        errors.role ? errorBorder : normalBorder
-                    }`}
-                >
-                    <option value="user">کاربر عادی</option>
-                    <option value="admin">مدیر</option>
-                </select>
+                    onChange={(v) => update("role", v)}
+                    placeholder="انتخاب نقش کاربری"
+                    options={[
+                        { value: "user", label: "کاربر عادی" },
+                        { value: "admin", label: "مدیر" },
+                    ]}
+                    error={errors.role}
+                />
                 {errors.role && (
                     <span className="text-xs text-red-500">{errors.role}</span>
                 )}
             </div>
+
             {/* شغل / سمت */}
             <div className="flex flex-col gap-2">
                 <label
@@ -248,6 +261,7 @@ export default function RegisterForm() {
                     </span>
                 )}
             </div>
+
             {/* ایمیل (اختیاری) */}
             <div className="flex flex-col gap-2">
                 <label
@@ -275,6 +289,7 @@ export default function RegisterForm() {
                     <span className="text-xs text-red-500">{errors.email}</span>
                 )}
             </div>
+
             {/* رمز عبور + تکرار */}
             <PasswordInputWithConfirm
                 password={form.password}
@@ -283,20 +298,8 @@ export default function RegisterForm() {
                 onConfirmChange={(v) => update("confirmPassword", v)}
                 errors={errors}
             />
+
             <SubmitButton />
-            {/* پیام نتیجه از سرور */}
-            {state.message && (
-                <p
-                    className={`text-sm text-center ${
-                        state.ok
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-red-500"
-                    }`}
-                >
-                    {state.ok ? "✓ " : "⚠ "}
-                    {state.message}
-                </p>
-            )}
         </form>
     );
 }

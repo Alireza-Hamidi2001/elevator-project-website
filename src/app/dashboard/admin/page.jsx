@@ -5,9 +5,8 @@ async function page() {
     const profile = await getCurrentProfile();
 
     return (
-        <div className="py-4 px-6 bg-white dark:bg-night-900 shadow-sm overflow-auto h-[calc(100vh-0rem)]">
+        <div className="py-6 px-6 bg-white dark:bg-night-900 shadow-sm overflow-auto h-[calc(100vh-4rem)]">
             <ProfileCard profile={profile} />
-            
         </div>
     );
 }

@@ -27,16 +27,18 @@ export default function ReviewActions({ reviewId, currentStatus }) {
 
     if (currentStatus === "approved") {
         return (
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-md">
-                <FaCheck /> تایید شده
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-white bg-emerald-400 dark:bg-emerald-500 px-2 py-1 rounded-sm">
+                <FaCheck className="text-white" />{" "}
+                تایید شده
             </span>
         );
     }
 
     if (currentStatus === "rejected") {
         return (
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md">
-                <FaTimes /> رد شده
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-white bg-red-500 dark:bg-red-500 px-2 py-1 rounded-sm">
+                <FaTimes className="text-white" />{" "}
+                رد شده
             </span>
         );
     }

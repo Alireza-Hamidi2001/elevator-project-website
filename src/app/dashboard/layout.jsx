@@ -14,49 +14,58 @@ export default async function DashboardLayout({ children }) {
 
     if (!user) redirect("/login");
 
+    // دریافت پروفایل کاربر همراه با آواتار و نقش
     const { data: profile } = await supabase
         .from("profiles")
-        .select("role, first_name, last_name, is_active")
+        .select("role, first_name, last_name, is_active, avatar_url")
         .eq("id", user.id)
         .single();
 
+    // اگر پروفایل نبود یا غیرفعال بود
     if (!profile || !profile.is_active) {
         await supabase.auth.signOut();
         redirect("/login?error=inactive");
     }
 
-    // ← فقط بخون، پاک نکن
+    // بررسی کوکی برای Toast خوش‌آمدگویی
     const cookieStore = await cookies();
     const showWelcome = cookieStore.get("welcome_toast")?.value === "1";
 
+    // محاسبه Badgeها (فقط برای ادمین)
     let badges = {};
     if (profile.role === "admin") {
-        const countQuery = (table, status) =>
+        const [reviewsCount, ticketsCount] = await Promise.all([
             supabase
-                .from(table)
+                .from("reviews")
                 .select("*", { count: "exact", head: true })
-                .eq("status", status);
-
-        const [reviews, tickets] = await Promise.all([
-            countQuery("reviews", "pending"),
-            countQuery("tickets", "open"),
+                .eq("status", "pending"),
+            supabase
+                .from("tickets")
+                .select("*", { count: "exact", head: true })
+                .eq("status", "open"),
         ]);
 
         badges = {
-            pendingReviews: reviews.count ?? 0,
-            openTickets: tickets.count ?? 0,
+            pendingReviews: reviewsCount.count ?? 0,
+            openTickets: ticketsCount.count ?? 0,
         };
     }
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen">
+            {/* Toast برای ورود موفق */}
             <WelcomeToast show={showWelcome} />
+
+            {/* سایدبار با نقش و بج‌های مربوطه */}
             <SideNavigation
                 role={profile.role}
                 badges={badges}
             />
+
+            {/* محتوای اصلی */}
             <div className="flex flex-col flex-1 min-w-0">
-                <HeaderDashboard />
+                {/* هدر (می‌تونی پروفایل رو پاس بدی تا آواتار رو نشون بده) */}
+                <HeaderDashboard profile={profile} />
                 <main className="flex-1 pb-20 md:pb-0">{children}</main>
             </div>
         </div>

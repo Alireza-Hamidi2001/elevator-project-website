@@ -34,7 +34,8 @@ export default async function ReviewList({ searchParams }) {
             profiles:user_id (
                 first_name,
                 last_name,
-                phone
+                phone,
+                avatar_url
             )
         `,
             { count: "exact" },
@@ -66,13 +67,22 @@ export default async function ReviewList({ searchParams }) {
                 {reviews?.map((review) => (
                     <div
                         key={review.id}
-                        className="p-5 rounded-xl border border-night-700/10 dark:border-cream-50/10 bg-white dark:bg-night-800 shadow-sm flex flex-col gap-4"
+                        className="p-5 rounded-xl border border-cream-200 dark:border-cream-50/10 bg-cream-50 dark:bg-night-800 flex flex-col gap-4"
                     >
                         {/* هدر کارت: اطلاعات کاربر و تاریخ */}
                         <div className="flex items-start justify-between gap-4 border-b border-night-700/5 dark:border-cream-50/5 pb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                                    <FaUserCircle className="w-6 h-6" />
+                                {/* آواتار کاربر */}
+                                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 overflow-hidden shrink-0">
+                                    {review.profiles?.avatar_url ? (
+                                        <img
+                                            src={review.profiles.avatar_url}
+                                            alt={`${review.profiles?.first_name} ${review.profiles?.last_name}`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <FaUserCircle className="w-6 h-6" />
+                                    )}
                                 </div>
                                 <div>
                                     <p className="text-sm font-bold text-night-900 dark:text-cream-50">
@@ -93,6 +103,13 @@ export default async function ReviewList({ searchParams }) {
                                 <p className="text-xs text-night-700/60 dark:text-cream-50/60">
                                     {formatDate(review.created_at)}
                                 </p>
+                                {/* فوتر: وضعیت و دکمه‌ها */}
+                                <div className="flex items-center justify-end pt-2">
+                                    <ReviewActions
+                                        reviewId={review.id}
+                                        currentStatus={review.status}
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -116,19 +133,11 @@ export default async function ReviewList({ searchParams }) {
                                 {review.body}
                             </p>
                         </div>
-
-                        {/* فوتر: وضعیت و دکمه‌ها */}
-                        <div className="flex items-center justify-end pt-2">
-                            <ReviewActions
-                                reviewId={review.id}
-                                currentStatus={review.status}
-                            />
-                        </div>
                     </div>
                 ))}
 
                 {(!reviews || reviews.length === 0) && (
-                    <div className="p-12 text-center text-night-700/50 dark:text-cream-50/50 bg-white dark:bg-night-800 rounded-xl border border-night-700/10">
+                    <div className="p-12 text-center text-night-700/50 dark:text-cream-50/50 bg-cream-50 dark:bg-night-800 rounded-sm border border-cream-200 dark:border-night-700">
                         هیچ نظری با این وضعیت یافت نشد.
                     </div>
                 )}
