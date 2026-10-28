@@ -23,7 +23,7 @@ export default function LogoutButton({ onMenuClose }) {
         <>
             <button
                 onClick={handleClick}
-                className="flex items-center justify-center gap-2 w-full h-full text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition rounded-md px-2 py-2"
+                className="flex items-center justify-center gap-2 w-full text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition rounded-md px-2 py-2"
             >
                 <LuLogOut className="w-6 h-6" />
                 <span className="hidden sm:inline text-sm">خروج از حساب</span>

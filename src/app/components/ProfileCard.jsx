@@ -10,6 +10,7 @@ import {
 import { estedad } from "../_fonts/fonts";
 import PersianNumber from "./PersianNumber";
 import Link from "next/link";
+import { MdHome } from "react-icons/md";
 
 export default function ProfileCard({ profile }) {
     const fullName =
@@ -101,8 +102,9 @@ export default function ProfileCard({ profile }) {
                         </span>
                         <Link
                             href="/"
-                            className="sm:hidden underline text-night-700/70 dark:text-cream-50/50"
+                            className="flex items-center gap-2 sm:hidden underline text-night-700/70 dark:text-cream-50/50"
                         >
+                            <MdHome />
                             صفحه اصلی
                         </Link>
 

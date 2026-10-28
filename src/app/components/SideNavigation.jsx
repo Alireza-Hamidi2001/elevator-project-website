@@ -57,7 +57,8 @@ function SideNavigation({ role, badges = {} }) {
                     <Theme />
                 </div>
 
-                <ul className="flex flex-col gap-1 text-[1rem]">
+                {/* لیست آیتم‌ها */}
+                <ul className="flex flex-col gap-1 text-[1rem] flex-1">
                     {links.map((item) => {
                         const active = isActive(item);
                         const Icon = active
@@ -73,7 +74,7 @@ function SideNavigation({ role, badges = {} }) {
                                     href={item.href}
                                     className={`px-4 py-2 rounded-sm transition-colors flex items-center gap-2 ${
                                         active
-                                            ? "text-cream-50 dark:text-night-700 bg-night-700 dark:bg-cream-50 hover:bg-night-800 hover:dark:bg-cream-100"
+                                            ? "border-r-4 border-gray-400 dark:border-amber-300 text-cream-50 dark:text-night-700 bg-night-700 dark:bg-cream-50 hover:bg-night-800 hover:dark:bg-cream-100"
                                             : "text-night-700/70 dark:text-cream-50/50 hover:text-night-700 dark:hover:text-cream-50 hover:bg-night-700/5 dark:hover:bg-cream-50/5"
                                     }`}
                                 >
@@ -98,8 +99,10 @@ function SideNavigation({ role, badges = {} }) {
                             </li>
                         );
                     })}
-                    <LogoutButton />
                 </ul>
+                <div className="mt-auto pt-4 border-t border-night-700/20 dark:border-cream-50/20">
+                    <LogoutButton />
+                </div>
             </nav>
 
             {/* ── نوار پایین موبایل/تبلت ───────────────── */}
@@ -179,7 +182,7 @@ function SideNavigation({ role, badges = {} }) {
                             );
                         })}
 
-                        {/* 👈 دکمه خروج در موبایل (بدون متن) */}
+                        {/* دکمه خروج در موبایل */}
                         <div className="relative flex-1 flex justify-center h-full">
                             <LogoutButton onMenuClose={() => {}} />
                         </div>
