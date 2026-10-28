@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { estedad } from "../_fonts/fonts";
-import LogoutButton from "./LogoutButton";
 
 const navigations = [
     { id: 2, label: "درباره ما", target: "about" },
@@ -12,7 +11,7 @@ const navigations = [
     { id: 4, label: "خدمات", target: "services" },
 ];
 
-function MobileMenu({ profile }) {
+function MobileMenu() {
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState("home");
     const [mounted, setMounted] = useState(false);
@@ -52,7 +51,7 @@ function MobileMenu({ profile }) {
 
             <aside
                 dir="rtl"
-                className={`fixed top-0 right-0 z-[9999] h-dvh w-[75%] max-w-sm flex flex-col overflow-y-auto
+                className={`fixed top-0 right-0 z-[9999] h-dvh w-[75%] max-w-sm overflow-y-auto
                             bg-cream-50 dark:bg-night-900
                             shadow-2xl border-l border-night-700/10 dark:border-cream-50/10
                             transition-transform duration-300 ease-out
@@ -69,7 +68,7 @@ function MobileMenu({ profile }) {
                     </button>
                 </div>
 
-                <ul className="flex flex-col p-4 gap-1 flex-1">
+                <ul className="flex flex-col p-4 gap-1">
                     {navigations.map((nav) => (
                         <li key={nav.id}>
                             <a
@@ -88,13 +87,6 @@ function MobileMenu({ profile }) {
                         </li>
                     ))}
                 </ul>
-
-                {/* دکمه خروج (فقط برای کاربران لاگین‌کرده) */}
-                {profile && (
-                    <div className="p-4 border-t border-night-700/10 dark:border-cream-50/10 mt-auto">
-                        <LogoutButton onMenuClose={() => setOpen(false)} />
-                    </div>
-                )}
             </aside>
         </>
     );
