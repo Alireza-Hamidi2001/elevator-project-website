@@ -35,12 +35,11 @@ function SideNavigation({ role, badges = {} }) {
             const activeEl = itemRefs.current[activeIndex];
             const container = navContainerRef.current;
 
-            // محاسبه‌ی فاصله‌ی مرکز آیتم فعال از مرکز کانتینر
             const activeCenter = activeEl.offsetLeft + activeEl.offsetWidth / 2;
             const containerCenter = container.offsetWidth / 2;
 
             setBubbleStyle({
-                left: activeCenter - containerCenter, // حرکت نسبت به مرکز
+                left: activeCenter - containerCenter,
                 opacity: 1,
             });
         }
@@ -105,12 +104,12 @@ function SideNavigation({ role, badges = {} }) {
 
             {/* ── نوار پایین موبایل/تبلت ───────────────── */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-0 pointer-events-none">
-                <div className="relative  rounded-sm pointer-events-auto">
+                <div className="relative rounded-sm pointer-events-auto">
                     <div
                         ref={navContainerRef}
                         className="relative flex items-center justify-around px-2 h-16"
                     >
-                        {/* ── حباب متحرک (Movable Bubble) ── */}
+                        {/* حباب متحرک */}
                         <div
                             className="absolute -top-5 w-14 h-14 bg-cream-50 dark:bg-night-950 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
                             style={{
@@ -122,7 +121,6 @@ function SideNavigation({ role, badges = {} }) {
                             <div className="w-12 h-12 bg-amber-500 dark:bg-amber-700 shadow-lg rounded-full flex items-center justify-center">
                                 {activeIndex !== -1 &&
                                     (() => {
-                                        // استفاده از iconActive در حباب
                                         const ActiveIcon =
                                             links[activeIndex].iconActive ||
                                             links[activeIndex].icon;
@@ -133,7 +131,7 @@ function SideNavigation({ role, badges = {} }) {
                             </div>
                         </div>
 
-                        {/* ── آیتم‌های منو ── */}
+                        {/* آیتم‌های منو */}
                         {links.map((item, index) => {
                             const active = isActive(item);
                             const Icon = item.icon;
@@ -152,7 +150,6 @@ function SideNavigation({ role, badges = {} }) {
                                         className="relative z-10 w-full h-full flex items-center justify-center text-white hover:text-white transition-colors duration-300"
                                         aria-label={item.name}
                                     >
-                                        {/* آیکون‌های غیرفعال */}
                                         {!active && (
                                             <div className="relative">
                                                 <Icon className="w-7 h-7 transition-transform duration-300 hover:scale-110 text-black dark:text-white" />
@@ -170,7 +167,6 @@ function SideNavigation({ role, badges = {} }) {
                                             </div>
                                         )}
 
-                                        {/* نشانگر ریز (نقطه) زیر آیتم فعال */}
                                         <span
                                             className={`absolute bottom-1.5 w-2 h-2 rounded-full bg-amber-500 transition-all duration-300 ${
                                                 active
@@ -182,6 +178,11 @@ function SideNavigation({ role, badges = {} }) {
                                 </div>
                             );
                         })}
+
+                        {/* 👈 دکمه خروج در موبایل (بدون متن) */}
+                        <div className="relative flex-1 flex justify-center h-full">
+                            <LogoutButton onMenuClose={() => {}} />
+                        </div>
                     </div>
                 </div>
             </nav>

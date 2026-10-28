@@ -1,3 +1,4 @@
+// app/components/LogoutButton.jsx
 "use client";
 
 import { useState } from "react";
@@ -10,22 +11,22 @@ export default function LogoutButton({ onMenuClose }) {
     const { handleLogout, pending } = useLogout();
 
     function handleClick() {
-        if (onMenuClose) onMenuClose(); // بستن منوی کاربری
-        setConfirmOpen(true); // باز کردن مودال
+        if (onMenuClose) onMenuClose();
+        setConfirmOpen(true);
     }
 
     function handleConfirm() {
-        handleLogout(() => setConfirmOpen(false)); // بستن مودال بعد از موفقیت
+        handleLogout(() => setConfirmOpen(false));
     }
 
     return (
         <>
             <button
                 onClick={handleClick}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                className="flex items-center justify-center gap-2 w-full h-full text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition rounded-md px-2 py-2"
             >
-                <LuLogOut />
-                خروج از حساب
+                <LuLogOut className="w-6 h-6" />
+                <span className="hidden sm:inline text-sm">خروج از حساب</span>
             </button>
 
             <LogoutConfirmModal
