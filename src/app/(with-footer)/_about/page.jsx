@@ -11,11 +11,11 @@ import Link from "next/link";
 import { RiTargetFill } from "react-icons/ri";
 import { almarai, estedad, parastoo } from "../../_fonts/fonts";
 import Address from "../../components/Address";
-import Testimonials from "../../components/Testimonials";
 import { features_about } from "../../components/Variables";
 import GalleryServer from "../../components/gallery/GalleryServer";
 import PeopleServer from "../../components/gallery/PeopleServer";
 import image_1 from "./../../../app/public/image-1.png";
+import Testimonials from "@/app/components/_testimonials/Testimonials";
 
 export const metadata = {
     title: "درباره ما",
@@ -302,7 +302,7 @@ function AboutSection() {
                     title="مشتریان ما چه می‌گویند"
                     subtitle="اعتماد شما، بزرگ‌ترین سرمایه ماست."
                 />
-                <Testimonials testimonials={testimonials} />
+                <Testimonials />
 
                 {/* ===== سوالات متداول ===== */}
                 <SectionHeader

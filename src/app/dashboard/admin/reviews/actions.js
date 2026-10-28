@@ -44,3 +44,40 @@ export async function updateReviewStatusAction(reviewId, newStatus) {
 
     return { success: true };
 }
+
+export async function deleteReviewAction(reviewId) {
+    const supabase = await createClient();
+
+    // ۱. چک کردن ادمین بودن کاربر جاری
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return { error: "دسترسی غیرمجاز." };
+
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, is_active")
+        .eq("id", user.id)
+        .single();
+
+    if (profile?.role !== "admin" || !profile.is_active) {
+        return { error: "شما دسترسی به این عملیات را ندارید." };
+    }
+
+    // ۲. حذف نظر از دیتابیس
+    const { error } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("id", reviewId);
+
+    if (error) {
+        console.error("DELETE REVIEW ERROR >>>", error);
+        return { error: "خطا در حذف نظر." };
+    }
+
+    // ۳. رفرش کش
+    revalidatePath("/dashboard/admin/reviews");
+    revalidatePath("/"); // برای صفحه اصلی
+
+    return { success: true };
+}

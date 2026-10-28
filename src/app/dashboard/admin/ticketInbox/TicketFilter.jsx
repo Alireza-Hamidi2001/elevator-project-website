@@ -39,15 +39,15 @@ export default function TicketFilter() {
     return (
         <div className="flex flex-col gap-4 mb-6">
             {/* فیلتر وضعیت */}
-            <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-medium text-night-700 dark:text-cream-50 ml-1">
+            <div className="grid grid-cols-[auto_1fr_1fr_1fr] sm:grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-2">
+                <span className="text-sm col-span-6 sm:col-auto font-medium text-night-700 dark:text-cream-50 ml-1">
                     وضعیت:
                 </span>
                 {statuses.map((s) => (
                     <button
                         key={s.value}
                         onClick={() => updateParams("status", s.value)}
-                        className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                             currentStatus === s.value
                                 ? "bg-blue-600 text-white shadow-sm"
                                 : "border border-amber-100 dark:border-night-700 bg-cream-50 dark:bg-night-800 text-night-700 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-night-700"
@@ -59,15 +59,15 @@ export default function TicketFilter() {
             </div>
 
             {/* فیلتر دسته‌بندی */}
-            <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-medium text-night-700 dark:text-cream-50 ml-1">
+            <div className="grid grid-cols-3 sm:grid-cols-[auto_1fr_1fr_1fr_1fr_1fr] items-center gap-2">
+                <span className="text-sm col-span-3 sm:col-auto font-medium text-night-700 dark:text-cream-50 ml-1">
                     موضوع:
                 </span>
                 {categories.map((c) => (
                     <button
                         key={c.value}
                         onClick={() => updateParams("category", c.value)}
-                        className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                             currentCategory === c.value
                                 ? "bg-amber-700 text-white shadow-sm"
                                 : "border border-amber-100 dark:border-night-700 bg-cream-50 dark:bg-night-800 text-night-700 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-night-700"

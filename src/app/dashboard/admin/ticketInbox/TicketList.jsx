@@ -1,15 +1,15 @@
 // app/dashboard/admin/ticketInbox/TicketList.jsx
 import { createClient } from "@/lib/supabase/server";
-import { almarai, estedad } from "@/app/_fonts/fonts";
+import { almarai } from "@/app/_fonts/fonts";
 import {
-    FaRegClock,
-    FaUser,
     FaCheckCircle,
     FaRegCircle,
+    FaUser,
     FaUserShield,
 } from "react-icons/fa";
 import ReplyTicketButton from "./ReplyTicketButton";
 import Pagination from "../reviews/Pagination";
+import PersianNumber from "@/app/components/PersianNumber"; // 👈 اضافه شد
 
 // تاریخ
 function formatDate(dateString) {
@@ -46,7 +46,7 @@ export default async function TicketList({ searchParams }) {
     } = await supabase.auth.getUser();
 
     const statusFilter = searchParams?.status || "all";
-    const categoryFilter = searchParams?.category || "all"; // 👈 اضافه شد
+    const categoryFilter = searchParams?.category || "all";
     const page = Number(searchParams?.page) || 1;
     const limit = 5;
     const from = (page - 1) * limit;
@@ -57,7 +57,7 @@ export default async function TicketList({ searchParams }) {
         .select(
             `
             *, 
-            profiles (first_name, last_name, avatar_url), 
+            profiles (first_name, last_name, avatar_url, phone), 
             ticket_messages (
                 id,
                 body,
@@ -70,10 +70,8 @@ export default async function TicketList({ searchParams }) {
         .order("created_at", { ascending: false })
         .range(from, to);
 
-    // اعمال فیلتر وضعیت
+    // اعمال فیلترها
     if (statusFilter !== "all") query = query.eq("status", statusFilter);
-
-    // اعمال فیلتر دسته‌بندی (موضوع)
     if (categoryFilter !== "all") query = query.eq("category", categoryFilter);
 
     const { data: tickets, count, error } = await query;
@@ -89,7 +87,10 @@ export default async function TicketList({ searchParams }) {
         <div className="space-y-6">
             {tickets?.map((ticket) => {
                 const status = STATUS_MAP[ticket.status] || STATUS_MAP.open;
-                const senderName = `${ticket.profiles?.first_name} ${ticket.profiles?.last_name}`;
+                const senderName = `${ticket.profiles?.first_name ?? ""} ${
+                    ticket.profiles?.last_name ?? ""
+                }`.trim();
+                const phone = ticket.profiles?.phone;
                 const initial = ticket.profiles?.first_name?.charAt(0) || "?";
 
                 // مرتب‌سازی پیام‌ها از قدیمی به جدید
@@ -118,10 +119,26 @@ export default async function TicketList({ searchParams }) {
                                         </span>
                                     )}
                                 </div>
-                                <div>
+                                <div className="flex flex-col">
                                     <p className="text-[1.1rem] text-night-900 dark:text-cream-50">
                                         {senderName}
                                     </p>
+                                    {/* 👈 شماره تلفن کاربر */}
+                                    {phone ? (
+                                        <p
+                                            className="text-xs text-center text-night-700/60 dark:text-cream-50/60 mt-0.5"
+                                            dir="ltr"
+                                        >
+                                            <PersianNumber value={phone} />
+                                        </p>
+                                    ) : (
+                                        <p
+                                            className="text-xs text-night-700/60 dark:text-cream-50/60 mt-0.5"
+                                            dir="ltr"
+                                        >
+                                            خطا در نمایش شماره همراه کاربر.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             <span
@@ -188,7 +205,7 @@ export default async function TicketList({ searchParams }) {
                             </div>
                         </div>
 
-                        {/* فوتر: دکمه پاسخ (فقط برای تیکت‌های باز) */}
+                        {/* فوتر: دکمه پاسخ */}
                         <div className="flex justify-end pt-2 border-t border-night-700/5 dark:border-cream-50/5 mt-2">
                             {ticket.status !== "closed" ? (
                                 <ReplyTicketButton

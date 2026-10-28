@@ -1,18 +1,20 @@
+// app/dashboard/admin/register/RegisterForm.jsx
 "use client";
 
-import { useActionState, useState, useEffect } from "react"; // useEffect اضافه شد
+import { useActionState, useState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import PasswordInputWithConfirm from "../../../components/PasswordInputWithConfirm";
 import GenderSelect from "../../../components/GenderSelect";
 import { registerAction } from "./actions";
 import CustomSelect from "@/app/components/CustomSelect";
-import { toast } from "@/app/components/toast"; // toast اضافه شد
+import { toast } from "@/app/components/toast";
 import { almarai } from "@/app/_fonts/fonts";
+import PersianDatePicker from "@/app/components/PersianDatePicker";
+import SpinnerMini from "@/app/components/SpinnerMini";
 
-// دکمه جداگانه چون useFormStatus فقط داخل فرم کار می‌کنه
+// دکمه جداگانه
 function SubmitButton() {
     const { pending } = useFormStatus();
-
     return (
         <button
             type="submit"
@@ -20,12 +22,12 @@ function SubmitButton() {
             className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/60 disabled:cursor-not-allowed text-white rounded-md py-2.5 mt-2 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 text-[1.2rem] sm:text-[1.4rem]"
         >
             {pending ? (
-                <>
-                    <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                <p className="flex items-center gap-2 text-[1rem]">
+                    <SpinnerMini />
                     در حال ثبت
-                </>
+                </p>
             ) : (
-                "ایجاد حساب کاربری"
+                <p className="text-[1rem]">ایجاد حساب کاربری</p>
             )}
         </button>
     );
@@ -42,14 +44,18 @@ const initialFormState = {
     jobTitle: "",
     password: "",
     confirmPassword: "",
+    contractEndDate: "",
 };
 
-export default function RegisterForm() {
+// ────────────────────────────────────────────────────────
+// ۱. کامپوننت داخلی (فرم اصلی)
+// ────────────────────────────────────────────────────────
+function RegisterFormContent({ onSuccess }) {
     const [state, formAction] = useActionState(registerAction, {
         ok: null,
         errors: {},
         message: "",
-        ts: null, // 👈 برای تشخیص ثبت‌های تکراری
+        ts: null,
     });
 
     const [form, setForm] = useState(initialFormState);
@@ -58,18 +64,17 @@ export default function RegisterForm() {
         setForm((prev) => ({ ...prev, [field]: value }));
     }
 
-    // مدیریت Toast و ریست فرم
+    // فقط برای Toast
     useEffect(() => {
         if (state.message && state.ts) {
-            // مطمئن میشیم ts وجود داره
             if (state.ok) {
                 toast.success(state.message);
-                setForm(initialFormState); // 👈 خالی کردن فرم
+                onSuccess(); // 👈 به جای setForm، به والد می‌گیم که فرم رو ریست کنه
             } else {
                 toast.error(state.message);
             }
         }
-    }, [state.ts]); // 👈 وابسته به ts
+    }, [state.ts, state.ok, state.message, onSuccess]);
 
     const errors = state.errors || {};
 
@@ -121,7 +126,6 @@ export default function RegisterForm() {
                         </span>
                     )}
                 </div>
-
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="lastName"
@@ -267,7 +271,7 @@ export default function RegisterForm() {
                 )}
             </div>
 
-            {/* ایمیل (اختیاری) */}
+            {/* ایمیل */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="email"
@@ -295,7 +299,28 @@ export default function RegisterForm() {
                 )}
             </div>
 
-            {/* رمز عبور + تکرار */}
+            {/* تاریخ پایان قرارداد */}
+            <div className="flex flex-col gap-2">
+                <label
+                    htmlFor="contractEndDate"
+                    className="text-[1rem] font-medium"
+                >
+                    &bull; تاریخ پایان قرارداد
+                </label>
+                <PersianDatePicker
+                    name="contractEndDate"
+                    value={form.contractEndDate}
+                    onChange={(v) => update("contractEndDate", v)}
+                    error={errors.contractEndDate}
+                />
+                {errors.contractEndDate && (
+                    <span className="text-xs text-red-500">
+                        {errors.contractEndDate}
+                    </span>
+                )}
+            </div>
+
+            {/* رمز عبور */}
             <PasswordInputWithConfirm
                 password={form.password}
                 confirmPassword={form.confirmPassword}
@@ -306,5 +331,19 @@ export default function RegisterForm() {
 
             <SubmitButton />
         </form>
+    );
+}
+
+// ────────────────────────────────────────────────────────
+// ۲. کامپوننت اصلی (فقط مدیریت key)
+// ────────────────────────────────────────────────────────
+export default function RegisterForm() {
+    const [formKey, setFormKey] = useState(0);
+
+    return (
+        <RegisterFormContent
+            key={formKey}
+            onSuccess={() => setFormKey((prev) => prev + 1)}
+        />
     );
 }

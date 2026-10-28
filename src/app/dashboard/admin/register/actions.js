@@ -18,7 +18,10 @@ export async function registerAction(prevState, formData) {
     const password = formData.get("password")?.toString();
     const confirmPassword = formData.get("confirmPassword")?.toString();
 
-    // ۲. اعتبارسنجی ساده سمت سرور
+    // 👈 استخراج تاریخ پایان قرارداد
+    const contractEndDate = formData.get("contractEndDate")?.toString().trim();
+
+    // ۲. اعتبارسنجی سمت سرور
     const errors = {};
     if (!firstName) errors.firstName = "نام الزامی است.";
     if (!lastName) errors.lastName = "نام خانوادگی الزامی است.";
@@ -32,15 +35,21 @@ export async function registerAction(prevState, formData) {
     if (password !== confirmPassword)
         errors.confirmPassword = "رمز عبور و تکرار آن یکسان نیستند.";
 
+    // 👈 اعتبارسنجی تاریخ پایان قرارداد
+    if (!contractEndDate) {
+        errors.contractEndDate = "تاریخ پایان قرارداد الزامی است.";
+    }
+
     if (Object.keys(errors).length > 0) {
         return {
             ok: false,
             errors,
             message: "لطفاً خطاهای فرم را برطرف کنید.",
+            ts: Date.now(),
         };
     }
 
-    // ۳. چک کردن ادمین بودن کاربر فعلی (Security Check)
+    // ۳. چک کردن ادمین بودن کاربر فعلی
     const supabase = await createClient();
     const {
         data: { user },
@@ -51,6 +60,7 @@ export async function registerAction(prevState, formData) {
             ok: false,
             errors: {},
             message: "دسترسی غیرمجاز. لطفاً وارد شوید.",
+            ts: Date.now(),
         };
     }
 
@@ -65,10 +75,11 @@ export async function registerAction(prevState, formData) {
             ok: false,
             errors: {},
             message: "شما دسترسی به این عملیات را ندارید.",
+            ts: Date.now(),
         };
     }
 
-    // ۴. چک کردن اینکه شماره موبایل تکراری نباشد
+    // ۴. چک تکراری نبودن شماره موبایل
     const { data: existingPhone } = await supabaseAdmin
         .from("profiles")
         .select("id")
@@ -80,16 +91,17 @@ export async function registerAction(prevState, formData) {
             ok: false,
             errors: { phone: "این شماره موبایل قبلاً ثبت شده است." },
             message: "کاربری با این شماره وجود دارد.",
+            ts: Date.now(),
         };
     }
 
-    // ۵. ساخت کاربر در auth.users با کلید ادمین
-    const authEmail = toAuthEmail(phone); // تبدیل شماره به ایمیل جعلی
+    // ۵. ساخت کاربر در auth.users
+    const authEmail = toAuthEmail(phone);
     const { data: authData, error: authError } =
         await supabaseAdmin.auth.admin.createUser({
             email: authEmail,
             password: password,
-            email_confirm: true, // تایید خودکار ایمیل
+            email_confirm: true,
             user_metadata: {
                 first_name: firstName,
                 last_name: lastName,
@@ -102,7 +114,7 @@ export async function registerAction(prevState, formData) {
         if (authError.message.includes("already been registered")) {
             msg = "کاربری با این شماره موبایل از قبل وجود دارد.";
         }
-        return { ok: false, errors: {}, message: msg };
+        return { ok: false, errors: {}, message: msg, ts: Date.now() };
     }
 
     const newUserId = authData.user.id;
@@ -121,19 +133,19 @@ export async function registerAction(prevState, formData) {
             role: role,
             job_title: jobTitle,
             is_active: true,
+            contract_end_date: contractEndDate || null, // 👈 اضافه شد
         });
 
-    // ۷. اگر درج در profiles خطا داد، کاربر Auth رو پاک می‌کنیم (Rollback)
+    // ۷. اگر خطا داد، کاربر Auth رو پاک می‌کنیم
     if (profileError) {
         console.error("Profile Insert Error:", profileError);
         await supabaseAdmin.auth.admin.deleteUser(newUserId);
 
         let msg = "خطا در ذخیره اطلاعات کاربر.";
         if (profileError.code === "23505") {
-            // unique violation
             msg = "کد ملی یا شماره موبایل تکراری است.";
         }
-        return { ok: false, errors: {}, message: msg };
+        return { ok: false, errors: {}, message: msg, ts: Date.now() };
     }
 
     // ۸. موفقیت
@@ -141,6 +153,6 @@ export async function registerAction(prevState, formData) {
         ok: true,
         errors: {},
         message: "حساب کاربری با موفقیت ایجاد شد.",
-        ts: Date.now(), // 👈 این خط اضافه شود
+        ts: Date.now(),
     };
 }
