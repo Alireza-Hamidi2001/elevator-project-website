@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { estedad } from "../_fonts/fonts";
 import PersianNumber from "./PersianNumber";
+import Link from "next/link";
 
 export default function ProfileCard({ profile }) {
     const fullName =
@@ -92,12 +93,18 @@ export default function ProfileCard({ profile }) {
                     </div>
 
                     <div className="flex flex-col items-center sm:items-start text-center sm:text-right flex-1">
-                        <h2 className="text-xl sm:text-2xl font-bold text-night-900 dark:text-cream-50">
+                        <h2 className="text-xl sm:text-2xl text-night-900 dark:text-cream-50">
                             {fullName}
                         </h2>
-                        <span className="mt-1 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                        <span className="mt-1 my-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-500 dark:bg-red-800/30 dark:text-red-300">
                             {roleLabel}
                         </span>
+                        <Link
+                            href="/"
+                            className="sm:hidden underline text-night-700/70 dark:text-cream-50/50"
+                        >
+                            صفحه اصلی
+                        </Link>
 
                         {/* نمایش وضعیت قرارداد فقط برای کاربر عادی */}
                         {isUser && contractStatus === "expired" && (
@@ -140,7 +147,7 @@ export default function ProfileCard({ profile }) {
                                         {item.label}: &nbsp;
                                     </p>
                                     <p
-                                        className="text-sm font-medium text-night-900 dark:text-cream-50 truncate"
+                                        className="text-[0.8rem] font-medium text-night-900 dark:text-cream-50 truncate"
                                         dir={item.ltr ? "ltr" : undefined}
                                     >
                                         {item.numeric && item.value ? (

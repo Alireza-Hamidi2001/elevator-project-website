@@ -105,7 +105,7 @@ function SideNavigation({ role, badges = {} }) {
 
             {/* ── نوار پایین موبایل/تبلت ───────────────── */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-0 pointer-events-none">
-                <div className="relative bg-blue-300 dark:bg-blue-500 rounded-sm shadow-[0_8px_30px_rgba(59,130,246,0.3)] pointer-events-auto">
+                <div className="relative  rounded-sm pointer-events-auto">
                     <div
                         ref={navContainerRef}
                         className="relative flex items-center justify-around px-2 h-16"
@@ -119,7 +119,7 @@ function SideNavigation({ role, badges = {} }) {
                                 opacity: bubbleStyle.opacity,
                             }}
                         >
-                            <div className="w-12 h-12 bg-blue-500 dark:bg-blue-700 rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-amber-500 dark:bg-amber-700 shadow-lg rounded-full flex items-center justify-center">
                                 {activeIndex !== -1 &&
                                     (() => {
                                         // استفاده از iconActive در حباب
@@ -136,7 +136,6 @@ function SideNavigation({ role, badges = {} }) {
                         {/* ── آیتم‌های منو ── */}
                         {links.map((item, index) => {
                             const active = isActive(item);
-                            // در موبایل آیکون فعال توی حباب نشون داده میشه، پس برای بقیه از icon استفاده میکنیم
                             const Icon = item.icon;
                             const count = item.badgeKey
                                 ? badges[item.badgeKey] ?? 0
@@ -156,9 +155,9 @@ function SideNavigation({ role, badges = {} }) {
                                         {/* آیکون‌های غیرفعال */}
                                         {!active && (
                                             <div className="relative">
-                                                <Icon className="w-6 h-6 transition-transform duration-300 hover:scale-110" />
+                                                <Icon className="w-7 h-7 transition-transform duration-300 hover:scale-110 text-black dark:text-white" />
                                                 {count > 0 && (
-                                                    <span className="absolute -top-1.5 -right-2 min-w-4 h-4 px-1 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold border border-blue-500">
+                                                    <span className="absolute -top-1.5 -right-2 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold border border-red-700">
                                                         <PersianNumber
                                                             value={
                                                                 count > 99
@@ -173,7 +172,7 @@ function SideNavigation({ role, badges = {} }) {
 
                                         {/* نشانگر ریز (نقطه) زیر آیتم فعال */}
                                         <span
-                                            className={`absolute bottom-1.5 w-2 h-2 rounded-full bg-white transition-all duration-300 ${
+                                            className={`absolute bottom-1.5 w-2 h-2 rounded-full bg-amber-500 transition-all duration-300 ${
                                                 active
                                                     ? "opacity-100 scale-100"
                                                     : "opacity-0 scale-0"
