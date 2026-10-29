@@ -106,7 +106,7 @@ function SideNavigation({ role, badges = {} }) {
             </nav>
 
             {/* ── نوار پایین موبایل/تبلت ───────────────── */}
-            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-0 pointer-events-none">
+            <nav className="backdrop-blur-lg md:hidden fixed bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-0 pointer-events-none">
                 <div className="relative rounded-sm pointer-events-auto">
                     <div
                         ref={navContainerRef}
@@ -114,14 +114,14 @@ function SideNavigation({ role, badges = {} }) {
                     >
                         {/* حباب متحرک */}
                         <div
-                            className="absolute -top-5 w-14 h-14 bg-cream-50 dark:bg-night-950 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+                            className="absolute -top-6 w-15 h-15 bg-cream-50 dark:bg-night-950 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
                             style={{
                                 left: "50%",
                                 transform: `translateX(calc(-50% + ${bubbleStyle.left}px))`,
                                 opacity: bubbleStyle.opacity,
                             }}
                         >
-                            <div className="w-12 h-12 bg-amber-500 dark:bg-amber-700 shadow-lg rounded-full flex items-center justify-center">
+                            <div className="w-14 h-14 bg-amber-400 dark:bg-amber-600/50 shadow-lg rounded-full flex items-center justify-center">
                                 {activeIndex !== -1 &&
                                     (() => {
                                         const ActiveIcon =
