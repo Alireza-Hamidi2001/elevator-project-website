@@ -1,4 +1,3 @@
-// app/dashboard/admin/register/RegisterForm.jsx
 "use client";
 
 import { useActionState, useState, useEffect } from "react";
@@ -11,8 +10,8 @@ import { toast } from "@/app/components/toast";
 import { almarai } from "@/app/_fonts/fonts";
 import PersianDatePicker from "@/app/components/PersianDatePicker";
 import SpinnerMini from "@/app/components/SpinnerMini";
+import { IoStarSharp } from "react-icons/io5";
 
-// دکمه جداگانه
 function SubmitButton() {
     const { pending } = useFormStatus();
     return (
@@ -44,12 +43,10 @@ const initialFormState = {
     jobTitle: "",
     password: "",
     confirmPassword: "",
+    contractStartDate: "",
     contractEndDate: "",
 };
 
-// ────────────────────────────────────────────────────────
-// ۱. کامپوننت داخلی (فرم اصلی)
-// ────────────────────────────────────────────────────────
 function RegisterFormContent({ onSuccess }) {
     const [state, formAction] = useActionState(registerAction, {
         ok: null,
@@ -64,12 +61,11 @@ function RegisterFormContent({ onSuccess }) {
         setForm((prev) => ({ ...prev, [field]: value }));
     }
 
-    // فقط برای Toast
     useEffect(() => {
         if (state.message && state.ts) {
             if (state.ok) {
                 toast.success(state.message);
-                onSuccess(); // 👈 به جای setForm، به والد می‌گیم که فرم رو ریست کنه
+                onSuccess();
             } else {
                 toast.error(state.message);
             }
@@ -100,14 +96,14 @@ function RegisterFormContent({ onSuccess }) {
                 </p>
             </div>
 
-            {/* نام و نام خانوادگی */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="firstName"
-                        className="text-[1rem] font-medium"
+                        className="flex gap-1 text-[1rem] font-medium"
                     >
-                        &bull; نام
+                        &bull; نام{" "}
+                        <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                     </label>
                     <input
                         id="firstName"
@@ -129,9 +125,10 @@ function RegisterFormContent({ onSuccess }) {
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="lastName"
-                        className="text-[1rem] font-medium"
+                        className="flex gap-1 text-[1rem] font-medium"
                     >
-                        &bull; نام خانوادگی
+                        &bull; نام خانوادگی{" "}
+                        <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                     </label>
                     <input
                         id="lastName"
@@ -152,7 +149,6 @@ function RegisterFormContent({ onSuccess }) {
                 </div>
             </div>
 
-            {/* جنسیت */}
             <GenderSelect
                 value={form.gender}
                 onChange={(v) => update("gender", v)}
@@ -164,13 +160,13 @@ function RegisterFormContent({ onSuccess }) {
                 value={form.gender}
             />
 
-            {/* کد ملی */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="nationalId"
-                    className="text-[1rem] font-medium"
+                    className="flex gap-1 text-[1rem] font-medium"
                 >
-                    &bull; کد ملی
+                    &bull; کد ملی{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                 </label>
                 <input
                     id="nationalId"
@@ -194,13 +190,13 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* شماره تلفن */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="phone"
-                    className="text-[1rem] font-medium"
+                    className="flex gap-1 text-[1rem] font-medium"
                 >
-                    &bull; شماره تلفن
+                    &bull; شماره تلفن{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                 </label>
                 <input
                     id="phone"
@@ -223,9 +219,11 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* نقش */}
             <div className="flex flex-col gap-2">
-                <label className="text-[1rem] font-medium">&bull; نقش</label>
+                <label className="flex gap-1 text-[1rem] font-medium">
+                    &bull; نقش{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                </label>
                 <CustomSelect
                     name="role"
                     value={form.role}
@@ -242,14 +240,13 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* شغل / سمت */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="jobTitle"
                     className="text-[1rem] font-medium"
                 >
                     &bull; شغل یا سمت{" "}
-                    <span className="text-xs text-night-700/50 dark:text-cream-50/50">
+                    <span className="text-xs text-amber-600 dark:text-amber-300">
                         (اختیاری)
                     </span>
                 </label>
@@ -271,14 +268,13 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* ایمیل */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="email"
                     className="text-[1rem] font-medium"
                 >
                     &bull; ایمیل{" "}
-                    <span className="text-xs text-night-700/50 dark:text-cream-50/50">
+                    <span className="text-xs text-amber-600 dark:text-amber-300">
                         (اختیاری)
                     </span>
                 </label>
@@ -299,13 +295,34 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* تاریخ پایان قرارداد */}
+            <div className="flex flex-col gap-2">
+                <label
+                    htmlFor="contractStartDate"
+                    className="flex gap-1 text-[1rem] font-medium"
+                >
+                    &bull; تاریخ شروع قرارداد{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                </label>
+                <PersianDatePicker
+                    name="contractStartDate"
+                    value={form.contractStartDate}
+                    onChange={(v) => update("contractStartDate", v)}
+                    error={errors.contractStartDate}
+                />
+                {errors.contractStartDate && (
+                    <span className="text-xs text-red-500">
+                        {errors.contractStartDate}
+                    </span>
+                )}
+            </div>
+
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="contractEndDate"
-                    className="text-[1rem] font-medium"
+                    className="flex gap-1 text-[1rem] font-medium"
                 >
-                    &bull; تاریخ پایان قرارداد
+                    &bull; تاریخ پایان قرارداد{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                 </label>
                 <PersianDatePicker
                     name="contractEndDate"
@@ -320,7 +337,6 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
-            {/* رمز عبور */}
             <PasswordInputWithConfirm
                 password={form.password}
                 confirmPassword={form.confirmPassword}
@@ -334,12 +350,8 @@ function RegisterFormContent({ onSuccess }) {
     );
 }
 
-// ────────────────────────────────────────────────────────
-// ۲. کامپوننت اصلی (فقط مدیریت key)
-// ────────────────────────────────────────────────────────
 export default function RegisterForm() {
     const [formKey, setFormKey] = useState(0);
-
     return (
         <RegisterFormContent
             key={formKey}

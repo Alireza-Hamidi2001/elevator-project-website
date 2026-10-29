@@ -1,7 +1,7 @@
-// app/dashboard/layout.jsx
 import { createClient } from "@/lib/supabase/server";
 import SideNavigation from "@/app/components/SideNavigation";
 import WelcomeToast from "@/app/components/WelcomeToast";
+import ContractAlert from "@/app/components/ContractAlert"; // 👈 اضافه شد
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import HeaderDashboard from "../components/HeaderDashboard";
@@ -14,24 +14,22 @@ export default async function DashboardLayout({ children }) {
 
     if (!user) redirect("/login");
 
-    // دریافت پروفایل کاربر همراه با آواتار و نقش
     const { data: profile } = await supabase
         .from("profiles")
-        .select("role, first_name, last_name, is_active, avatar_url")
+        .select(
+            "role, first_name, last_name, is_active, avatar_url, contract_end_date",
+        )
         .eq("id", user.id)
         .single();
 
-    // اگر پروفایل نبود یا غیرفعال بود
     if (!profile || !profile.is_active) {
         await supabase.auth.signOut();
         redirect("/login?error=inactive");
     }
 
-    // بررسی کوکی برای Toast خوش‌آمدگویی
     const cookieStore = await cookies();
     const showWelcome = cookieStore.get("welcome_toast")?.value === "1";
 
-    // محاسبه Badgeها (فقط برای ادمین)
     let badges = {};
     if (profile.role === "admin") {
         const [reviewsCount, ticketsCount] = await Promise.all([
@@ -51,21 +49,31 @@ export default async function DashboardLayout({ children }) {
         };
     }
 
+    // 👈 محاسبه روزهای باقی‌مانده تا پایان قرارداد (فقط برای کاربر عادی)
+    let remainingDays = null;
+    if (profile.role === "user" && profile.contract_end_date) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const endDate = new Date(profile.contract_end_date);
+        endDate.setHours(0, 0, 0, 0);
+        const diff = endDate - today;
+        remainingDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        if (remainingDays > 30) remainingDays = null; // اگر بیشتر از ۳۰ روز بود، هشدار نده
+    }
+
     return (
         <div className="flex min-h-screen">
-            {/* Toast برای ورود موفق */}
             <WelcomeToast show={showWelcome} />
-
-            {/* سایدبار با نقش و بج‌های مربوطه */}
             <SideNavigation
                 role={profile.role}
                 badges={badges}
             />
-
-            {/* محتوای اصلی */}
             <div className="flex flex-col flex-1 min-w-0">
-                {/* هدر (می‌تونی پروفایل رو پاس بدی تا آواتار رو نشون بده) */}
-                <HeaderDashboard profile={profile} />
+                <HeaderDashboard />
+                {profile.role === "user" && remainingDays !== null && (
+                    <ContractAlert remainingDays={remainingDays} />
+                )}
+
                 <main className="flex-1 pb-20 md:pb-0">{children}</main>
             </div>
         </div>

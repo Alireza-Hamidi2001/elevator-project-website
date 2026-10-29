@@ -1,6 +1,7 @@
 "use client";
 
 import { FaMale, FaFemale } from "react-icons/fa";
+import { IoStarSharp } from "react-icons/io5";
 
 const options = [
     { value: "male", label: "مرد", icon: <FaMale /> },
@@ -10,7 +11,10 @@ const options = [
 export default function GenderSelect({ value, onChange, error }) {
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium">&bull; جنسیت</span>
+            <span className="flex gap-1 text-sm font-medium">
+                &bull; جنسیت{" "}
+                <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+            </span>
             <div className="grid grid-cols-2 gap-3">
                 {options.map((opt) => {
                     const isSelected = value === opt.value;

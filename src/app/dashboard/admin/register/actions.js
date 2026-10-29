@@ -1,4 +1,3 @@
-// app/dashboard/admin/register/actions.js
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
@@ -6,7 +5,6 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { toAuthEmail } from "@/lib/auth";
 
 export async function registerAction(prevState, formData) {
-    // ۱. استخراج داده‌ها از فرم
     const firstName = formData.get("firstName")?.toString().trim();
     const lastName = formData.get("lastName")?.toString().trim();
     const gender = formData.get("gender")?.toString().trim();
@@ -17,11 +15,12 @@ export async function registerAction(prevState, formData) {
     const jobTitle = formData.get("jobTitle")?.toString().trim() || null;
     const password = formData.get("password")?.toString();
     const confirmPassword = formData.get("confirmPassword")?.toString();
-
-    // 👈 استخراج تاریخ پایان قرارداد
+    const contractStartDate = formData
+        .get("contractStartDate")
+        ?.toString()
+        .trim();
     const contractEndDate = formData.get("contractEndDate")?.toString().trim();
 
-    // ۲. اعتبارسنجی سمت سرور
     const errors = {};
     if (!firstName) errors.firstName = "نام الزامی است.";
     if (!lastName) errors.lastName = "نام خانوادگی الزامی است.";
@@ -34,11 +33,10 @@ export async function registerAction(prevState, formData) {
         errors.password = "رمز عبور باید حداقل ۸ کاراکتر باشد.";
     if (password !== confirmPassword)
         errors.confirmPassword = "رمز عبور و تکرار آن یکسان نیستند.";
-
-    // 👈 اعتبارسنجی تاریخ پایان قرارداد
-    if (!contractEndDate) {
+    if (!contractStartDate)
+        errors.contractStartDate = "تاریخ شروع قرارداد الزامی است.";
+    if (!contractEndDate)
         errors.contractEndDate = "تاریخ پایان قرارداد الزامی است.";
-    }
 
     if (Object.keys(errors).length > 0) {
         return {
@@ -49,7 +47,6 @@ export async function registerAction(prevState, formData) {
         };
     }
 
-    // ۳. چک کردن ادمین بودن کاربر فعلی
     const supabase = await createClient();
     const {
         data: { user },
@@ -79,7 +76,6 @@ export async function registerAction(prevState, formData) {
         };
     }
 
-    // ۴. چک تکراری نبودن شماره موبایل
     const { data: existingPhone } = await supabaseAdmin
         .from("profiles")
         .select("id")
@@ -95,17 +91,13 @@ export async function registerAction(prevState, formData) {
         };
     }
 
-    // ۵. ساخت کاربر در auth.users
     const authEmail = toAuthEmail(phone);
     const { data: authData, error: authError } =
         await supabaseAdmin.auth.admin.createUser({
             email: authEmail,
             password: password,
             email_confirm: true,
-            user_metadata: {
-                first_name: firstName,
-                last_name: lastName,
-            },
+            user_metadata: { first_name: firstName, last_name: lastName },
         });
 
     if (authError) {
@@ -119,7 +111,6 @@ export async function registerAction(prevState, formData) {
 
     const newUserId = authData.user.id;
 
-    // ۶. درج اطلاعات در جدول profiles
     const { error: profileError } = await supabaseAdmin
         .from("profiles")
         .insert({
@@ -133,22 +124,19 @@ export async function registerAction(prevState, formData) {
             role: role,
             job_title: jobTitle,
             is_active: true,
-            contract_end_date: contractEndDate || null, // 👈 اضافه شد
+            contract_start_date: contractStartDate || null,
+            contract_end_date: contractEndDate || null,
         });
 
-    // ۷. اگر خطا داد، کاربر Auth رو پاک می‌کنیم
     if (profileError) {
         console.error("Profile Insert Error:", profileError);
         await supabaseAdmin.auth.admin.deleteUser(newUserId);
-
         let msg = "خطا در ذخیره اطلاعات کاربر.";
-        if (profileError.code === "23505") {
+        if (profileError.code === "23505")
             msg = "کد ملی یا شماره موبایل تکراری است.";
-        }
         return { ok: false, errors: {}, message: msg, ts: Date.now() };
     }
 
-    // ۸. موفقیت
     return {
         ok: true,
         errors: {},

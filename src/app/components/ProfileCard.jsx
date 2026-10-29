@@ -1,4 +1,3 @@
-// app/components/ProfileCard.jsx
 import {
     FaUser,
     FaPhone,
@@ -16,10 +15,8 @@ export default function ProfileCard({ profile }) {
     const fullName =
         `${profile?.first_name ?? ""} ${profile?.last_name ?? ""}`.trim() ||
         "نام و نام خانوادگی";
-
     const roleLabel = profile?.role === "admin" ? "مدیر" : "کاربر";
 
-    // محاسبه روزهای باقی‌مانده (فقط برای کاربر عادی)
     let remainingDays = null;
     let contractStatus = null;
     const isUser = profile?.role === "user";
@@ -29,20 +26,14 @@ export default function ProfileCard({ profile }) {
         today.setHours(0, 0, 0, 0);
         const endDate = new Date(profile.contract_end_date);
         endDate.setHours(0, 0, 0, 0);
-
         const diffTime = endDate - today;
         remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        if (remainingDays < 0) {
-            contractStatus = "expired";
-        } else if (remainingDays <= 30) {
-            contractStatus = "warning";
-        } else {
-            contractStatus = "ok";
-        }
+        if (remainingDays < 0) contractStatus = "expired";
+        else if (remainingDays <= 30) contractStatus = "warning";
+        else contractStatus = "ok";
     }
 
-    // فرمت تاریخ شمسی
     const formatDate = (dateString) => {
         if (!dateString) return "—";
         return new Intl.DateTimeFormat("fa-IR", {
@@ -76,7 +67,6 @@ export default function ProfileCard({ profile }) {
             className={`${estedad.className} rounded-lg bg-cream-50 dark:bg-night-800 border border-cream-200 dark:border-night-700 shadow-sm overflow-hidden`}
         >
             <div className="p-6 sm:p-8">
-                {/* بخش بالا: آواتار + نام + نقش */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                     <div className="relative">
                         <div className="w-20 h-20 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-sm shadow-blue-500/30 overflow-hidden">
@@ -104,11 +94,9 @@ export default function ProfileCard({ profile }) {
                             href="/"
                             className="flex items-center gap-2 sm:hidden underline text-night-700/70 dark:text-cream-50/50"
                         >
-                            <MdHome />
-                            صفحه اصلی
+                            <MdHome /> صفحه اصلی
                         </Link>
 
-                        {/* نمایش وضعیت قرارداد فقط برای کاربر عادی */}
                         {isUser && contractStatus === "expired" && (
                             <div className="mt-3 px-3 py-1.5 rounded-md bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-medium">
                                 قرارداد منقضی شده است
@@ -129,10 +117,8 @@ export default function ProfileCard({ profile }) {
                     </div>
                 </div>
 
-                {/* خط جداکننده */}
                 <div className="my-6 h-px w-full bg-gradient-to-l from-transparent via-night-700/10 dark:via-cream-50/10 to-transparent" />
 
-                {/* اطلاعات پایه */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {infoItems.map((item) => {
                         const Icon = item.icon;
@@ -166,17 +152,32 @@ export default function ProfileCard({ profile }) {
 
                 {/* اطلاعات قرارداد (فقط برای کاربر عادی) */}
                 {isUser && (
-                    <div className="mt-4 p-3 rounded-xl bg-white/60 dark:bg-night-900/60 border border-night-700/5 dark:border-cream-50/5 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-night-700/5 dark:bg-cream-50/5 flex items-center justify-center shrink-0">
-                            <FaCalendarAlt className="w-4 h-4 text-night-700/70 dark:text-cream-50/70" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/60 dark:bg-night-900/60 border border-night-700/5 dark:border-cream-50/5">
+                            <div className="w-9 h-9 rounded-lg bg-night-700/5 dark:bg-cream-50/5 flex items-center justify-center shrink-0">
+                                <FaCalendarAlt className="w-4 h-4 text-night-700/70 dark:text-cream-50/70" />
+                            </div>
+                            <div className="flex items-center min-w-0">
+                                <p className="text-xs text-night-700/50 dark:text-cream-50/50">
+                                    شروع قرارداد: &nbsp;
+                                </p>
+                                <p className="text-sm font-medium text-night-900 dark:text-cream-50 truncate">
+                                    {formatDate(profile?.contract_start_date)}
+                                </p>
+                            </div>
                         </div>
-                        <div className="flex items-center min-w-0">
-                            <p className="text-xs text-night-700/50 dark:text-cream-50/50">
-                                تاریخ پایان قرارداد: &nbsp;
-                            </p>
-                            <p className="text-sm font-medium text-night-900 dark:text-cream-50 truncate">
-                                {formatDate(profile?.contract_end_date)}
-                            </p>
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/60 dark:bg-night-900/60 border border-night-700/5 dark:border-cream-50/5">
+                            <div className="w-9 h-9 rounded-lg bg-night-700/5 dark:bg-cream-50/5 flex items-center justify-center shrink-0">
+                                <FaCalendarAlt className="w-4 h-4 text-night-700/70 dark:text-cream-50/70" />
+                            </div>
+                            <div className="flex items-center min-w-0">
+                                <p className="text-xs text-night-700/50 dark:text-cream-50/50">
+                                    پایان قرارداد: &nbsp;
+                                </p>
+                                <p className="text-sm font-medium text-night-900 dark:text-cream-50 truncate">
+                                    {formatDate(profile?.contract_end_date)}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 )}

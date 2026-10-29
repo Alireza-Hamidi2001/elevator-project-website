@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { IoStarSharp } from "react-icons/io5";
 
 export default function PasswordInputWithConfirm({
     password,
@@ -28,9 +29,10 @@ export default function PasswordInputWithConfirm({
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="password"
-                    className="text-[1rem] font-medium"
+                    className="flex gap-1 text-[1rem] font-medium"
                 >
-                    &bull; رمز عبور
+                    &bull; رمز عبور{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                 </label>
                 <div className="relative">
                     <input
@@ -64,9 +66,10 @@ export default function PasswordInputWithConfirm({
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="confirmPassword"
-                    className="text-[1rem] font-medium"
+                    className="flex gap-1 text-[1rem] font-medium"
                 >
-                    &bull; تکرار رمز عبور
+                    &bull; تکرار رمز عبور{" "}
+                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
                 </label>
                 <div className="relative">
                     <input
