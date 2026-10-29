@@ -66,23 +66,23 @@ export default function DeleteUserModal({ user, open, onClose }) {
                 </div>
 
                 {/* متن */}
-                <h2 className="text-center text-xl font-bold text-night-900 dark:text-cream-50 mb-2">
+                <h2 className="text-center text-2xl font-bold text-night-900 dark:text-cream-50 mb-2">
                     حذف کاربر
                 </h2>
-                <p className="text-center text-sm text-night-700/70 dark:text-cream-50/70 mb-6">
+                <p className="text-center text-md text-night-700/70 dark:text-cream-50/70 mb-6">
                     آیا مطمئن هستید که می‌خواهید کاربر{" "}
                     <strong className="text-night-900 dark:text-cream-50">
-                        «{user.first_name} {user.last_name}»
+                        « {user.first_name} {user.last_name} »
                     </strong>{" "}
                     را حذف کنید؟ این عملیات غیرقابل بازگشت است.
                 </p>
 
                 {/* پیام هشدار قرمز */}
                 <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg mb-4 text-center text-sm text-red-600 dark:text-red-400 font-medium">
-                    برای تایید، کلمه‌ی{" "}
+                    برای تایید، کلمه‌ی
                     <strong className="font-bold border-b border-red-400">
-                        «حذف»
-                    </strong>{" "}
+                        &nbsp;&apos; حذف &apos;&nbsp;
+                    </strong>
                     را در کادر زیر تایپ کنید.
                 </div>
 
@@ -92,7 +92,7 @@ export default function DeleteUserModal({ user, open, onClose }) {
                     value={confirmText}
                     onChange={(e) => setConfirmText(e.target.value)}
                     placeholder="حذف"
-                    className="w-full border border-red-300 dark:border-red-900/50 rounded-md px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-red-500/50 bg-transparent text-night-900 dark:text-cream-50 mb-4"
+                    className="placeholder:text-red-500/70 text-red-400 w-full border border-red-300 dark:border-red-900/50 rounded-md px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-red-500/50 bg-transparent dark:text-cream-50 mb-4"
                 />
 
                 {/* دکمه‌ها */}

@@ -61,8 +61,8 @@ export default function UserMenu({ profile }) {
                 }`}
             >
                 <div className="px-4 py-3">
-                    <p className="flex items-center gap-2 text-sm font-medium text-night-900/75 dark:text-cream-50/75">
-                        <FaUser />
+                    <p className="flex items-center justify-center border-b border-cream-100 dark:border-night-700 py-2 gap-2 text-sm font-medium text-night-900/75 dark:text-cream-50/75">
+                        <FaUser className="bg-night-700/20" />
                         {fullName || "کاربر"}
                         <span className="text-xs text-night-700/60 dark:text-cream-50/60">
                             ( {profile?.role === "admin" ? "مدیر" : "کاربر"} )
