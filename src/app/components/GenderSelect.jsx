@@ -13,7 +13,7 @@ export default function GenderSelect({ value, onChange, error }) {
         <div className="flex flex-col gap-2">
             <span className="flex gap-1 text-sm font-medium">
                 &bull; جنسیت{" "}
-                <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
             </span>
             <div className="grid grid-cols-2 gap-3">
                 {options.map((opt) => {

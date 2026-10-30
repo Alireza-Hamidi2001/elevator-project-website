@@ -32,7 +32,7 @@ export default function PasswordInputWithConfirm({
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; رمز عبور{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <div className="relative">
                     <input
@@ -69,7 +69,7 @@ export default function PasswordInputWithConfirm({
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; تکرار رمز عبور{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <div className="relative">
                     <input

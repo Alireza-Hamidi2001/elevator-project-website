@@ -103,7 +103,7 @@ function RegisterFormContent({ onSuccess }) {
                         className="flex gap-1 text-[1rem] font-medium"
                     >
                         &bull; نام{" "}
-                        <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                        <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                     </label>
                     <input
                         id="firstName"
@@ -128,7 +128,7 @@ function RegisterFormContent({ onSuccess }) {
                         className="flex gap-1 text-[1rem] font-medium"
                     >
                         &bull; نام خانوادگی{" "}
-                        <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                        <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                     </label>
                     <input
                         id="lastName"
@@ -166,7 +166,7 @@ function RegisterFormContent({ onSuccess }) {
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; کد ملی{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <input
                     id="nationalId"
@@ -196,7 +196,7 @@ function RegisterFormContent({ onSuccess }) {
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; شماره تلفن{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <input
                     id="phone"
@@ -222,7 +222,7 @@ function RegisterFormContent({ onSuccess }) {
             <div className="flex flex-col gap-2">
                 <label className="flex gap-1 text-[1rem] font-medium">
                     &bull; نقش{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <CustomSelect
                     name="role"
@@ -295,18 +295,22 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
+            {/* تاریخ شروع قرارداد */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="contractStartDate"
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; تاریخ شروع قرارداد{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <PersianDatePicker
                     name="contractStartDate"
                     value={form.contractStartDate}
-                    onChange={(v) => update("contractStartDate", v)}
+                    onChange={(v) => {
+                        console.log("📅 START DATE PICKED >>>", v);
+                        update("contractStartDate", v);
+                    }}
                     error={errors.contractStartDate}
                 />
                 {errors.contractStartDate && (
@@ -316,18 +320,22 @@ function RegisterFormContent({ onSuccess }) {
                 )}
             </div>
 
+            {/* تاریخ پایان قرارداد */}
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="contractEndDate"
                     className="flex gap-1 text-[1rem] font-medium"
                 >
                     &bull; تاریخ پایان قرارداد{" "}
-                    <IoStarSharp className="w-3 h-3 text-amber-600 dark:text-amber-500" />
+                    <IoStarSharp className="w-2 h-2 text-amber-600 dark:text-amber-500" />
                 </label>
                 <PersianDatePicker
                     name="contractEndDate"
                     value={form.contractEndDate}
-                    onChange={(v) => update("contractEndDate", v)}
+                    onChange={(v) => {
+                        console.log("📅 END DATE PICKED >>>", v);
+                        update("contractEndDate", v);
+                    }}
                     error={errors.contractEndDate}
                 />
                 {errors.contractEndDate && (

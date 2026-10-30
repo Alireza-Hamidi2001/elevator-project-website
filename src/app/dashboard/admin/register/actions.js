@@ -21,6 +21,22 @@ export async function registerAction(prevState, formData) {
         .trim();
     const contractEndDate = formData.get("contractEndDate")?.toString().trim();
 
+    // 👈 لاگ برای دیباگ
+    console.log("📥 RAW FORM DATA >>>", {
+        firstName,
+        lastName,
+        gender,
+        nationalId,
+        phone,
+        email,
+        role,
+        jobTitle,
+        contractStartDate,
+        contractEndDate,
+        hasPassword: !!password,
+        hasConfirmPassword: !!confirmPassword,
+    });
+
     const errors = {};
     if (!firstName) errors.firstName = "نام الزامی است.";
     if (!lastName) errors.lastName = "نام خانوادگی الزامی است.";
@@ -39,6 +55,7 @@ export async function registerAction(prevState, formData) {
         errors.contractEndDate = "تاریخ پایان قرارداد الزامی است.";
 
     if (Object.keys(errors).length > 0) {
+        console.log("❌ VALIDATION ERRORS >>>", errors);
         return {
             ok: false,
             errors,
@@ -101,7 +118,11 @@ export async function registerAction(prevState, formData) {
         });
 
     if (authError) {
-        console.error("Auth Create Error:", authError);
+        console.error("❌ AUTH CREATE ERROR >>>", {
+            message: authError.message,
+            status: authError.status,
+            code: authError.code,
+        });
         let msg = "خطا در ساخت حساب کاربری.";
         if (authError.message.includes("already been registered")) {
             msg = "کاربری با این شماره موبایل از قبل وجود دارد.";
@@ -111,29 +132,49 @@ export async function registerAction(prevState, formData) {
 
     const newUserId = authData.user.id;
 
+    // 👈 لاگ مقادیر تاریخ قبل از insert
+    console.log("📅 DATE VALUES BEFORE INSERT >>>", {
+        contractStartDate,
+        contractEndDate,
+        startType: typeof contractStartDate,
+        endType: typeof contractEndDate,
+    });
+
+    const insertData = {
+        id: newUserId,
+        first_name: firstName,
+        last_name: lastName,
+        gender: gender,
+        national_id: nationalId,
+        phone: phone,
+        email: email,
+        role: role,
+        job_title: jobTitle,
+        is_active: true,
+        contract_start_date: contractStartDate || null,
+        contract_end_date: contractEndDate || null,
+    };
+
+    console.log("📦 INSERT DATA >>>", insertData);
+
     const { error: profileError } = await supabaseAdmin
         .from("profiles")
-        .insert({
-            id: newUserId,
-            first_name: firstName,
-            last_name: lastName,
-            gender: gender,
-            national_id: nationalId,
-            phone: phone,
-            email: email,
-            role: role,
-            job_title: jobTitle,
-            is_active: true,
-            contract_start_date: contractStartDate || null,
-            contract_end_date: contractEndDate || null,
-        });
+        .insert(insertData);
 
     if (profileError) {
-        console.error("Profile Insert Error:", profileError);
+        // 👈 لاگ کامل خطا
+        console.error("❌ PROFILE INSERT ERROR DETAILS >>>", {
+            code: profileError.code,
+            message: profileError.message,
+            details: profileError.details,
+            hint: profileError.hint,
+        });
         await supabaseAdmin.auth.admin.deleteUser(newUserId);
+
         let msg = "خطا در ذخیره اطلاعات کاربر.";
-        if (profileError.code === "23505")
+        if (profileError.code === "23505") {
             msg = "کد ملی یا شماره موبایل تکراری است.";
+        }
         return { ok: false, errors: {}, message: msg, ts: Date.now() };
     }
 
